@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import Navbar from "./components/navbar";
 import MobileMenu from "./components/navbar/mobile-menu";
+import Footer from "./components/footer";
 
 const App = memo(function App() {
   return (
@@ -18,6 +19,8 @@ const App = memo(function App() {
 
           <Route path="*" element={<p>page not found</p>} />
         </Routes>
+
+        <Footer />
       </Router>
     </div>
   );
