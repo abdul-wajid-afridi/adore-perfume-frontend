@@ -1,0 +1,24 @@
+import {
+  Contact,
+  ListIcon,
+  LayoutDashboardIcon,
+  ListOrdered,
+  Settings,
+  Home,
+  Store,
+} from "lucide-react";
+
+export const ROOT_ROUTES = [
+  { label: "Home", path: "/", icon: Home },
+  { label: "Online Store", path: "/online-store", icon: Store },
+  { label: "Cent", path: "/cent", icon: ListIcon },
+  { label: "Customize", path: "/customize", icon: Settings },
+];
+
+export const DASHBOARD_ROUTES = [
+  { icon: LayoutDashboardIcon, label: "Dashboard", path: "/dashboard" },
+  { icon: ListIcon, label: "products", path: "/dashboard/products" },
+  { icon: Contact, label: "Contact", path: "/dashboard/contact" },
+  { icon: ListOrdered, label: "Orders", path: "/dashboard/orders" },
+  { icon: Settings, label: "Settings", path: "/dashboard/settings" },
+];
