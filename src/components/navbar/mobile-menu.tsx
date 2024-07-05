@@ -60,7 +60,7 @@ const MobileMenu = memo(function MobileMenu() {
     >
       <motion.div
         animate={active ? "open" : "closed"}
-        className="relative mx-1 sm:mx-3 sm:hidden"
+        className="relative mx-1 sm:mx-3 sm:hidden "
       >
         <motion.button
           initial={false}
@@ -98,7 +98,7 @@ const MobileMenu = memo(function MobileMenu() {
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
           style={{ originY: "top", translateY: "40%" }}
-          className="flex flex-col gap-2 p-2 rounded-lg shadow-xl bg-white absolute top-0 right-0 w-full overflow-hidden"
+          className="flex flex-col gap-2 p-2 rounded-lg shadow-xl z-50 bg-white absolute top-0 right-0 w-full overflow-hidden"
         >
           {ROOT_ROUTES.map((it) => (
             <Link to={it.path}>
