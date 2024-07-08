@@ -5,7 +5,7 @@
 
 
   h1{
-    @apply text-7xl sm:text-8xl md:text-9xl font-bold tracking-wide
+    @apply text-7xl sm:text-8xl md:text-9xl font-bold tracking-wide 
   }
 
   h2{

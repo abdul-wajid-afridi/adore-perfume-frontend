@@ -2,7 +2,6 @@ import { memo } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import Navbar from "./components/navbar";
-import MobileMenu from "./components/navbar/mobile-menu";
 import Footer from "./components/footer";
 import HomePage from "./pages/home";
 
@@ -11,7 +10,6 @@ const App = memo(function App() {
     <div>
       <Router>
         <Navbar />
-        <MobileMenu />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/online-store" element={<p>online store</p>} />
