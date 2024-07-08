@@ -13,6 +13,8 @@ export const ROOT_ROUTES = [
   { label: "Online Store", path: "/online-store", icon: Store },
   { label: "Cent", path: "/cent", icon: ListIcon },
   { label: "Customize", path: "/customize", icon: Settings },
+  // { label: "Menu", path: "/menu", icon: ListIcon },
+  // { label: "Cart", path: "/cart", icon: ShoppingCart },
 ];
 
 export const DASHBOARD_ROUTES = [
