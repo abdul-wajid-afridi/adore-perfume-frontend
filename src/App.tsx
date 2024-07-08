@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import HomePage from "./pages/home";
+import AboutPage from "./pages/about";
 
 const App = memo(function App() {
   return (
@@ -15,6 +16,7 @@ const App = memo(function App() {
           <Route path="/online-store" element={<p>online store</p>} />
           <Route path="/cent" element={<p>cent</p>} />
           <Route path="/customize" element={<p>customize</p>} />
+          <Route path="/about" element={<AboutPage />} />
 
           <Route path="*" element={<p>page not found</p>} />
         </Routes>
