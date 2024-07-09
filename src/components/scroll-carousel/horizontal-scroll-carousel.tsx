@@ -38,9 +38,7 @@ const HorizontalScrollCarousel = memo(function HorizontalScrollCarousel() {
   return (
     <div className="bg-neutral-800">
       <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-neutral-500">
-          best selling products
-        </span>
+        <h2>best selling products</h2>
       </div>
       <CarouselCardsContainer />
     </div>
