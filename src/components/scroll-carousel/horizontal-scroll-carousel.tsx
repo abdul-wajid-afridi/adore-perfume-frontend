@@ -37,7 +37,7 @@ const CAROUSEL_DATA = [
 const HorizontalScrollCarousel = memo(function HorizontalScrollCarousel() {
   return (
     <div className="bg-neutral-800">
-      <div className="flex h-48 items-center justify-center">
+      <div className="flex h-20 md:h-48 items-center justify-center">
         <h2>best selling products</h2>
       </div>
       <CarouselCardsContainer />
@@ -72,7 +72,7 @@ const Card = memo(function Cards(props: { card: TCardProps }) {
   return (
     <div
       key={props.card.id}
-      className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200"
+      className="group relative h-[350px] w-[350px] overflow-hidden bg-neutral-200"
     >
       <div
         style={{
