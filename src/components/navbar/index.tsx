@@ -85,7 +85,7 @@ const Navbar = memo(function Navbar() {
     >
       <motion.div
         animate={active ? "open" : "closed"}
-        className="relative mx-1 sm:mx-3 flex justify-between items-center"
+        className="relative py-1 mx-1 sm:mx-3 flex justify-between items-center"
       >
         <motion.button
           initial={false}
@@ -124,7 +124,7 @@ const Navbar = memo(function Navbar() {
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
-          style={{ originY: "top", translateY: isMobileScreen ? "23%" : "0%" }}
+          style={{ originY: "top", translateY: isMobileScreen ? "28%" : "0%" }}
           className="flex sm:flex-row flex-col p-2 rounded-lg shadow-xl z-50 bg-white absolute sm:relative top-0 right-0 w-full"
         >
           {ROOT_ROUTES.map((it) => (
