@@ -17,10 +17,10 @@ const AboutPage = memo(function AboutPage() {
       </div>
 
       <div className="flex flex-wrap md:flex-nowrap gap-10 px-5 sm:px-10 mb-10 sm:mb-14">
-        <div className="flex flex-2">
+        <div className="flex">
           <img src="/home-slider/spray3.jpg" alt="about pic" />
         </div>
-        <div className="flex flex-col gap-4 flex-2">
+        <div className="flex flex-col gap-4">
           <h3 className="text-primary ">About us</h3>
           <p>
             Adore Perfume, we maintain exceptional quality by sourcing raw

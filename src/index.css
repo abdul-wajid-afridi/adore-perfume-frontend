@@ -6,28 +6,26 @@ body{
   background: rgb(244, 240, 240);
 }
 
-  h1{
-    @apply text-7xl sm:text-8xl md:text-9xl font-bold tracking-wide 
-  }
+h1{
+    @apply text-7xl sm:text-8xl md:text-9xl font-bold tracking-wide capitalize cursor-pointer
+}
 
-  h2{
-    @apply text-4xl sm:text-5xl md:text-6xl font-semibold tracking-wide
-  }
+  /* using this as title */
+h2{
+    @apply text-4xl sm:text-5xl md:text-6xl font-semibold tracking-wide text-primary text-center capitalize cursor-pointer
+}
 
-  h3{
-    @apply text-xl sm:text-2xl md:text-3xl tracking-wide border-b w-fit capitalize
-  }
+h3{
+    @apply text-xl sm:text-2xl md:text-3xl tracking-wide border-b w-fit capitalize cursor-pointer
+}
 
-  h4{
+h4{
     @apply text-lg sm:text-xl md:text-2xl tracking-wide
-  }
+}
 
-  p{
+p{
     @apply text-sm sm:text-lg tracking-wide
-  }
-
-
-
+}
 
   @layer base {
     :root {
