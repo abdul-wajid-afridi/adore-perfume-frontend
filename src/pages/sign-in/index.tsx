@@ -10,6 +10,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Loader from "../../components/loader";
+import axios from "axios";
+import { BASE_URL } from "../../constants/urls";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = memo(function SignInForm() {
   const [activeTab, setActiveTab] = useState("login");
@@ -29,6 +33,7 @@ const SignInForm = memo(function SignInForm() {
               <LoginForm />
             </motion.div>
           )}
+
           {activeTab === "signup" && (
             <motion.div
               key="signup"
@@ -37,7 +42,7 @@ const SignInForm = memo(function SignInForm() {
               transition={{ duration: 0.5 }}
             >
               <h2>Sign-up Form</h2>
-              <SignUpForm />
+              <SignUpForm setActiveTab={setActiveTab} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -48,19 +53,21 @@ const SignInForm = memo(function SignInForm() {
 });
 
 export type User = {
-  name: string;
+  password: string;
   email: string;
 };
 
 const formSchema = z.object({
   email: z.string().email(),
-  name: z.string().min(3, "name must be at least 3 characters"),
+  password: z.string().min(1, "password is required"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 // this is the actual SignInForm to be used at the top
 const LoginForm = memo(function Form() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -69,27 +76,37 @@ const LoginForm = memo(function Form() {
     resolver: zodResolver(formSchema),
   });
 
-  const submitUserSignInForm = useCallback(async function submitUserSignInForm(
-    data: FormValues
-  ) {
-    console.log(data);
-  },
-  []);
+  const submitUserSignInForm = useCallback(
+    async function submitUserSignInForm(data: FormValues) {
+      try {
+        await axios.post(`${BASE_URL}/api/v1/login`, {
+          ...data,
+          role: "USER",
+        });
+        navigate("/cart");
+      } catch (error: any) {
+        toast.error(error.response.data.error);
+      }
+    },
+    [navigate]
+  );
 
   return (
     <form
       className="flex flex-col gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md"
       onSubmit={handleSubmit(submitUserSignInForm)}
     >
-      <Input {...register("name")} placeholder="First name" />
-      {errors.name && <div className="text-red-500">{errors.name.message}</div>}
-
       <Input {...register("email")} placeholder="Email" />
       {errors.email && (
-        <div className="text-red-500">{errors.email.message}</div>
+        <p className="text-red-500 text-xs">{errors.email.message}</p>
       )}
 
-      <Button type="submit" className="">
+      <Input {...register("password")} placeholder="Password" />
+      {errors.password && (
+        <p className="text-red-500 text-xs">{errors.password.message}</p>
+      )}
+
+      <Button type="submit">
         {isSubmitting ? <Loader color="bg-secondary" /> : "Login"}
       </Button>
     </form>

@@ -1,17 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { memo, useCallback } from "react";
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Loader } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { BASE_URL } from "../../constants/urls";
 
 export type User = {
   name: string;
   email: string;
   address: string;
   password: string;
-  phone: string;
+  phoneNo: string;
 };
 
 const formSchema = z.object({
@@ -19,25 +22,36 @@ const formSchema = z.object({
   name: z.string().min(3, "name must be at least 3 characters"),
   address: z.string().min(5, "Address must be at least 5 characters"),
   password: z.string().min(4, "password must be at least 4 characters"),
-  phone: z.string().optional(),
+  phoneNo: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
-
-const SignUpForm = memo(function Form() {
+type TSignUpFormProps = { setActiveTab: Dispatch<SetStateAction<string>> };
+const SignUpForm = memo(function Form(props: TSignUpFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
 
   const submitUserRegistrationForm = useCallback(
     async function submitUserRegistrationForm(data: FormValues) {
-      console.log(data);
+      try {
+        await axios.post(`${BASE_URL}/api/v1/user`, {
+          ...data,
+          role: "USER",
+        });
+        toast.success("Registration successful");
+        props.setActiveTab("login");
+        reset();
+      } catch (error: any) {
+        toast.error(error.response.data.error);
+      }
     },
-    []
+    [props.setActiveTab]
   );
 
   return (
@@ -46,24 +60,26 @@ const SignUpForm = memo(function Form() {
       onSubmit={handleSubmit(submitUserRegistrationForm)}
     >
       <Input {...register("name")} placeholder="First name" />
-      {errors.name && <div className="text-red-500">{errors.name.message}</div>}
+      {errors.name && (
+        <p className="text-red-500 text-xs">{errors.name.message}</p>
+      )}
 
       <Input {...register("email")} placeholder="Email" />
       {errors.email && (
-        <div className="text-red-500">{errors.email.message}</div>
+        <p className="text-red-500 text-xs">{errors.email.message}</p>
       )}
 
       <Input {...register("address")} placeholder="Address" />
       {errors.address && (
-        <div className="text-red-500">{errors.address.message}</div>
+        <p className="text-red-500 text-xs">{errors.address.message}</p>
       )}
       <Input {...register("password")} placeholder="Password" />
       {errors.password && (
-        <div className="text-red-500">{errors.password.message}</div>
+        <p className="text-red-500 text-xs">{errors.password.message}</p>
       )}
-      <Input {...register("phone")} placeholder="Phone No" />
-      {errors.phone && (
-        <div className="text-red-500">{errors.phone.message}</div>
+      <Input {...register("phoneNo")} placeholder="Phone No" />
+      {errors.phoneNo && (
+        <p className="text-red-500 text-xs">{errors.phoneNo.message}</p>
       )}
 
       <Button type="submit" className="">
