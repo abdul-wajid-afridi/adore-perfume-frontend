@@ -15,7 +15,7 @@ const NewArrivals = memo(function NewArrivals() {
       <h2 className="my-10">New Arrivals</h2>
       <div className="grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 sm:px-10">
         {SLIDER_IMAGES.map((it) => (
-          <ProductCard name="product name" src={it} />
+          <ProductCard key={it} name="product name" src={it} />
         ))}
       </div>
     </>
