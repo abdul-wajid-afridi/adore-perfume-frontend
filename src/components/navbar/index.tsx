@@ -27,6 +27,12 @@ import {
 const Navbar = memo(function Navbar() {
   const isMobileScreen = useIsMobileScreen();
   const [active, setActive] = useState(true);
+  const isLoggedIn = localStorage.getItem("token");
+
+  const logOutUser = useCallback(function logOutUser() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }, []);
 
   useEffect(
     function setNavbarActiveOnMount() {
@@ -173,13 +179,22 @@ const Navbar = memo(function Navbar() {
                           >
                             Review
                           </Link>
-                          <Link
-                            to="/login"
-                            className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
-                          >
-                            {/* NOTE: if logged in use logout else login */}
-                            Login
-                          </Link>
+                          {isLoggedIn ? (
+                            <Link
+                              onClick={logOutUser}
+                              to="/login"
+                              className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                            >
+                              log-out
+                            </Link>
+                          ) : (
+                            <Link
+                              to="/login"
+                              className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                            >
+                              Login
+                            </Link>
+                          )}
                         </div>
                       </NavigationMenuLink>
                     </NavigationMenuContent>

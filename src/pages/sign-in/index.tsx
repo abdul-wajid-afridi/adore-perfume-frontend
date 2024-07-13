@@ -10,10 +10,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Loader from "../../components/loader";
-import axios from "axios";
-import { BASE_URL } from "../../constants/urls";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/hook";
+import { useMutation } from "@tanstack/react-query";
+import { asyncLoginUsers } from "../../api/user/fetchers";
 
 const SignInForm = memo(function SignInForm() {
   const [activeTab, setActiveTab] = useState("login");
@@ -60,41 +60,47 @@ export type User = {
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, "password is required"),
+  role: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 // this is the actual SignInForm to be used at the top
 const LoginForm = memo(function Form() {
+  const { loading } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+
+  const loginUserMutation = useMutation({
+    mutationFn: asyncLoginUsers,
+    onSuccess: () => {
+      navigate("/cart");
+    },
+  });
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormValues>({
+    defaultValues: {
+      email: "wajidafridi8554@gmail.com",
+      password: "123456",
+      role: "USER",
+    },
     resolver: zodResolver(formSchema),
   });
-
-  const submitUserSignInForm = useCallback(
-    async function submitUserSignInForm(data: FormValues) {
-      try {
-        await axios.post(`${BASE_URL}/api/v1/login`, {
-          ...data,
-          role: "USER",
-        });
-        navigate("/cart");
-      } catch (error: any) {
-        toast.error(error.response.data.error);
-      }
-    },
-    [navigate]
-  );
 
   return (
     <form
       className="flex flex-col gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md"
-      onSubmit={handleSubmit(submitUserSignInForm)}
+      onSubmit={handleSubmit(
+        useCallback(
+          async function submitUserSignInForm(user: FormValues) {
+            loginUserMutation.mutate(user);
+          },
+          [loginUserMutation.mutate]
+        )
+      )}
     >
       <Input {...register("email")} placeholder="Email" />
       {errors.email && (
@@ -107,7 +113,7 @@ const LoginForm = memo(function Form() {
       )}
 
       <Button type="submit">
-        {isSubmitting ? <Loader color="bg-secondary" /> : "Login"}
+        {loading ? <Loader color="bg-secondary" /> : "Login"}
       </Button>
     </form>
   );
