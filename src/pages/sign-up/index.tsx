@@ -5,9 +5,8 @@ import { z } from "zod";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Loader } from "lucide-react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { BASE_URL } from "../../constants/urls";
+import { useMutation } from "@tanstack/react-query";
+import { asyncCreateUsers } from "../../api/user/fetchers";
 
 export type User = {
   name: string;
@@ -37,27 +36,42 @@ const SignUpForm = memo(function Form(props: TSignUpFormProps) {
     resolver: zodResolver(formSchema),
   });
 
-  const submitUserRegistrationForm = useCallback(
-    async function submitUserRegistrationForm(data: FormValues) {
-      try {
-        await axios.post(`${BASE_URL}/api/v1/user`, {
-          ...data,
-          role: "USER",
-        });
-        toast.success("Registration successful");
-        props.setActiveTab("login");
-        reset();
-      } catch (error: any) {
-        toast.error(error.response.data.error);
-      }
+  // const submitUserRegistrationForm = useCallback(
+  //   async function submitUserRegistrationForm(data: FormValues) {
+  //     try {
+  //       await axios.post(`${BASE_URL}/api/v1/user`, {
+  //         ...data,
+  //         role: "USER",
+  //       });
+  //       toast.success("Registration successful");
+  //       props.setActiveTab("login");
+  //       reset();
+  //     } catch (error: any) {
+  //       toast.error(error.response.data.error);
+  //     }
+  //   },
+  //   [props.setActiveTab]
+  // );
+
+  const createUserMutation = useMutation({
+    mutationFn: asyncCreateUsers,
+    onSuccess: () => {
+      props.setActiveTab("login");
+      reset();
     },
-    [props.setActiveTab]
-  );
+  });
 
   return (
     <form
       className="flex flex-col gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md"
-      onSubmit={handleSubmit(submitUserRegistrationForm)}
+      onSubmit={handleSubmit(
+        useCallback(
+          async function submitUserSignInForm(user: FormValues) {
+            createUserMutation.mutate(user);
+          },
+          [createUserMutation.mutate]
+        )
+      )}
     >
       <Input {...register("name")} placeholder="First name" />
       {errors.name && (

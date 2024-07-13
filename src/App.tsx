@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import HomePage from "./pages/home";
 import AboutPage from "./pages/about";
 import SignInForm from "./pages/sign-in";
+import { ProtectAdminRoutes } from "./lib/protect-routes";
 
 const App = memo(function App() {
   return (
@@ -19,6 +20,16 @@ const App = memo(function App() {
           <Route path="/customize" element={<p>customize</p>} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<SignInForm />} />
+          <Route path="/cart" element={<p>this is cart page</p>} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectAdminRoutes>
+                <p>this is dashboard</p>
+              </ProtectAdminRoutes>
+            }
+          />
+
           <Route path="*" element={<p>page not found</p>} />
         </Routes>
 

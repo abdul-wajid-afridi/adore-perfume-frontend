@@ -1,5 +1,6 @@
 import { memo, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { TUser } from "../api/user/fetchers";
 
 const RedirectAfterInterval = memo(function RedirectAfterInterval() {
   const navigate = useNavigate();
@@ -22,6 +23,24 @@ const ProtectRoutes = memo(function ProtectRoutes(props: TProtectRouterProps) {
   const localToken = localStorage.getItem("token");
 
   return <div>{localToken ? props.children : <RedirectAfterInterval />}</div>;
+});
+
+export const ProtectAdminRoutes = memo(function ProtectRoutes(
+  props: TProtectRouterProps
+) {
+  const localToken = localStorage.getItem("token");
+  const user: TUser = JSON.parse(localStorage.getItem("user") as any);
+  console.log(user);
+
+  return (
+    <div>
+      {localToken && user.role === "ADMIN" ? (
+        props.children
+      ) : (
+        <RedirectAfterInterval />
+      )}
+    </div>
+  );
 });
 
 export default ProtectRoutes;
