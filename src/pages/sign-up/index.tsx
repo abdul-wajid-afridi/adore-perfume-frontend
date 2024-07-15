@@ -36,23 +36,6 @@ const SignUpForm = memo(function Form(props: TSignUpFormProps) {
     resolver: zodResolver(formSchema),
   });
 
-  // const submitUserRegistrationForm = useCallback(
-  //   async function submitUserRegistrationForm(data: FormValues) {
-  //     try {
-  //       await axios.post(`${BASE_URL}/api/v1/user`, {
-  //         ...data,
-  //         role: "USER",
-  //       });
-  //       toast.success("Registration successful");
-  //       props.setActiveTab("login");
-  //       reset();
-  //     } catch (error: any) {
-  //       toast.error(error.response.data.error);
-  //     }
-  //   },
-  //   [props.setActiveTab]
-  // );
-
   const createUserMutation = useMutation({
     mutationFn: asyncCreateUsers,
     onSuccess: () => {
