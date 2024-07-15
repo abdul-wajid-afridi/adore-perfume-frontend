@@ -1,38 +1,10 @@
 import { motion, useTransform, useScroll } from "framer-motion";
-import { memo, useRef } from "react";
-
-const CAROUSEL_DATA = [
-  {
-    url: "/home-slider/spray1.jpg",
-    title: "Rashiqa",
-    id: 1,
-  },
-  {
-    url: "/home-slider/spray2.jpg",
-    title: "ood",
-    id: 2,
-  },
-  {
-    url: "/home-slider/spray3.jpg",
-    title: "mushq",
-    id: 3,
-  },
-  {
-    url: "/home-slider/spray4.jpg",
-    title: "kiary",
-    id: 4,
-  },
-  {
-    url: "/home-slider/spray5.jpg",
-    title: "smart-x",
-    id: 5,
-  },
-  {
-    url: "/home-slider/spray1.jpg",
-    title: "star",
-    id: 6,
-  },
-];
+import { memo, useCallback, useRef } from "react";
+import { useGetBestSellingProducts } from "../../api/products/queries";
+import Loader from "../loader";
+import { BASE_URL } from "../../constants/urls";
+import { TProductResponse } from "../../api/products/fetchers";
+import { useNavigate } from "react-router-dom";
 
 const HorizontalScrollCarousel = memo(function HorizontalScrollCarousel() {
   return (
@@ -52,31 +24,41 @@ const CarouselCardsContainer = memo(function CarouselCardsContainer() {
   });
 
   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
-
+  const { data, isLoading } = useGetBestSellingProducts();
   return (
     <section ref={targetRef} className="relative h-[300vh] bg-neutral-900">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex gap-4">
-          {CAROUSEL_DATA.map((card) => {
-            return <Card card={card} key={card.id} />;
-          })}
+          {isLoading ? (
+            <div className="flex justify-center w-screen">
+              <Loader size="big" />
+            </div>
+          ) : (
+            data?.map((card) => {
+              return <Card card={card} key={card.id} />;
+            })
+          )}
         </motion.div>
       </div>
     </section>
   );
 });
 
-type TCardProps = { id: number; title: string; url: string };
-
-const Card = memo(function Cards(props: { card: TCardProps }) {
+const Card = memo(function Cards(props: { card: TProductResponse }) {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={useCallback(() => {
+        navigate("/product-details/" + props.card.id);
+      }, [navigate, props.card.id])}
       key={props.card.id}
       className="group relative h-[350px] w-[350px] overflow-hidden bg-neutral-200"
     >
       <div
         style={{
-          backgroundImage: `url(${props.card.url})`,
+          backgroundImage: `url(${BASE_URL}/${
+            props.card?.productImage && props.card?.productImage[0]?.image
+          })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -84,7 +66,7 @@ const Card = memo(function Cards(props: { card: TCardProps }) {
       />
       <div className="absolute inset-0 z-10 grid place-content-center">
         <p className="bg-gradient-to-br from-white/20 to-white/0 p-8 text-6xl font-black rounded-lg uppercase text-white backdrop-blur-lg">
-          {props.card.title}
+          {props.card.name}
         </p>
       </div>
     </div>

@@ -24,6 +24,7 @@ import EditProduct from "./pages/dashboard/pages/products/EditProduct";
 import ProductDetails from "./pages/dashboard/pages/products/productDetails";
 import CategoryPage from "./pages/dashboard/pages/category";
 import WhatsAppButton from "./components/whatsapp-button";
+import ProductDetailsPage from "./pages/product-details";
 
 const App = memo(function App() {
   return (
@@ -40,6 +41,10 @@ const App = memo(function App() {
           <Route path="/login" element={<SignInForm />} />
           <Route path="/cart" element={<p>this is cart page</p>} />
           <Route path="/admin-login" element={<AdminSignInForm />} />
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetailsPage />}
+          />
           {/* Admin dashboard routes */}
           <Route
             path="/dashboard"
@@ -56,9 +61,9 @@ const App = memo(function App() {
             <Route path="community" element={<CommunityAndHelp />} />
             <Route path="products" element={<Products />} />
             <Route path="add-product" element={<AddProduct />} />
-            <Route path={`edit-product/:productId`} element={<EditProduct />} />
+            <Route path={"edit-product/:productId"} element={<EditProduct />} />
             <Route
-              path={`product-details/:productId`}
+              path={"product-details/:productId"}
               element={<ProductDetails />}
             />
           </Route>
@@ -91,6 +96,9 @@ const NavbarWrapper = memo(function NavbarWrapper() {
     return <Navbar />;
   }
   if (pathname == "/cart") {
+    return <Navbar />;
+  }
+  if (pathname == "/product-details/:productId") {
     return <Navbar />;
   }
 });

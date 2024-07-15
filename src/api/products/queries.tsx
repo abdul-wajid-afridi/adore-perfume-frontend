@@ -4,7 +4,10 @@ import {
   // asyncDeleteProduct,
   // asyncEditProduct,
   asyncGetAllProducts,
+  asyncGetBestSellingProducts,
+  asyncGetNewArrivalProducts,
   asyncGetProductsById,
+  asyncGetSimilarProducts,
   asyncSearchProducts,
   TAddProduct,
 } from "./fetchers";
@@ -15,7 +18,7 @@ export enum QueryKeys {
 
 export const useGetAllProducts = () =>
   useQuery({
-    queryKey: [QueryKeys.PRODUCTS],
+    queryKey: [QueryKeys.PRODUCTS, "useGetAllProducts"],
     queryFn: asyncGetAllProducts,
   });
 
@@ -35,6 +38,24 @@ export const useAddProduct = (data: TAddProduct) =>
   useQuery({
     queryKey: [QueryKeys.PRODUCTS, data],
     queryFn: () => asyncAddProduct(data),
+  });
+
+export const useGetNewArrivalProduct = () =>
+  useQuery({
+    queryKey: [QueryKeys.PRODUCTS, "asyncGetNewArrivalProducts"],
+    queryFn: () => asyncGetNewArrivalProducts(),
+  });
+
+export const useGetBestSellingProducts = () =>
+  useQuery({
+    queryKey: [QueryKeys.PRODUCTS, "asyncGetBestSellingProducts"],
+    queryFn: () => asyncGetBestSellingProducts(),
+  });
+
+export const useGetSimilarProducts = (categoryId: number) =>
+  useQuery({
+    queryKey: [QueryKeys.PRODUCTS, categoryId, "asyncGetSimilarProducts"],
+    queryFn: () => asyncGetSimilarProducts(categoryId),
   });
 
 // export const useEditProduct = (data: TAddProduct) =>

@@ -7,7 +7,7 @@ enum QueryKeys {
 
 export const useUsers = () =>
   useQuery({
-    queryKey: [QueryKeys.USERS],
+    queryKey: [QueryKeys.USERS, "getAllUsers"],
     queryFn: getAllUsers,
   });
 

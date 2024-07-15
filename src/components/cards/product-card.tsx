@@ -1,13 +1,21 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 type TProductCardProps = {
   name: string;
   src: string;
+  id: number;
 };
 
 const ProductCard = memo(function ProductCard(props: TProductCardProps) {
+  const navigate = useNavigate();
   return (
-    <div className="relative group overflow-hidden ">
+    <div
+      onClick={useCallback(() => {
+        navigate("/product-details/" + props.id);
+      }, [navigate, props.id])}
+      className="relative group overflow-hidden h-[400px]"
+    >
       <img
         className="group-hover:scale-105 duration-300 rounded-sm w-full h-full "
         src={props.src}
