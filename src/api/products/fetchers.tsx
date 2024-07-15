@@ -100,6 +100,40 @@ export const asyncDeleteProduct = async (productId: number) => {
   }
 };
 
+export const asyncGetNewArrivalProducts = async () => {
+  try {
+    const response = await API_URL.get(`/api/v1/new-arrival-products`);
+    const data: TBasicResponse<TProductResponse[]> = await response.data;
+    return data.data;
+  } catch (error) {
+    throw toast.error(axiosError(error));
+  }
+};
+
+export const asyncGetBestSellingProducts = async () => {
+  try {
+    const response = await API_URL.get(`/api/v1/best-selling-products`);
+    const data: TBasicResponse<TProductResponse[]> = await response.data;
+    return data.data;
+  } catch (error) {
+    throw toast.error(axiosError(error));
+  }
+};
+
+export const asyncGetSimilarProducts = async (categoryId: number) => {
+  console.log("cat id ", categoryId);
+
+  try {
+    const response = await API_URL.get(
+      `/api/v1/similar-products/${categoryId}`
+    );
+    const data: TBasicResponse<TProductResponse[]> = await response.data;
+    return data.data;
+  } catch (error) {
+    throw toast.error(axiosError(error));
+  }
+};
+
 // const loginUserMutation = useMutation({
 //   mutationFn: asyncLoginUsers,
 //   onSuccess: (data) => {

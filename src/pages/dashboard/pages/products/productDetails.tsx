@@ -4,7 +4,7 @@ import { useGetProductById } from "../../../../api/products/queries";
 import { BASE_URL } from "../../../../constants/urls";
 import Navigation from "../../../../components/Navigation";
 
-const ProductDetails = memo(function Form() {
+const AdminProductDetails = memo(function AdminProductDetails() {
   const { productId } = useParams();
   const { data } = useGetProductById(Number(productId));
   const [index, setIndex] = useState(0);
@@ -56,4 +56,4 @@ const ProductDetails = memo(function Form() {
   );
 });
 
-export default ProductDetails;
+export default AdminProductDetails;
