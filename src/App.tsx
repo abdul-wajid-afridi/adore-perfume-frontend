@@ -22,6 +22,7 @@ import AddProduct from "./pages/dashboard/pages/products/AddProduct";
 import AdminSignInForm from "./pages/dashboard/pages/admin-login";
 import EditProduct from "./pages/dashboard/pages/products/EditProduct";
 import ProductDetails from "./pages/dashboard/pages/products/productDetails";
+import CategoryPage from "./pages/dashboard/pages/category";
 
 const App = memo(function App() {
   return (
@@ -37,6 +38,7 @@ const App = memo(function App() {
           <Route path="/login" element={<SignInForm />} />
           <Route path="/cart" element={<p>this is cart page</p>} />
           <Route path="/admin-login" element={<AdminSignInForm />} />
+          {/* Admin dashboard routes */}
           <Route
             path="/dashboard"
             element={
@@ -47,6 +49,7 @@ const App = memo(function App() {
           >
             <Route path="contact" element={<ContactPage />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="category" element={<CategoryPage />} />
             <Route path="orders" element={<Orders />} />
             <Route path="community" element={<CommunityAndHelp />} />
             <Route path="products" element={<Products />} />

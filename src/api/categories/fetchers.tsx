@@ -46,18 +46,21 @@ export const asyncSearchCategory = async (query: string) => {
 export const asyncAddCategory = async (data: TAddCategory) => {
   try {
     const Category = await API_URL.post("/api/v1/category", data);
+    toast.success("category added successful");
     return Category.data;
-  } catch (error) {
-    throw toast.error(axiosError(error));
+  } catch (error: any) {
+    throw toast.error(
+      error.response?.data.error?.meta?.target || "An unknown error occurred."
+    );
   }
 };
 
-export const asyncUpdateCategory = async (data: TAddCategory) => {
+export const asyncEditCategory = async (data: TAddCategory) => {
   try {
-    const Category = await API_URL.put("/api/v1/category/" + data.id, data);
-    toast.success("Registration successful");
+    const Category = await API_URL.patch("/api/v1/category/" + data.id, data);
+    toast.success("category updated successful");
     return Category.data;
-  } catch (error: any) {
+  } catch (error) {
     throw toast.error(axiosError(error));
   }
 };
