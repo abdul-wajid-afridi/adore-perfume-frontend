@@ -14,10 +14,14 @@ import SignInForm from "./pages/sign-in";
 import { ProtectAdminRoutes } from "./lib/protect-routes";
 import AdminDashboard from "./pages/dashboard/admin-dashboard";
 import ContactPage from "./pages/dashboard/pages/contact";
-import Listings from "./pages/dashboard/pages/listings";
+import Products from "./pages/dashboard/pages/products";
 import CommunityAndHelp from "./pages/dashboard/pages/community-help";
 import Orders from "./pages/dashboard/pages/orders";
 import Settings from "./pages/dashboard/pages/settings";
+import AddProduct from "./pages/dashboard/pages/products/AddProduct";
+import AdminSignInForm from "./pages/dashboard/pages/admin-login";
+import EditProduct from "./pages/dashboard/pages/products/EditProduct";
+import ProductDetails from "./pages/dashboard/pages/products/productDetails";
 
 const App = memo(function App() {
   return (
@@ -32,6 +36,7 @@ const App = memo(function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<SignInForm />} />
           <Route path="/cart" element={<p>this is cart page</p>} />
+          <Route path="/admin-login" element={<AdminSignInForm />} />
           <Route
             path="/dashboard"
             element={
@@ -44,7 +49,13 @@ const App = memo(function App() {
             <Route path="settings" element={<Settings />} />
             <Route path="orders" element={<Orders />} />
             <Route path="community" element={<CommunityAndHelp />} />
-            <Route path="products" element={<Listings />} />
+            <Route path="products" element={<Products />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path={`edit-product/:productId`} element={<EditProduct />} />
+            <Route
+              path={`product-details/:productId`}
+              element={<ProductDetails />}
+            />
           </Route>
 
           <Route path="*" element={<p>page not found</p>} />

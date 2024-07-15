@@ -30,7 +30,6 @@ export const ProtectAdminRoutes = memo(function ProtectRoutes(
 ) {
   const localToken = localStorage.getItem("token");
   const user: TUser = JSON.parse(localStorage.getItem("user") as any);
-  console.log(user);
 
   return (
     <div>

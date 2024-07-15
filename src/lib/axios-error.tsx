@@ -4,7 +4,10 @@ import axios from "axios";
 export const axiosError = (error: any) => {
   let errorMessage = "An unknown error occurred.";
   if (axios.isAxiosError(error)) {
-    errorMessage = error.response?.data.error || error.message;
+    errorMessage =
+      error.response?.data.error ||
+      error.message ||
+      error.response?.data.message;
   } else if (error instanceof Error) {
     errorMessage = error.message;
   }
