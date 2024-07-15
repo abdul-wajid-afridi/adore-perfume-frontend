@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetProductById,
@@ -13,12 +13,13 @@ import ProductCard from "../../components/cards/product-card";
 import Loader from "../../components/loader";
 
 const ProductDetailsPage = memo(function ProductDetailsPage() {
+  const [index, setIndex] = useState(0);
+  const [close, setClose] = useState(false);
   const { productId } = useParams();
   const { data, isLoading: singleProductLoading } = useGetProductById(
     Number(productId)
   );
-  const [index, setIndex] = useState(0);
-  const [close, setClose] = useState(false);
+
   const { data: similarProducts, isLoading } = useGetSimilarProducts(
     Number(data?.category?.id)
   );
@@ -49,15 +50,16 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
               src={`${BASE_URL}/${
                 data?.productImage && data?.productImage[index]?.image
               }`}
-              onClick={useCallback(() => {
+              onClick={() => {
                 setClose(true);
-              }, [setClose])}
+              }}
               className="w-full h-full rounded-md"
             />
             <div className="flex gap-5 ">
               {data?.productImage?.map((img, ind) => {
                 return (
                   <img
+                    key={ind}
                     onClick={() => setIndex(ind)}
                     src={`${BASE_URL}/${img?.image}`}
                     className="h-20 w-20 rounded-md hover:shadow-md hover:scale-105"
@@ -106,7 +108,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
               key={it.id}
               name={it.name}
               src={`${BASE_URL}/${
-                it.productImage && it.productImage[0]?.image
+                it?.productImage && it?.productImage[0]?.image
               }`}
             />
           ))
