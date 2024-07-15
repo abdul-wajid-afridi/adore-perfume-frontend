@@ -12,7 +12,7 @@ const AdminDashboard = memo(function AdminDashboard() {
         <SideBar />
       </div>
       {/* given ml for md so that can push the content on md to right side */}
-      <main className="h-full md:ml-[250px] mt-[90px]">
+      <main className="h-full md:ml-[250px] mt-[90px] mx-2 sm:mx-5">
         <Outlet />
       </main>
     </section>

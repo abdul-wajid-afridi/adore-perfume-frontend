@@ -6,8 +6,8 @@ export const axiosError = (error: any) => {
   if (axios.isAxiosError(error)) {
     errorMessage =
       error.response?.data.error ||
-      error.message ||
-      error.response?.data.message;
+      error.response?.data.error?.meta?.target ||
+      error.message;
   } else if (error instanceof Error) {
     errorMessage = error.message;
   }

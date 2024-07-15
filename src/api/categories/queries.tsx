@@ -5,7 +5,7 @@ import {
   asyncGetAllCategory,
   asyncGetCategoryById,
   asyncSearchCategory,
-  asyncUpdateCategory,
+  asyncEditCategory,
   TAddCategory,
 } from "./fetchers";
 
@@ -40,7 +40,7 @@ export const useAddCategory = (data: TAddCategory) =>
 export const useUpdateCategory = (data: TAddCategory) =>
   useQuery({
     queryKey: [QueryKeys.CATEGORY, data],
-    queryFn: () => asyncUpdateCategory(data),
+    queryFn: () => asyncEditCategory(data),
   });
 
 export const useDeleteCategory = (categoryId: number) =>
