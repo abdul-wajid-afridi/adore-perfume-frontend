@@ -23,8 +23,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "../../components/ui/navigation-menu";
+import { useAppSelector } from "../../hooks/hook";
 
 const Navbar = memo(function Navbar() {
+  const { cartItems } = useAppSelector((state) => state.cart);
+
   const isMobileScreen = useIsMobileScreen();
   const [active, setActive] = useState(true);
   const isLoggedIn = localStorage.getItem("token");
@@ -206,7 +209,7 @@ const Navbar = memo(function Navbar() {
 
           <Link to="/cart">
             <MenuBarItem
-              count={12}
+              count={cartItems.length}
               setActive={setActive}
               Icon={ShoppingCart}
               text={"Cart"}

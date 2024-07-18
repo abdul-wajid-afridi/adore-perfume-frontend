@@ -11,7 +11,7 @@ import { asyncCreateUsers } from "../../api/user/fetchers";
 export type User = {
   name: string;
   email: string;
-  address: string;
+  // address: string;
   password: string;
   phoneNo: string;
 };
@@ -19,7 +19,7 @@ export type User = {
 const formSchema = z.object({
   email: z.string().email(),
   name: z.string().min(3, "name must be at least 3 characters"),
-  address: z.string().min(5, "Address must be at least 5 characters"),
+  // address: z.string().min(5, "Address must be at least 5 characters"),
   password: z.string().min(4, "password must be at least 4 characters"),
   phoneNo: z.string().optional(),
 });
@@ -66,10 +66,10 @@ const SignUpForm = memo(function Form(props: TSignUpFormProps) {
         <p className="text-red-500 text-xs">{errors.email.message}</p>
       )}
 
-      <Input {...register("address")} placeholder="Address" />
+      {/* <Input {...register("address")} placeholder="Address" />
       {errors.address && (
         <p className="text-red-500 text-xs">{errors.address.message}</p>
-      )}
+      )} */}
       <Input {...register("password")} placeholder="Password" />
       {errors.password && (
         <p className="text-red-500 text-xs">{errors.password.message}</p>

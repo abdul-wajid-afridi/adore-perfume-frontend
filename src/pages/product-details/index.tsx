@@ -11,8 +11,12 @@ import { Button } from "../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import ProductCard from "../../components/cards/product-card";
 import Loader from "../../components/loader";
+import { addToCart, calculateTotal } from "../../redux/feature/cartSlice";
+import { useAppDispatch } from "../../hooks/hook";
 
 const ProductDetailsPage = memo(function ProductDetailsPage() {
+  const dispatch = useAppDispatch();
+
   const [index, setIndex] = useState(0);
   const [close, setClose] = useState(false);
   const { productId } = useParams();
@@ -88,7 +92,13 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
               <span className="text-slate-500">Description: </span>
               {data?.description}
             </p>
-            <Button className="w-fit">
+            <Button
+              className="w-fit"
+              onClick={() => {
+                dispatch(addToCart(data!));
+                dispatch(calculateTotal());
+              }}
+            >
               Add To Cart <ShoppingCart />
             </Button>
           </div>
@@ -96,7 +106,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
       </section>
 
       <h2 className="my-10">Similar products</h2>
-      <div className="grid justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 px-5 sm:px-10">
+      <div className="grid justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 my-10">
         {isLoading ? (
           <div className="flex justify-center w-screen">
             <Loader size="big" />
