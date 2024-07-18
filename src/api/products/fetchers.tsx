@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 export type TBasicResponse<T> = {
   data: T;
+  metadata?: T;
 };
 
 export type TProductResponse = {
@@ -39,6 +40,21 @@ export const asyncGetAllProducts = async () => {
     const response = await API_URL.get(`/api/v1/products`);
     const data: TBasicResponse<TProductResponse[]> = await response.data;
     return data.data;
+  } catch (error) {
+    throw toast.error(axiosError(error));
+  }
+};
+
+export const asyncGetPaginationProducts = async (
+  skip: number,
+  take: number
+) => {
+  try {
+    const response = await API_URL.get(
+      `/api/v1/pagination-products?skip=${skip}&take=${take}`
+    );
+    const data: TBasicResponse<TProductResponse[]> = await response.data;
+    return data;
   } catch (error) {
     throw toast.error(axiosError(error));
   }
@@ -91,6 +107,8 @@ export const asyncEditProduct = async (data: {
 };
 
 export const asyncDeleteProduct = async (productId: number) => {
+  console.log("is it deleting");
+
   try {
     const response = await API_URL.delete(`/api/v1/product/${productId}`);
     const data: TBasicResponse<TProductResponse> = await response.data;
@@ -121,8 +139,6 @@ export const asyncGetBestSellingProducts = async () => {
 };
 
 export const asyncGetSimilarProducts = async (categoryId: number) => {
-  console.log("cat id ", categoryId);
-
   try {
     const response = await API_URL.get(
       `/api/v1/similar-products/${categoryId}`

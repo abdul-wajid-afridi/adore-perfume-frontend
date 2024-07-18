@@ -18,7 +18,7 @@ export const Pagination = (props: PaginationProps) => {
 
     if (currentPage <= 3) {
       startPage = 1;
-      endPage = 5;
+      endPage = props.totalPages;
     } else if (currentPage >= totalPages - 2) {
       startPage = totalPages - 4;
       endPage = totalPages;
@@ -33,7 +33,7 @@ export const Pagination = (props: PaginationProps) => {
   const pages = getPagesToShow();
 
   return (
-    <div className="flex items-center justify-center space-x-6 text-black">
+    <div className="flex items-center justify-center space-x-6 text-black my-10">
       <Link
         className={cn(
           "rounded-md border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50",
@@ -53,7 +53,7 @@ export const Pagination = (props: PaginationProps) => {
             key={p}
             className={cn(
               "relative inline-flex items-center border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50",
-              p === currentPage ? "pointer-events-none bg-gray-100" : "",
+              p === currentPage ? "pointer-events-none bg-secondary" : "",
               i === 0 ? "rounded-l-md" : "",
               i === pages.length - 1 ? "rounded-r-md" : ""
             )}
@@ -64,15 +64,17 @@ export const Pagination = (props: PaginationProps) => {
         ))}
       </nav>
 
-      <Link
-        className={cn(
-          "rounded-md border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50",
-          !hasNextPage ? "pointer-events-none bg-gray-100" : ""
-        )}
-        to={`?page=${currentPage + 1}`}
-      >
-        Next
-      </Link>
+      {Number(props.page) !== props.totalPages && (
+        <Link
+          className={cn(
+            "rounded-md border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50",
+            !hasNextPage ? "pointer-events-none bg-gray-100" : ""
+          )}
+          to={`?page=${currentPage + 1}`}
+        >
+          Next
+        </Link>
+      )}
     </div>
   );
 };

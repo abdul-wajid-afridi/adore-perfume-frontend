@@ -27,29 +27,13 @@ import CategoryPage from "./pages/dashboard/pages/category";
 import WhatsAppButton from "./components/whatsapp-button";
 import ProductDetailsPage from "./pages/product-details";
 import CartPage from "./pages/cart";
-import { useAppDispatch, useAppSelector } from "./hooks/hook";
+import { useAppDispatch } from "./hooks/hook";
 import { cartData } from "./redux/feature/cartSlice";
 import CheckoutPage from "./pages/checkout";
-import { loadStripe } from "@stripe/stripe-js";
-import convertToSubCurrency from "./lib/convertToSubcurrency";
-import { Elements } from "@stripe/react-stripe-js";
 import PaymentSuccess from "./pages/payments-success";
-const STRIPE_PROMISE = loadStripe(
-  "pk_test_51MH7rjLByWH0aUrU6BBN1LgamEmujwXmezM5avT85R1vL5RIUZ86LhQFjO9kv82bxsD14ffOnukEvb7b1g7BMTWZ009ErC9TTi"
-);
+import ScentPage from "./pages/scent";
 
 const App = memo(function App() {
-  const { total: amount } = useAppSelector((state) => state.cart);
-
-  const OPTIONS = {
-    // passing the client secret obtained from the server
-    // clientSecret:
-    // "{{secrete key}}",
-
-    mode: "payment",
-    amount: convertToSubCurrency(amount),
-    currency: "usd",
-  } as const;
   const dispatch = useAppDispatch();
 
   useEffect(
@@ -60,59 +44,51 @@ const App = memo(function App() {
   );
   return (
     <div>
-      <Elements stripe={STRIPE_PROMISE} options={OPTIONS}>
-        <Router>
-          <NavbarDisplay />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/online-store" element={<p>online store</p>} />
-            <Route path="/cent" element={<p>cent</p>} />
-            <Route path="/customize" element={<p>customize</p>} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/login" element={<SignInForm />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/admin-login" element={<AdminSignInForm />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
+      <Router>
+        <NavbarDisplay />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/online-store" element={<p>online store</p>} />
+          <Route path="/scent" element={<ScentPage />} />
+          <Route path="/customize" element={<p>customize</p>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/login" element={<SignInForm />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/admin-login" element={<AdminSignInForm />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/payment-success/:amount" element={<PaymentSuccess />} />
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetailsPage />}
+          />
+          {/* Admin dashboard routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectAdminRoutes>
+                <AdminDashboard />
+              </ProtectAdminRoutes>
+            }
+          >
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="category" element={<CategoryPage />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="community" element={<CommunityAndHelp />} />
+            <Route path="products" element={<Products />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path={"edit-product/:productId"} element={<EditProduct />} />
             <Route
-              path="/payment-success/:amount"
-              element={<PaymentSuccess />}
+              path={"product-details/:productId"}
+              element={<ProductDetails />}
             />
-            <Route
-              path="/product-details/:productId"
-              element={<ProductDetailsPage />}
-            />
-            {/* Admin dashboard routes */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectAdminRoutes>
-                  <AdminDashboard />
-                </ProtectAdminRoutes>
-              }
-            >
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="category" element={<CategoryPage />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="community" element={<CommunityAndHelp />} />
-              <Route path="products" element={<Products />} />
-              <Route path="add-product" element={<AddProduct />} />
-              <Route
-                path={"edit-product/:productId"}
-                element={<EditProduct />}
-              />
-              <Route
-                path={"product-details/:productId"}
-                element={<ProductDetails />}
-              />
-            </Route>
+          </Route>
 
-            <Route path="*" element={<p>page not found</p>} />
-          </Routes>
+          <Route path="*" element={<p>page not found</p>} />
+        </Routes>
 
-          <FooterDisplay />
-        </Router>
-      </Elements>
+        <FooterDisplay />
+      </Router>
     </div>
   );
 });
@@ -127,6 +103,7 @@ const NavbarDisplay = memo(function NavbarDisplay() {
     "/customize",
     "/about",
     "/login",
+    "/scent",
     "/cart",
     "/product-details/:productId",
     "/checkout",
@@ -150,6 +127,7 @@ const FooterDisplay = memo(function FooterDisplay() {
     "/customize",
     "/about",
     "/login",
+    "/scent",
     "/cart",
     "/checkout",
     "/product-details/:productId",

@@ -6,12 +6,13 @@ import {
   Settings,
   Home,
   Store,
+  SprayCan,
 } from "lucide-react";
 
 export const ROOT_ROUTES = [
   { label: "Home", path: "/", icon: Home },
   { label: "Online Store", path: "/online-store", icon: Store },
-  { label: "Cent", path: "/cent", icon: ListIcon },
+  { label: "Scent", path: "/scent", icon: SprayCan },
   { label: "Customize", path: "/customize", icon: Settings },
   // { label: "Menu", path: "/menu", icon: ListIcon },
   // { label: "Cart", path: "/cart", icon: ShoppingCart },

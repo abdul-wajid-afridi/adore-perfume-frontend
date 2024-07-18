@@ -51,7 +51,7 @@ const CartPage = memo(function CartPage() {
       </h2>
 
       <div className="w-ful">
-        <CartProducts quantity={true} />
+        {cartItems?.length ? <CartProducts quantity={true} /> : ""}
         <div className="flex justify-end gap-4 my-10 mr-5">
           <Button
             onClick={useCallback(() => {
@@ -61,13 +61,17 @@ const CartPage = memo(function CartPage() {
             continue to shopping <ShoppingCart />
           </Button>
 
-          <Button
-            onClick={useCallback(() => {
-              navigate("/checkout");
-            }, [navigate])}
-          >
-            proceed to checkout <CheckCircleIcon />
-          </Button>
+          {cartItems?.length ? (
+            <Button
+              onClick={() => {
+                navigate("/checkout");
+              }}
+            >
+              proceed to checkout <CheckCircleIcon />
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

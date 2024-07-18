@@ -12,6 +12,7 @@ import {
   useStripe,
   useElements,
   PaymentElement,
+  Elements,
 } from "@stripe/react-stripe-js";
 import convertToSubCurrency from "../../lib/convertToSubcurrency";
 import { API_URL } from "../../redux/urlConfig";
@@ -21,6 +22,7 @@ import { useDispatch } from "react-redux";
 import Loader from "../../components/loader";
 import { BASE_URL } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 const userFormSchema = z.object({
   email: z.string().email(),
@@ -33,7 +35,7 @@ const userFormSchema = z.object({
 });
 
 type FormValues = z.infer<typeof userFormSchema>;
-const CheckoutPage = memo(function CheckoutPage() {
+const CheckoutForm = memo(function CheckoutPage() {
   const { total: amount } = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -64,7 +66,10 @@ const CheckoutPage = memo(function CheckoutPage() {
     event.preventDefault();
     setLoading(true);
 
-    if (!stripe || !elements) {
+    if (!elements) {
+      return;
+    }
+    if (!stripe) {
       return;
     }
 
@@ -76,12 +81,21 @@ const CheckoutPage = memo(function CheckoutPage() {
       return;
     }
 
+    const response = await API_URL.post("/api/v1/create-payment-intent", {
+      amount: convertToSubCurrency(TOTAL_AMOUNT),
+    });
+
+    const clientSecret = response.data.clientSecret;
+
+    console.log("client secrete", clientSecret);
+
     const { error } = await stripe.confirmPayment({
       elements,
-      clientSecret,
+      clientSecret: clientSecret,
       confirmParams: {
         // return_url: `${BASE_URL}/payment-success?amount=${TOTAL_AMOUNT}`,
         return_url: `${BASE_URL}/payment-success/${TOTAL_AMOUNT}`,
+        // return_url: "https://example.com/order/123/complete",
       },
     });
 
@@ -105,20 +119,6 @@ const CheckoutPage = memo(function CheckoutPage() {
     [dispatch]
   );
 
-  useEffect(
-    function createPaymentIntentOnMount() {
-      const createPaymentIntent = async () => {
-        const response = await API_URL.post("/api/v1/create-payment-intent", {
-          amount: convertToSubCurrency(TOTAL_AMOUNT),
-        });
-
-        setClientSecret(response.data.clientSecret);
-      };
-      createPaymentIntent();
-    },
-    [TOTAL_AMOUNT]
-  );
-
   const createUserMutation = useMutation({
     mutationFn: asyncCreateUsers,
     onSuccess: () => {
@@ -133,9 +133,9 @@ const CheckoutPage = memo(function CheckoutPage() {
       </div>
     );
   }
+
   return (
     <section className="grid lg:grid-cols-3">
-      {errorMessage && <div>{errorMessage}</div>}
       <form
         onSubmit={handleStripePayment}
         className="flex flex-col lg:col-span-2 gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md"
@@ -177,13 +177,33 @@ const CheckoutPage = memo(function CheckoutPage() {
           <p className="text-red-500 text-xs">{errors.phoneNo.message}</p>
         )} */}
         {clientSecret && <PaymentElement />}
-        <Button type="submit" disabled={!stripe || loading}>
+        <Button type="submit" disabled={!stripe || !elements}>
           {loading ? <Loader color="bg-secondary" /> : "Pay $" + TOTAL_AMOUNT}
         </Button>
       </form>
       <CartProducts />
+      {errorMessage && <div>{errorMessage}</div>}
     </section>
   );
 });
 
+const STRIPE_PROMISE = loadStripe(
+  "pk_test_51MH7rjLByWH0aUrU6BBN1LgamEmujwXmezM5avT85R1vL5RIUZ86LhQFjO9kv82bxsD14ffOnukEvb7b1g7BMTWZ009ErC9TTi"
+);
+
+const CheckoutPage = memo(() => {
+  const { total: amount } = useAppSelector((state) => state.cart);
+
+  const OPTIONS = {
+    mode: "payment",
+    amount: convertToSubCurrency(amount),
+    currency: "usd",
+  } as const;
+
+  return (
+    <Elements stripe={STRIPE_PROMISE} options={OPTIONS}>
+      <CheckoutForm />
+    </Elements>
+  );
+});
 export default CheckoutPage;

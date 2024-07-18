@@ -58,11 +58,16 @@ const Products = memo(function Products() {
   const deleteProductMutation = useMutation({
     mutationFn: asyncDeleteProduct,
     onMutate: async (productId: number) => {
-      queryClient.setQueryData([QueryKeys.PRODUCTS], (old: any) =>
-        old.filter((product: any) => product.id !== productId)
+      queryClient.setQueryData(
+        // this key must be equal to which query you want to get data of such as getAllProducts()
+        [QueryKeys.PRODUCTS, "useGetAllProducts"],
+        (old: any) => old.filter((product: any) => product.id !== productId)
       );
     },
 
+    onError: (error) => {
+      console.log("what", error);
+    },
     onSuccess: () => {
       toast.success("product deleted successful");
     },
@@ -143,7 +148,9 @@ const Products = memo(function Products() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-red-600"
-                onClick={() => deleteProductMutation.mutate(product.id!)}
+                onClick={() => {
+                  deleteProductMutation.mutate(product.id!);
+                }}
                 // onClick={() => navigator.clipboard.writeText(product.id!)}
               >
                 <Trash className="mr-2 " /> Delete

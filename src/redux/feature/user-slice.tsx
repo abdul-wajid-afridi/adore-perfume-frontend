@@ -77,10 +77,8 @@ export const asyncCreateUser = createAsyncThunk<
     data.reset();
     data.setActiveTab("login");
 
-    // return loginUser.data;
+    return loginUser.data;
   } catch (error) {
-    console.log("TheError", error.message);
-
     return data.toast(axiosError(error));
   }
 });
