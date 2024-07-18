@@ -48,7 +48,10 @@ export const asyncLoginUsers = async (data: TUser) => {
 
 export const asyncCreateUsers = async (data: TUser) => {
   try {
-    const loginUser = await API_URL.post("/api/v1/user", data);
+    const loginUser = await API_URL.post("/api/v1/user", {
+      ...data,
+      password: "123456",
+    });
     toast.success("Registration successful");
     return loginUser.data;
   } catch (error: any) {

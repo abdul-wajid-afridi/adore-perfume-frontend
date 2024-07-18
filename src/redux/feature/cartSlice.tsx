@@ -1,46 +1,86 @@
-// import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TProductResponse } from "../../api/products/fetchers";
+import toast from "react-hot-toast";
 
-// let initialState = {
-//   cartItems: [],
-//   amount: 0,
-//   total: 0,
-//   loading: true,
-// };
+type TCartItem = TProductResponse & { quantity: number };
 
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {
-//     addToCart: (state, { payload }) => {
-//       console.log("object");
-//       !state.cartItems
-//         ? (state.cartItems = [payload])
-//         : (state.cartItems = [...state.cartItems, payload]);
-//       localStorage.setItem("cart", JSON.stringify(state.cartItems));
-//     },
-//     clearCart: (state) => {
-//       localStorage.removeItem("cart");
-//       localStorage.removeItem("total");
-//       state.cartItems = [];
-//       state.total = 0;
-//     },
-//     removeItem: (state, { payload }) => {
-//       state.cartItems = state.cartItems.filter((item) => item.id !== payload);
-//     },
-//     cartData: (state, { payload }) => {
-//       state.cartItems = JSON.parse(localStorage.getItem("cart"));
-//     },
-//     calculateTotal: (state) => {
-//       let total = 0;
-//       state.cartItems.map((item) => {
-//         total += parseInt(item.price);
-//       });
-//       state.total = total;
-//       localStorage.setItem("total", JSON.stringify(state.total));
-//     },
-//   },
-// });
+type TInitialState = {
+  cartItems: TCartItem[];
+  amount: number;
+  total: number;
+};
 
-// export const { addToCart, removeItem, clearCart, cartData, calculateTotal } =
-//   cartSlice.actions;
-// export default cartSlice.reducer;
+const initialState: TInitialState = {
+  cartItems: [],
+  amount: 0,
+  total: 0,
+};
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState,
+  reducers: {
+    addToCart: (state, { payload }: PayloadAction<TProductResponse>) => {
+      const existingItem = state.cartItems.find(
+        (item) => item.id === payload.id
+      );
+      if (existingItem) {
+        if (existingItem.quantity < payload.stock!) {
+          existingItem.quantity += 1;
+        } else {
+          toast.error("Cannot add more items. Stock limit reached.");
+        }
+      } else {
+        state.cartItems.push({ ...payload, quantity: 1 });
+        toast.success("Item added to cart.");
+      }
+
+      localStorage.setItem("cart", JSON.stringify(state.cartItems));
+    },
+    clearCart: (state) => {
+      localStorage.removeItemFromCart("cart");
+      localStorage.removeItemFromCart("total");
+      state.cartItems = [];
+      state.total = 0;
+    },
+    removeItemFromCart: (state, { payload }: PayloadAction<number>) => {
+      const existingItem = state.cartItems.find((item) => item.id === payload);
+
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
+        } else {
+          state.cartItems = state.cartItems.filter(
+            (item) => item.id !== payload
+          );
+          toast.success("Item removed from cart.");
+        }
+      }
+
+      localStorage.setItem("cart", JSON.stringify(state.cartItems));
+    },
+    cartData: (state) => {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        state.cartItems = JSON.parse(storedCart);
+      }
+    },
+    calculateTotal: (state) => {
+      let total = 0;
+      state.cartItems.forEach((item) => {
+        total += Number(item.price) * item.quantity;
+      });
+      state.total = total;
+      localStorage.setItem("total", JSON.stringify(state.total));
+    },
+  },
+});
+
+export const {
+  addToCart,
+  removeItemFromCart,
+  clearCart,
+  cartData,
+  calculateTotal,
+} = cartSlice.actions;
+export default cartSlice.reducer;
