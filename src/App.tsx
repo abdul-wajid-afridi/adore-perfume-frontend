@@ -23,12 +23,14 @@ import AdminSignInForm from "./pages/dashboard/pages/admin-login";
 import EditProduct from "./pages/dashboard/pages/products/EditProduct";
 import ProductDetails from "./pages/dashboard/pages/products/productDetails";
 import CategoryPage from "./pages/dashboard/pages/category";
+import WhatsAppButton from "./components/whatsapp-button";
 
 const App = memo(function App() {
   return (
     <div>
       <Router>
         <NavbarWrapper />
+        <WhatsAppButton />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/online-store" element={<p>online store</p>} />
