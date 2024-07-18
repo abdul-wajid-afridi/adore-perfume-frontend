@@ -6,6 +6,7 @@ import {
   asyncGetAllProducts,
   asyncGetBestSellingProducts,
   asyncGetNewArrivalProducts,
+  asyncGetPaginationProducts,
   asyncGetProductsById,
   asyncGetSimilarProducts,
   asyncSearchProducts,
@@ -19,7 +20,13 @@ export enum QueryKeys {
 export const useGetAllProducts = () =>
   useQuery({
     queryKey: [QueryKeys.PRODUCTS, "useGetAllProducts"],
-    queryFn: asyncGetAllProducts,
+    queryFn: () => asyncGetAllProducts(),
+  });
+
+export const useGetPaginationProducts = (skip: number, take: number) =>
+  useQuery({
+    queryKey: [QueryKeys.PRODUCTS, "useGetPaginationProducts", skip, take],
+    queryFn: () => asyncGetPaginationProducts(skip, take),
   });
 
 export const useGetProductById = (productId: number) =>

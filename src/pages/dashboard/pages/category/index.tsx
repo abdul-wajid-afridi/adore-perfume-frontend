@@ -69,9 +69,9 @@ const CategoryPage = memo(function CategoryPage() {
   const deleteCategoryMutation = useMutation({
     mutationFn: asyncDeleteCategory,
     onMutate: async (categoryId: number) => {
-      queryClient.setQueryData([QueryKeys.CATEGORY], (old: any) =>
-        old.filter((category: any) => category.id !== categoryId)
-      );
+      queryClient.setQueryData([QueryKeys.CATEGORY], (old: any) => {
+        return old.filter((category: any) => category.id !== categoryId);
+      });
     },
 
     onSuccess: () => {
@@ -338,17 +338,16 @@ const CategoryForm = memo(function Form(props: TCategoryFormProps) {
     },
     resolver: zodResolver(CategorySchema),
   });
-  console.log(props.editCategory);
 
   useEffect(
     function setEditCategoryDataOnMount() {
-      if (props.editCategory) {
+      if (props?.editCategory) {
         reset({
-          name: props.editCategory.name,
+          name: props?.editCategory.name,
         });
       }
     },
-    [props.editCategory, reset]
+    [props?.editCategory, reset]
   );
   return (
     <form
@@ -356,9 +355,9 @@ const CategoryForm = memo(function Form(props: TCategoryFormProps) {
       onSubmit={handleSubmit(
         useCallback(
           async function submitCategoryForm(category: FormValues) {
-            if (props.editCategory) {
+            if (props?.editCategory) {
               editCategoryMutation.mutate({
-                id: props.editCategory.id,
+                id: props?.editCategory.id,
                 name: category.name,
               });
               props.setEditCategory(null as any);
@@ -373,7 +372,7 @@ const CategoryForm = memo(function Form(props: TCategoryFormProps) {
           [
             categoryMutation.mutate,
             editCategoryMutation.mutate,
-            props.editCategory,
+            props?.editCategory,
           ]
         )
       )}
@@ -387,7 +386,7 @@ const CategoryForm = memo(function Form(props: TCategoryFormProps) {
         <Button type="submit">
           {categoryMutation.isPending ? (
             <Loader color="bg-secondary" />
-          ) : props.editCategory ? (
+          ) : props?.editCategory ? (
             "Edit Category"
           ) : (
             "Add Category"
