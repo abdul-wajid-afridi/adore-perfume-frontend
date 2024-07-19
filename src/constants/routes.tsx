@@ -22,7 +22,7 @@ export const DASHBOARD_ROUTES = [
   { icon: LayoutDashboardIcon, label: "Dashboard", path: "/dashboard" },
   { icon: ListIcon, label: "Products", path: "/dashboard/products" },
   { icon: ListIcon, label: "Category", path: "/dashboard/category" },
-  { icon: Contact, label: "Contact", path: "/dashboard/contact" },
+  { icon: Contact, label: "Contact", path: "/dashboard/contact-us" },
   { icon: ListOrdered, label: "Orders", path: "/dashboard/orders" },
   { icon: Settings, label: "Settings", path: "/dashboard/settings" },
 ];

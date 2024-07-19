@@ -29,31 +29,7 @@ const Footer = memo(function Footer() {
             Adore Perfume
           </h4>
           <p>Follow us on</p>
-          <div className="flex gap-2">
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              className="hover:text-blue-400"
-            >
-              <Facebook />
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              className="hover:text-pink-400"
-            >
-              <Instagram />
-            </a>
-            <a
-              href="https://www.linkedin.com"
-              target="_blank"
-              className="hover:text-blue-300"
-            >
-              <Linkedin />
-            </a>
-            {/* <Pintrist /> */}
-            {/* <Google /> */}
-          </div>
+          <SocialMediaIcons />
         </div>
       </section>
       <p className="border-b-2 border-indigo-500">
@@ -63,4 +39,33 @@ const Footer = memo(function Footer() {
   );
 });
 
+export const SocialMediaIcons = memo(function SocialMediaIcons() {
+  return (
+    <div className="flex gap-2">
+      <a
+        href="https://www.facebook.com"
+        target="_blank"
+        className="hover:text-blue-400"
+      >
+        <Facebook />
+      </a>
+      <a
+        href="https://www.instagram.com"
+        target="_blank"
+        className="hover:text-pink-400"
+      >
+        <Instagram />
+      </a>
+      <a
+        href="https://www.linkedin.com"
+        target="_blank"
+        className="hover:text-blue-300"
+      >
+        <Linkedin />
+      </a>
+      {/* <Pintrist /> */}
+      {/* <Google /> */}
+    </div>
+  );
+});
 export default Footer;
