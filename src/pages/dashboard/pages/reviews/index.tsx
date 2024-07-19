@@ -11,7 +11,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Trash } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  Star,
+  Trash,
+} from "lucide-react";
 
 import { Button } from "../../../../components/ui/button";
 import {
@@ -36,30 +42,37 @@ import Loader from "../../../../components/loader";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { useGetAllReviews, QueryKeys } from "../../../../api/reviews/queries";
 import {
-  useGetAllContactUs,
-  QueryKeys,
-} from "../../../../api/contact-us/queries";
-import {
-  asyncDeleteContactUs,
-  TContactUsResponse,
-} from "../../../../api/contact-us/fetchers";
+  asyncDeleteReviews,
+  asyncUpdateReviews,
+  TReviewsResponse,
+} from "../../../../api/reviews/fetchers";
+import { BASE_URL } from "../../../../constants/urls";
 
-const AdminContactPage = memo(function AdminContactPage() {
-  const { isLoading, data } = useGetAllContactUs();
+const AdminReviewsPage = memo(function AdminReviewsPage() {
+  const { isLoading, data } = useGetAllReviews();
 
   const queryClient = useQueryClient();
 
-  const deleteContactUsMutation = useMutation({
-    mutationFn: asyncDeleteContactUs,
-    onMutate: async (contactUsId: number) => {
-      queryClient.setQueryData([QueryKeys.CONTACT_US], (old: any) => {
-        return old.filter((contactUs: any) => contactUs.id !== contactUsId);
+  const deleteReviewsMutation = useMutation({
+    mutationFn: asyncDeleteReviews,
+    onMutate: async (reviewId: number) => {
+      queryClient.setQueryData([QueryKeys.REVIEWS], (old: any) => {
+        return old.filter((reviewsId: any) => reviewsId.id !== reviewId);
       });
     },
 
     onSuccess: () => {
-      toast.success("contactUs deleted successful");
+      toast.success("reviews deleted successful");
+    },
+  });
+
+  const updateReviewsMutation = useMutation({
+    mutationFn: asyncUpdateReviews,
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [QueryKeys.REVIEWS] });
+      toast.success("reviews updated successful");
     },
   });
 
@@ -69,7 +82,16 @@ const AdminContactPage = memo(function AdminContactPage() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const columns: ColumnDef<TContactUsResponse>[] = [
+  const columns: ColumnDef<TReviewsResponse>[] = [
+    {
+      id: "image",
+      header: () => <p>Image</p>,
+      cell: ({ row }: any) => (
+        <img src={`${BASE_URL}/${row?.original.image}`} className="h-20 w-20" />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
     {
       accessorKey: "name",
       header: ({ column }) => {
@@ -95,10 +117,22 @@ const AdminContactPage = memo(function AdminContactPage() {
       ),
     },
     {
-      accessorKey: "subject",
-      header: "Subject",
+      accessorKey: "isVisible",
+      header: "isVisible",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("subject")}</div>
+        <div className="capitalize">
+          {row.getValue("isVisible") ? "visible" : "hidden"}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "stars",
+      header: "stars",
+      cell: ({ row }) => (
+        <div className="capitalize flex">
+          {row.getValue("stars")}
+          <Star className="h-4" />
+        </div>
       ),
     },
     {
@@ -113,7 +147,7 @@ const AdminContactPage = memo(function AdminContactPage() {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const contactUs = row.original;
+        const reviews = row.original;
 
         return (
           <DropdownMenu>
@@ -127,11 +161,22 @@ const AdminContactPage = memo(function AdminContactPage() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-red-600"
-                onClick={() => deleteContactUsMutation.mutate(contactUs.id!)}
+                onClick={() => deleteReviewsMutation.mutate(reviews.id!)}
               >
                 <Trash className="mr-2 " /> Delete
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className={!reviews.isVisible ? "text-primary" : "text-red-600"}
+                onClick={() =>
+                  updateReviewsMutation.mutate({
+                    reviewsId: reviews.id!,
+                    isVisible: !reviews.isVisible,
+                  })
+                }
+              >
+                <Star className="mr-2 " /> {reviews.isVisible ? "hide" : "show"}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -233,14 +278,16 @@ const AdminContactPage = memo(function AdminContactPage() {
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (
@@ -281,4 +328,4 @@ const AdminContactPage = memo(function AdminContactPage() {
   );
 });
 
-export default AdminContactPage;
+export default AdminReviewsPage;

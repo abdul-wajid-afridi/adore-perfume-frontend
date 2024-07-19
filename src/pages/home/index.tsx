@@ -3,6 +3,7 @@ import HorizontalScrollCarousel from "../../components/scroll-carousel/horizonta
 import Slider from "./components/slider";
 import OurCollections from "./components/our-collections";
 import NewArrivals from "./components/new-arrivals";
+import HomeReview from "./components/reviews";
 
 const HomePage = memo(function HomePage() {
   return (
@@ -11,6 +12,7 @@ const HomePage = memo(function HomePage() {
       <HorizontalScrollCarousel />
       <NewArrivals />
       <OurCollections />
+      <HomeReview />
     </div>
   );
 });

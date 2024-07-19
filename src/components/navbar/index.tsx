@@ -177,10 +177,10 @@ const Navbar = memo(function Navbar() {
                             About us
                           </Link>
                           <Link
-                            to="/review"
+                            to="/reviews"
                             className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
-                            Review
+                            Reviews
                           </Link>
                           {isLoggedIn ? (
                             <Link

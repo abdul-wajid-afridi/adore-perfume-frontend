@@ -7,6 +7,7 @@ import {
   Home,
   Store,
   SprayCan,
+  Stars,
 } from "lucide-react";
 
 export const ROOT_ROUTES = [
@@ -23,6 +24,7 @@ export const DASHBOARD_ROUTES = [
   { icon: ListIcon, label: "Products", path: "/dashboard/products" },
   { icon: ListIcon, label: "Category", path: "/dashboard/category" },
   { icon: Contact, label: "Contact", path: "/dashboard/contact-us" },
+  { icon: Stars, label: "Reviews", path: "/dashboard/reviews" },
   { icon: ListOrdered, label: "Orders", path: "/dashboard/orders" },
   { icon: Settings, label: "Settings", path: "/dashboard/settings" },
 ];
