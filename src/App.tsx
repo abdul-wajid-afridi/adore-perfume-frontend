@@ -14,7 +14,7 @@ import AboutPage from "./pages/about";
 import SignInForm from "./pages/sign-in";
 import { ProtectAdminRoutes } from "./lib/protect-routes";
 import AdminDashboard from "./pages/dashboard/admin-dashboard";
-import ContactPage from "./pages/dashboard/pages/contact";
+import AdminContactPage from "./pages/dashboard/pages/contact";
 import Products from "./pages/dashboard/pages/products";
 import CommunityAndHelp from "./pages/dashboard/pages/community-help";
 import Orders from "./pages/dashboard/pages/orders";
@@ -32,6 +32,7 @@ import { cartData } from "./redux/feature/cartSlice";
 import CheckoutPage from "./pages/checkout";
 import PaymentSuccess from "./pages/payments-success";
 import ScentPage from "./pages/scent";
+import ContactUs from "./pages/contact-us";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -53,6 +54,7 @@ const App = memo(function App() {
           <Route path="/scent" element={<ScentPage />} />
           <Route path="/customize" element={<p>customize</p>} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/login" element={<SignInForm />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/admin-login" element={<AdminSignInForm />} />
@@ -71,7 +73,7 @@ const App = memo(function App() {
               </ProtectAdminRoutes>
             }
           >
-            <Route path="contact" element={<ContactPage />} />
+            <Route path="contact-us" element={<AdminContactPage />} />
             <Route path="settings" element={<Settings />} />
             <Route path="category" element={<CategoryPage />} />
             <Route path="orders" element={<Orders />} />
@@ -109,6 +111,7 @@ const NavbarDisplay = memo(function NavbarDisplay() {
     "/product-details/:productId",
     "/checkout",
     "/payment-success",
+    "/contact-us",
   ];
 
   const shouldShowNavbar = pathsToShowNavbar.some((path) =>
@@ -133,6 +136,7 @@ const FooterDisplay = memo(function FooterDisplay() {
     "/checkout",
     "/product-details/:productId",
     "/payment-success/:amount",
+    "/contact-us",
   ];
 
   const shouldShowFooter = pathsToShowFooter.some((path) =>

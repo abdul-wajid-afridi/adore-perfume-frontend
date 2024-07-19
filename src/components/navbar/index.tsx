@@ -165,7 +165,7 @@ const Navbar = memo(function Navbar() {
                       >
                         <div className="w-[150px] flex flex-col border rounded-md text-center">
                           <Link
-                            to="/contact"
+                            to="/contact-us"
                             className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
                             contact us
