@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Button } from "../ui/button";
 
 const WhatsAppButton = memo(function WhatsApp() {
   //   add random number for now
@@ -15,7 +14,7 @@ const WhatsAppButton = memo(function WhatsApp() {
   };
   return (
     <div
-      className="fixed bottom-20 cursor-pointer right-5 animate-pulse"
+      className="fixed bottom-20 z-[99] cursor-pointer right-5 animate-pulse"
       onClick={redirectToWhatsApp}
     >
       <img src="/svgs/whatsap.svg" className="h-8 w-8 rounded-full ml-2" />

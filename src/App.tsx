@@ -46,6 +46,7 @@ const App = memo(function App() {
     <div>
       <Router>
         <NavbarDisplay />
+        <WhatsAppButton />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/online-store" element={<p>online store</p>} />
