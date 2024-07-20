@@ -113,7 +113,7 @@ const ContactUs = memo(function Form() {
             <p className="text-red-500 text-xs">{errors.message.message}</p>
           )}
 
-          <Button type="submit" className="">
+          <Button type="submit">
             {isSubmitting ? <Loader color="bg-secondary" /> : "contact-us"}
           </Button>
         </div>

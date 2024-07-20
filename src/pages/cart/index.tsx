@@ -34,21 +34,21 @@ const CartPage = memo(function CartPage() {
   );
   return (
     <>
-      <h2 className="my-10 ">
+      <div className="my-10 ">
         {cartItems?.length ? (
-          <span className="flex items-center justify-center gap-5">
+          <h2 className="flex items-center justify-center gap-5">
             your cart
             <ShoppingCart />
-          </span>
+          </h2>
         ) : (
           <Link to="/">
-            <span className="flex items-center justify-center gap-5 animate-pulse">
+            <h2 className="flex items-center justify-center gap-5 animate-pulse">
               your cart
               <ShoppingCart /> is empty
-            </span>
+            </h2>
           </Link>
         )}
-      </h2>
+      </div>
 
       <div className="w-ful">
         {cartItems?.length ? <CartProducts quantity={true} /> : ""}

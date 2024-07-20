@@ -88,8 +88,8 @@ const ReviewsPage = memo(function ReviewsPage() {
             name="stars"
           />
 
-          <Button type="submit" className="">
-            {isSubmitting ? <Loader color="bg-secondary" /> : "contact-us"}
+          <Button type="submit">
+            {isSubmitting ? <Loader color="bg-secondary" /> : "Add Review"}
           </Button>
         </div>
       </form>

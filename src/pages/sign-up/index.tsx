@@ -79,7 +79,7 @@ const SignUpForm = memo(function Form(props: TSignUpFormProps) {
         <p className="text-red-500 text-xs">{errors.phoneNo.message}</p>
       )}
 
-      <Button type="submit" className="">
+      <Button type="submit">
         {isSubmitting ? <Loader color="bg-secondary" /> : "Sign-Up"}
       </Button>
     </form>
