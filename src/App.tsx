@@ -11,7 +11,6 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import HomePage from "./pages/home";
 import AboutPage from "./pages/about";
-import SignInForm from "./pages/sign-in";
 import { ProtectAdminRoutes } from "./lib/protect-routes";
 import AdminDashboard from "./pages/dashboard/admin-dashboard";
 import AdminContactPage from "./pages/dashboard/pages/contact";
@@ -35,6 +34,7 @@ import ScentPage from "./pages/scent";
 import ContactUs from "./pages/contact-us";
 import AdminReviewsPage from "./pages/dashboard/pages/reviews";
 import ReviewsPage from "./pages/reviews";
+import AdminOrderDetails from "./pages/dashboard/pages/orders/orderDetails";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -58,11 +58,11 @@ const App = memo(function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/reviews" element={<ReviewsPage />} />
-          <Route path="/login" element={<SignInForm />} />
+          {/* <Route path="/login" element={<SignInForm />} /> */}
           <Route path="/cart" element={<CartPage />} />
           <Route path="/admin-login" element={<AdminSignInForm />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/payment-success/:amount" element={<PaymentSuccess />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route
             path="/product-details/:productId"
             element={<ProductDetailsPage />}
@@ -81,6 +81,11 @@ const App = memo(function App() {
             <Route path="settings" element={<Settings />} />
             <Route path="category" element={<CategoryPage />} />
             <Route path="orders" element={<Orders />} />
+            <Route
+              path="order-details/:orderId"
+              element={<AdminOrderDetails />}
+            />
+
             <Route path="community" element={<CommunityAndHelp />} />
             <Route path="products" element={<Products />} />
             <Route path="add-product" element={<AddProduct />} />

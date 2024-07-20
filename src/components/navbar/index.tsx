@@ -30,12 +30,12 @@ const Navbar = memo(function Navbar() {
 
   const isMobileScreen = useIsMobileScreen();
   const [active, setActive] = useState(true);
-  const isLoggedIn = localStorage.getItem("token");
+  // const isLoggedIn = localStorage.getItem("token");
 
-  const logOutUser = useCallback(function logOutUser() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  }, []);
+  // const logOutUser = useCallback(function logOutUser() {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  // }, []);
 
   useEffect(
     function setNavbarActiveOnMount() {
@@ -182,7 +182,7 @@ const Navbar = memo(function Navbar() {
                           >
                             Reviews
                           </Link>
-                          {isLoggedIn ? (
+                          {/* {isLoggedIn ? (
                             <Link
                               onClick={logOutUser}
                               to="/login"
@@ -197,7 +197,7 @@ const Navbar = memo(function Navbar() {
                             >
                               Login
                             </Link>
-                          )}
+                          )} */}
                         </div>
                       </NavigationMenuLink>
                     </NavigationMenuContent>
@@ -248,7 +248,7 @@ const MenuBarItem = (props: TMenuBarItemsProps) => {
       </motion.span>
       <span>{props.text}</span>
       {props.count && (
-        <span className="absolute -top-1 left-14 rounded-md px-[2px] py-[1px]  bg-primary text-secondary">
+        <span className="absolute top-0 left-14 text-center w-4 h-4 rounded-full  bg-primary text-secondary">
           {props.count}
         </span>
       )}

@@ -38,8 +38,8 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state.cartItems));
     },
     clearCart: (state) => {
-      localStorage.removeItemFromCart("cart");
-      localStorage.removeItemFromCart("total");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("total");
       state.cartItems = [];
       state.total = 0;
     },

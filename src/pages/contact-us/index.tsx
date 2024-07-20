@@ -77,7 +77,7 @@ const ContactUs = memo(function Form() {
         className="flex justify-center items-center"
         onSubmit={handleSubmit(
           useCallback(
-            async function submitCOntactUsForm(data: FormValues) {
+            async function submitContactUsForm(data: FormValues) {
               contactUsMutation.mutate(data);
             },
             [contactUsMutation.mutate]
