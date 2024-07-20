@@ -26,6 +26,8 @@ export const asyncGetAllContactUs = async () => {
 };
 
 export const asyncAddContactUs = async (data: TAddContactUs) => {
+  console.log(data);
+
   try {
     const ContactUs = await API_URL.post("/api/v1/contact-us", data);
     toast.success("ContactUs added successful");
