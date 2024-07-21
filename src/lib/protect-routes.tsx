@@ -33,7 +33,7 @@ export const ProtectAdminRoutes = memo(function ProtectRoutes(
 
   return (
     <div>
-      {localToken && user.role === "ADMIN" ? (
+      {localToken && user?.role === "ADMIN" ? (
         props.children
       ) : (
         <RedirectAfterInterval />
