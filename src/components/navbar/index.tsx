@@ -10,9 +10,9 @@ import {
   useState,
 } from "react";
 import { MotionConfig, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROOT_ROUTES } from "../../constants/routes";
-import { List, LucideProps, ShoppingCart } from "lucide-react";
+import { List, LucideProps, ShoppingCart, Store } from "lucide-react";
 import useIsMobileScreen from "../../hooks/isMobileView";
 
 import {
@@ -24,9 +24,13 @@ import {
   NavigationMenuTrigger,
 } from "../../components/ui/navigation-menu";
 import { useAppSelector } from "../../hooks/hook";
+import { useGetAllCategory } from "../../api/categories/queries";
+import Loader from "../loader";
 
 const Navbar = memo(function Navbar() {
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { isLoading, data } = useGetAllCategory();
+  const navigate = useNavigate();
 
   const isMobileScreen = useIsMobileScreen();
   const [active, setActive] = useState(true);
@@ -148,7 +152,7 @@ const Navbar = memo(function Navbar() {
 
           <motion.li variants={itemVariants}>
             <motion.span variants={actionIconVariants}>
-              <NavigationMenu>
+              <NavigationMenu className="z-50">
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>
@@ -163,10 +167,10 @@ const Navbar = memo(function Navbar() {
                           [isMobileScreen, setActive]
                         )}
                       >
-                        <div className="w-[150px] flex flex-col border rounded-md text-center">
+                        <div className="w-[150px] z-50 flex flex-col border rounded-md text-center">
                           <Link
                             to="/contact-us"
-                            className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                            className="border-b z-[999] overflow-hidden text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
                             contact us
                           </Link>
@@ -182,24 +186,57 @@ const Navbar = memo(function Navbar() {
                           >
                             Reviews
                           </Link>
-                          {/* {isLoggedIn ? (
-                            <Link
-                              onClick={logOutUser}
-                              to="/login"
-                              className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
-                            >
-                              log-out
-                            </Link>
-                          ) : (
-                            <Link
-                              to="/login"
-                              className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
-                            >
-                              Login
-                            </Link>
-                          )} */}
                         </div>
                       </NavigationMenuLink>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </motion.span>
+          </motion.li>
+
+          <motion.li variants={itemVariants}>
+            <motion.span variants={actionIconVariants}>
+              <NavigationMenu className="z-40">
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger>
+                      <Store className="mr-3" /> online Store
+                    </NavigationMenuTrigger>
+
+                    <NavigationMenuContent>
+                      {isLoading ? (
+                        <div className="w-[180px] h-10 flex justify-center items-center">
+                          <Loader />
+                        </div>
+                      ) : (
+                        data?.map((category) => (
+                          <NavigationMenuLink
+                            onClick={function toggleMenu() {
+                              isMobileScreen && setActive(false);
+                              navigate(`/search?category=${category.name}`);
+                            }}
+                          >
+                            <div className="w-[180px] flex flex-col border rounded-md text-center">
+                              <p className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2">
+                                {category.name}
+                              </p>
+                              {/* <Link
+                            to="/about"
+                            className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                          >
+                            About us
+                          </Link>
+                          <Link
+                            to="/reviews"
+                            className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                          >
+                            Reviews
+                          </Link> */}
+                            </div>
+                          </NavigationMenuLink>
+                        ))
+                      )}
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>

@@ -5,14 +5,14 @@ import {
   ListOrdered,
   Settings,
   Home,
-  Store,
+  // Store,
   SprayCan,
   Stars,
 } from "lucide-react";
 
 export const ROOT_ROUTES = [
   { label: "Home", path: "/", icon: Home },
-  { label: "Online Store", path: "/online-store", icon: Store },
+  // { label: "Online Store", path: "/online-store", icon: Store },
   { label: "Scent", path: "/scent", icon: SprayCan },
   { label: "Customize", path: "/customize", icon: Settings },
   // { label: "Menu", path: "/menu", icon: ListIcon },
