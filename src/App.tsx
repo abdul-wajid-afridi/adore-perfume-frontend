@@ -36,6 +36,7 @@ import AdminReviewsPage from "./pages/dashboard/pages/reviews";
 import ReviewsPage from "./pages/reviews";
 import AdminOrderDetails from "./pages/dashboard/pages/orders/orderDetails";
 import Header from "./components/header";
+import Search from "./pages/search";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -65,6 +66,7 @@ const App = memo(function App() {
           <Route path="/admin-login" element={<AdminSignInForm />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/search" element={<Search />} />
           <Route
             path="/product-details/:productId"
             element={<ProductDetailsPage />}
@@ -124,6 +126,7 @@ const NavbarDisplay = memo(function NavbarDisplay() {
     "/payment-success",
     "/contact-us",
     "/reviews",
+    "/search",
   ];
 
   const shouldShowNavbar = pathsToShowNavbar.some((path) =>
@@ -150,6 +153,7 @@ const FooterDisplay = memo(function FooterDisplay() {
     "/payment-success/:amount",
     "/contact-us",
     "/reviews",
+    "/search",
   ];
 
   const shouldShowFooter = pathsToShowFooter.some((path) =>
