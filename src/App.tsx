@@ -35,6 +35,7 @@ import ContactUs from "./pages/contact-us";
 import AdminReviewsPage from "./pages/dashboard/pages/reviews";
 import ReviewsPage from "./pages/reviews";
 import AdminOrderDetails from "./pages/dashboard/pages/orders/orderDetails";
+import Header from "./components/header";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ const App = memo(function App() {
   return (
     <div>
       <Router>
+        <Header />
         <NavbarDisplay />
         <WhatsAppButton />
         <Routes>

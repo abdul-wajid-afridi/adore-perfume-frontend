@@ -27,6 +27,7 @@ const ScentPage = memo(function ScentPage() {
         ) : (
           data?.data?.map((it) => (
             <ProductCard
+              price={it.price!}
               id={it.id!}
               key={it.id}
               name={it.name}

@@ -23,6 +23,7 @@ import { HOSTING_URL } from "../../constants/urls";
 import { loadStripe } from "@stripe/stripe-js";
 import { asyncCreateOrders } from "../../api/orders/fetchers";
 import { useNavigate } from "react-router-dom";
+import useCurrency from "../../hooks/useCurrency";
 
 const cartItemSchema = z.object({
   quantity: z.number(),
@@ -55,6 +56,8 @@ const CheckoutForm = memo(function CheckoutPage() {
   // if i remove numbers then js consider this as boolean and will return 1 as the range is greater then 400 so 1 extra $,pkr AED will be charged which is a bug
   const SHIPPING_PRICE = amount > RANGE ? Number(0) : Number(10);
   const TOTAL_AMOUNT = SHIPPING_PRICE + amount;
+
+  const [sign, totalAmount] = useCurrency(TOTAL_AMOUNT);
   const {
     register,
     getValues,
@@ -209,7 +212,11 @@ const CheckoutForm = memo(function CheckoutPage() {
         )}
         <PaymentElement />
         <Button type="submit" disabled={!stripe || !elements}>
-          {loading ? <Loader color="bg-secondary" /> : "Pay $" + TOTAL_AMOUNT}
+          {loading ? (
+            <Loader color="bg-secondary" />
+          ) : (
+            `Pay  ${sign}   ${totalAmount}`
+          )}
         </Button>
       </form>
       <CartProducts />
@@ -225,9 +232,15 @@ const STRIPE_PROMISE = loadStripe(
 const CheckoutPage = () => {
   const { total: amount } = useAppSelector((state) => state.cart);
 
+  const RANGE: number = 4000;
+
+  // if i remove numbers then js consider this as boolean and will return 1 as the range is greater then 400 so 1 extra $,pkr AED will be charged which is a bug
+  const SHIPPING_PRICE = amount > RANGE ? Number(0) : Number(10);
+  const TOTAL_AMOUNT = SHIPPING_PRICE + amount;
+
   const OPTIONS = {
     mode: "payment",
-    amount: convertToSubCurrency(amount),
+    amount: convertToSubCurrency(TOTAL_AMOUNT),
     currency: "usd",
   } as const;
 

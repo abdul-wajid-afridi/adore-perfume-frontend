@@ -6,6 +6,7 @@ import { BASE_URL } from "../../../constants/urls";
 
 const NewArrivals = memo(function NewArrivals() {
   const { data, isLoading } = useGetNewArrivalProduct();
+  console.log(data);
 
   return (
     <>
@@ -18,6 +19,7 @@ const NewArrivals = memo(function NewArrivals() {
         ) : (
           data?.map((it) => (
             <ProductCard
+              price={it.price!}
               id={it.id!}
               key={it.id}
               name={it.name}
