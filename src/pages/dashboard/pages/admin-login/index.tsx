@@ -50,6 +50,10 @@ const AdminSignInForm = memo(function Form() {
     resolver: zodResolver(formSchema),
   });
 
+  if (loading) {
+    <Loader size="big" />;
+  }
+
   return (
     <form
       className="flex justify-center items-center"

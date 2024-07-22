@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TProductResponse } from "../../api/products/fetchers";
 import toast from "react-hot-toast";
 
-type TCartItem = TProductResponse & { quantity: number };
+export type TCartItem = TProductResponse & { quantity: number };
 
 type TInitialState = {
   cartItems: TCartItem[];

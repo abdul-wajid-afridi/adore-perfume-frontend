@@ -4,6 +4,7 @@ import {
   addToCart,
   calculateTotal,
   removeItemFromCart,
+  TCartItem,
 } from "../../redux/feature/cartSlice";
 import { CheckCircleIcon, ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +21,8 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { Button } from "../../components/ui/button";
+import useCurrency from "../../hooks/useCurrency";
+import { useDispatch } from "react-redux";
 
 const CartPage = memo(function CartPage() {
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -91,6 +94,12 @@ export const CartProducts = memo(function CartProducts(
   // if i remove numbers then js consider this as boolean and will return 1 as the range is greater then 400 so 1 extra $,pkr AED will be charged which is a bug
   const SHIPPING_PRICE = total > RANGE ? Number(0) : Number(10);
 
+  const [sign, convertedTotal] = useCurrency(total);
+  // s and r i am not using due to its the sign only of currency and i have already taken in sign value so no need for extra values
+  const [s, convertedShippingPrice] = useCurrency(SHIPPING_PRICE);
+  const [r, convertedRange] = useCurrency(RANGE);
+  console.log(s, r);
+
   const dispatch = useAppDispatch();
 
   useEffect(
@@ -105,7 +114,8 @@ export const CartProducts = memo(function CartProducts(
       <Table>
         {total > RANGE && (
           <TableCaption>
-            Your shipping is free as your order is more then {RANGE}$.
+            Your shipping is free as your order is more then {convertedRange}{" "}
+            {sign}.
           </TableCaption>
         )}
         <TableCaption>A list of your cart items.</TableCaption>
@@ -120,40 +130,10 @@ export const CartProducts = memo(function CartProducts(
         </TableHeader>
         <TableBody>
           {cartItems?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                <img
-                  src={`${BASE_URL}/${
-                    item?.productImage && item?.productImage[0]?.image
-                  }`}
-                  className="h-20 w-20"
-                />
-              </TableCell>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>${item.price}</TableCell>
-              <TableCell>${item.price! * item.quantity}</TableCell>
-              {props.quantity && (
-                <TableCell className="flex items-center gap-1">
-                  <Button
-                    onClick={() => {
-                      dispatch(removeItemFromCart(item.id!));
-                      dispatch(calculateTotal());
-                    }}
-                  >
-                    -
-                  </Button>
-                  {item.quantity}
-                  <Button
-                    onClick={() => {
-                      dispatch(addToCart(item));
-                      dispatch(calculateTotal());
-                    }}
-                  >
-                    +
-                  </Button>
-                </TableCell>
-              )}
-            </TableRow>
+            <CartTableCard
+              item={item}
+              quantity={cartItems?.length ? true : false}
+            />
           ))}
         </TableBody>
         <TableFooter>
@@ -161,14 +141,16 @@ export const CartProducts = memo(function CartProducts(
             <TableCell className="font-bold text-primary" colSpan={4}>
               Sub Total
             </TableCell>
-            <TableCell className="text-right  text-primary">${total}</TableCell>
+            <TableCell className="text-right  text-primary">
+              <span className="text-xs">{sign}</span>:{convertedTotal}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-bold text-primary" colSpan={4}>
               Shipping
             </TableCell>
             <TableCell className="text-right  text-primary">
-              ${SHIPPING_PRICE}
+              <span className="text-xs">{sign}</span>:{convertedShippingPrice}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -176,12 +158,66 @@ export const CartProducts = memo(function CartProducts(
               Total
             </TableCell>
             <TableCell className="text-right font-bold text-primary">
-              ${total + Number(SHIPPING_PRICE)}
+              <span className="text-xs">{sign}</span>:
+              {Number(convertedTotal) + Number(convertedShippingPrice)}
             </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
     </div>
+  );
+});
+
+const CartTableCard = memo(function CartTableCard(props: {
+  item: TCartItem;
+  quantity: boolean;
+}) {
+  const dispatch = useDispatch();
+  console.log(props);
+
+  const { item, quantity } = props;
+  const [sign, currencyValue] = useCurrency(Number(item.price));
+  return (
+    <TableRow key={item.id}>
+      <TableCell>
+        <img
+          src={`${BASE_URL}/${
+            item?.productImage && item?.productImage[0]?.image
+          }`}
+          className="h-20 w-20"
+        />
+      </TableCell>
+      <TableCell className="font-medium">{item.name}</TableCell>
+      <TableCell>
+        <span className="text-xs">{sign}</span>
+        {currencyValue}
+      </TableCell>
+      <TableCell>
+        <span className="text-xs">{sign}</span>
+        {Number(currencyValue) * item.quantity}
+      </TableCell>
+      {quantity && (
+        <TableCell className="flex items-center gap-1">
+          <Button
+            onClick={() => {
+              dispatch(removeItemFromCart(item.id!));
+              dispatch(calculateTotal());
+            }}
+          >
+            -
+          </Button>
+          {item.quantity}
+          <Button
+            onClick={() => {
+              dispatch(addToCart(item));
+              dispatch(calculateTotal());
+            }}
+          >
+            +
+          </Button>
+        </TableCell>
+      )}
+    </TableRow>
   );
 });
 

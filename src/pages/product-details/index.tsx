@@ -13,16 +13,43 @@ import ProductCard from "../../components/cards/product-card";
 import Loader from "../../components/loader";
 import { addToCart, calculateTotal } from "../../redux/feature/cartSlice";
 import { useAppDispatch } from "../../hooks/hook";
+import useCurrency from "../../hooks/useCurrency";
 
 const ProductDetailsPage = memo(function ProductDetailsPage() {
   const dispatch = useAppDispatch();
-
   const [index, setIndex] = useState(0);
+  // const [currencyRate, setCurrencyRate] = useState(0);
   const [close, setClose] = useState(false);
   const { productId } = useParams();
   const { data, isLoading: singleProductLoading } = useGetProductById(
     Number(productId)
   );
+
+  const [currency, currencyRate] = useCurrency(Number(data?.price));
+
+  // const [currency, setCurrency] = useState(
+  //   localStorage.getItem("currency") || ""
+  // );
+
+  // useEffect(() => {
+  //   const handleCurrencyChange = () => {
+  //     setCurrency(localStorage.getItem("currency") || "");
+  //   };
+
+  //   window.addEventListener("currencyChange", handleCurrencyChange);
+
+  //   return () => {
+  //     window.removeEventListener("currencyChange", handleCurrencyChange);
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   const convertCurrency = async () => {
+  //     const value = await Convert(Number(data?.price)).from("USD").to(currency);
+  //     setCurrencyRate(value);
+  //   };
+  //   convertCurrency();
+  // }, [data?.price, currency]);
 
   const { data: similarProducts, isLoading } = useGetSimilarProducts(
     Number(data?.category?.id)
@@ -31,7 +58,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
   if (singleProductLoading) {
     return (
       <div className="h-screen grid place-items-center">
-        <Loader />
+        <Loader size="big" />
       </div>
     );
   }
@@ -79,7 +106,9 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
               {data?.ml}
             </Button>
 
-            <p>${data?.price}</p>
+            <p>
+              {currency}:{currencyRate}
+            </p>
             <p>
               <span className="text-slate-500">stock: </span>
               {data?.stock}
@@ -114,6 +143,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
         ) : (
           similarProducts?.map((it) => (
             <ProductCard
+              price={it.price!}
               id={it.id!}
               key={it.id}
               name={it.name}
