@@ -21,6 +21,7 @@ import {
 import { useGetAllCategory } from "../../../../api/categories/queries";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../../../../components/Navigation";
+import { useGetAllTaste } from "../../../../api/taste/queries";
 
 const addProductSchema = z.object({
   name: z.string().min(3, "Name must contain at least 3 character(s)").max(20),
@@ -37,6 +38,7 @@ const addProductSchema = z.object({
     .int()
     .min(1, "Stock must be greater than or equal to 1"),
   categoryId: z.coerce.number(),
+  tasteId: z.coerce.number(),
   ml: z.string().min(1, "Ml must be greater than or equal to 1"),
   image: z.any(),
 });
@@ -45,9 +47,11 @@ type FormValues = z.infer<typeof addProductSchema>;
 type TAddProductProps = { data?: TProductResponse };
 const AddProduct = memo(function AddProduct(props: TAddProductProps) {
   const { data } = useGetAllCategory();
+  const { data: tasteData } = useGetAllTaste();
 
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("Category");
+  const [selectedTaste, setSelectedTaste] = useState<string>("Taste");
 
   const {
     register,
@@ -108,12 +112,13 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
           async function submitProduct(product: FormValues) {
             const formData = new FormData();
 
-            formData.append("categoryId", product.categoryId as any);
+            formData.append("categoryId", product.categoryId.toString());
             formData.append("description", product.description);
             formData.append("name", product.name);
             formData.append("ml", product.ml);
-            formData.append("price", product.price as any);
-            formData.append("stock", product.stock as any);
+            formData.append("price", product.price.toString());
+            formData.append("tasteId", product.tasteId.toString());
+            formData.append("stock", product.stock.toString());
             Array.from(product.image).forEach((file: any) => {
               formData.append("image", file);
             });
@@ -151,34 +156,65 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
         {errors.stock && (
           <p className="text-red-500 text-xs">{errors.stock.message}</p>
         )}
+        <div className="flex gap-2">
+          <Select
+            // defaultValue={props.data ? props.data?.categoryId : undefined}
+            onValueChange={(value: string) => {
+              setSelectedCategory(
+                data?.find((category) => category.id === Number(value))
+                  ?.name as string
+              );
+              setValue("categoryId", Number(value));
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <p className="text-xs text-slate-500 font-semibold">
+                {selectedCategory}
+              </p>
+              {/* <SelectValue placeholder={"selectedCategory"} /> */}
+            </SelectTrigger>
+            <SelectContent>
+              {data?.map((it) => (
+                <div key={it.id}>
+                  <SelectItem value={it.id! as any}>{it.name}</SelectItem>
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
 
-        <Select
-          // defaultValue={props.data ? props.data?.categoryId : undefined}
-          onValueChange={(value: string) => {
-            setSelectedCategory(
-              data?.find((it) => it.id === Number(value))?.name as string
-            );
-            setValue("categoryId", Number(value));
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <p className="text-xs text-slate-500 font-semibold">
-              {selectedCategory}
-            </p>
-            {/* <SelectValue placeholder={"selectedCategory"} /> */}
-          </SelectTrigger>
-          <SelectContent>
-            {data?.map((it) => (
-              <div key={it.id}>
-                <SelectItem value={it.id! as any}>{it.name}</SelectItem>
-              </div>
-            ))}
-          </SelectContent>
-        </Select>
+          {errors.categoryId && (
+            <div className="text-red-500">{errors.categoryId.message}</div>
+          )}
+          {/* taste selector */}
+          <Select
+            // defaultValue={props.data ? props.data?.categoryId : undefined}
+            onValueChange={(value: string) => {
+              setSelectedTaste(
+                tasteData?.find((taste) => taste.id === Number(value))
+                  ?.name as string
+              );
+              setValue("tasteId", Number(value));
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <p className="text-xs text-slate-500 font-semibold">
+                {selectedTaste}
+              </p>
+              {/* <SelectValue placeholder={"selectedTaste"} /> */}
+            </SelectTrigger>
+            <SelectContent>
+              {tasteData?.map((taste) => (
+                <div key={taste.id}>
+                  <SelectItem value={taste.id! as any}>{taste.name}</SelectItem>
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
 
-        {errors.categoryId && (
-          <div className="text-red-500">{errors.categoryId.message}</div>
-        )}
+          {errors.tasteId && (
+            <div className="text-red-500">{errors.tasteId.message}</div>
+          )}
+        </div>
 
         <Input {...register("ml")} placeholder="Ml" />
         {errors.ml && (

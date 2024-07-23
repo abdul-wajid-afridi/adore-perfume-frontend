@@ -70,10 +70,14 @@ export const asyncGetProductsById = async (productId: number) => {
   }
 };
 
-export const asyncSearchProducts = async (name: string, category: string) => {
+export const asyncSearchProducts = async (
+  name: string,
+  category: string,
+  taste: string
+) => {
   try {
     const response = await API_URL.get(
-      `/api/v1/products/search?name=${name}&category=${category}`
+      `/api/v1/products/search?name=${name}&category=${category}&taste=${taste}`
     );
     const data: TBasicResponse<TProductResponse[]> = await response.data;
     return data.data;

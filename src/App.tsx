@@ -37,6 +37,7 @@ import ReviewsPage from "./pages/reviews";
 import AdminOrderDetails from "./pages/dashboard/pages/orders/orderDetails";
 import Header from "./components/header";
 import Search from "./pages/search";
+import AdminTastePage from "./pages/dashboard/pages/taste";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -98,6 +99,8 @@ const App = memo(function App() {
               path={"product-details/:productId"}
               element={<ProductDetails />}
             />
+
+            <Route path="taste" element={<AdminTastePage />} />
           </Route>
 
           <Route path="*" element={<p>page not found</p>} />
