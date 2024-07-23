@@ -7,7 +7,7 @@ const convertCurrency = async (
   toCurrency: string
 ) => {
   const value = await Convert(amount).from(fromCurrency).to(toCurrency);
-  return Number(value.toFixed());
+  return Number(value.toFixed(3));
   // Round to three decimal places after dots it returns e.g 12.999989899888 just fixed
 };
 
