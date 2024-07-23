@@ -8,6 +8,8 @@ import {
   // Store,
   SprayCan,
   Stars,
+  Flower,
+  ListCollapse,
 } from "lucide-react";
 
 export const ROOT_ROUTES = [
@@ -22,7 +24,8 @@ export const ROOT_ROUTES = [
 export const DASHBOARD_ROUTES = [
   { icon: LayoutDashboardIcon, label: "Dashboard", path: "/dashboard" },
   { icon: ListIcon, label: "Products", path: "/dashboard/products" },
-  { icon: ListIcon, label: "Category", path: "/dashboard/category" },
+  { icon: ListCollapse, label: "Category", path: "/dashboard/category" },
+  { icon: Flower, label: "Scents", path: "/dashboard/taste" },
   { icon: Contact, label: "Contact", path: "/dashboard/contact-us" },
   { icon: Stars, label: "Reviews", path: "/dashboard/reviews" },
   { icon: ListOrdered, label: "Orders", path: "/dashboard/orders" },
