@@ -11,6 +11,7 @@ type TProductCardProps = {
 
 const ProductCard = memo(function ProductCard(props: TProductCardProps) {
   const [currency, currencyRate] = useCurrency(Number(props?.price));
+
   const navigate = useNavigate();
   return (
     <div

@@ -17,7 +17,6 @@ import AdminContactPage from "./pages/dashboard/pages/contact";
 import Products from "./pages/dashboard/pages/products";
 import CommunityAndHelp from "./pages/dashboard/pages/community-help";
 import Orders from "./pages/dashboard/pages/orders";
-import Settings from "./pages/dashboard/pages/settings";
 import AddProduct from "./pages/dashboard/pages/products/AddProduct";
 import AdminSignInForm from "./pages/dashboard/pages/admin-login";
 import EditProduct from "./pages/dashboard/pages/products/EditProduct";
@@ -38,6 +37,10 @@ import AdminOrderDetails from "./pages/dashboard/pages/orders/orderDetails";
 import Header from "./components/header";
 import Search from "./pages/search";
 import AdminTastePage from "./pages/dashboard/pages/taste";
+import AdminBrandPage from "./pages/dashboard/pages/brand";
+import AdminSettingsPage from "./pages/dashboard/pages/admin-settings";
+import PageNotFound from "./pages/not-found";
+import CustomizePage from "./pages/customize";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -58,7 +61,7 @@ const App = memo(function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/online-store" element={<p>online store</p>} />
           <Route path="/scent" element={<ScentPage />} />
-          <Route path="/customize" element={<p>customize</p>} />
+          <Route path="/customize" element={<CustomizePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/reviews" element={<ReviewsPage />} />
@@ -83,7 +86,7 @@ const App = memo(function App() {
           >
             <Route path="contact-us" element={<AdminContactPage />} />
             <Route path="reviews" element={<AdminReviewsPage />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
             <Route path="category" element={<CategoryPage />} />
             <Route path="orders" element={<Orders />} />
             <Route
@@ -100,10 +103,11 @@ const App = memo(function App() {
               element={<ProductDetails />}
             />
 
+            <Route path="brand" element={<AdminBrandPage />} />
             <Route path="taste" element={<AdminTastePage />} />
           </Route>
 
-          <Route path="*" element={<p>page not found</p>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
         <FooterDisplay />

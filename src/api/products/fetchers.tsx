@@ -19,6 +19,23 @@ export type TProductResponse = {
     id?: number;
     name: string;
   };
+  Brand?: {
+    id?: number;
+    name: string;
+  };
+  packing?: {
+    id?: number;
+    price: number;
+    image: string;
+    color: string;
+  };
+  taste?: {
+    id?: number;
+    name: string;
+  };
+  brandId?: number;
+  tasteId?: number;
+  packingId: number;
   productImage?: {
     id?: number;
     image: string;
@@ -73,11 +90,12 @@ export const asyncGetProductsById = async (productId: number) => {
 export const asyncSearchProducts = async (
   name: string,
   category: string,
-  taste: string
+  taste: string,
+  brand: string
 ) => {
   try {
     const response = await API_URL.get(
-      `/api/v1/products/search?name=${name}&category=${category}&taste=${taste}`
+      `/api/v1/products/search?name=${name}&category=${category}&taste=${taste}&brand=${brand}`
     );
     const data: TBasicResponse<TProductResponse[]> = await response.data;
     return data.data;
@@ -113,8 +131,6 @@ export const asyncEditProduct = async (data: {
 };
 
 export const asyncDeleteProduct = async (productId: number) => {
-  console.log("is it deleting");
-
   try {
     const response = await API_URL.delete(`/api/v1/product/${productId}`);
     const data: TBasicResponse<TProductResponse> = await response.data;
