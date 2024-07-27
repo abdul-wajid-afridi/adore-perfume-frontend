@@ -9,10 +9,12 @@ const Search = memo(() => {
   const category = useSearchParams()[0].get("category");
   const name = useSearchParams()[0].get("name");
   const taste = useSearchParams()[0].get("taste");
+  const brand = useSearchParams()[0].get("brand");
   const { data, isLoading } = useSearchProducts(
     name || "",
     category || "",
-    taste || ""
+    taste || "",
+    brand || ""
   );
 
   const displayValues = [name, taste, category].filter(Boolean).join(" ");

@@ -44,8 +44,6 @@ export const asyncGetOrderById = async (orderId: number) => {
 };
 
 export const asyncCreateOrders = async (data: TCreateOrders) => {
-  console.log(data);
-
   try {
     const Orders = await API_URL.post("/api/v1/orders", data);
     toast.success("Orders added successful");
@@ -58,8 +56,6 @@ export const asyncCreateOrders = async (data: TCreateOrders) => {
 };
 
 export const asyncUpdateOrdersStatus = async (data: any) => {
-  console.log(data);
-
   try {
     const Orders = await API_URL.patch(`/api/v1/orders/${data.id}/status`, {
       status: data.status,

@@ -52,48 +52,43 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetAllTaste, QueryKeys } from "../../../../api/taste/queries";
+import { QueryKeys, useGetAllBrand } from "../../../../api/brand/queries";
 import {
-  asyncAddTaste,
-  asyncDeleteTaste,
-  asyncEditTaste,
-  TTasteResponse,
-} from "../../../../api/taste/fetchers";
-import { BASE_URL } from "../../../../constants/urls";
+  asyncAddBrand,
+  asyncDeleteBrand,
+  asyncEditBrand,
+  TAddBrand,
+  TBrandResponse,
+} from "../../../../api/brand/fetchers";
 
-const AdminTastePage = memo(function AdminTastePage() {
-  const { isLoading, data } = useGetAllTaste();
-
+const AdminBrandPage = memo(function AdminBrandPage() {
+  const { isLoading, data } = useGetAllBrand();
   const queryClient = useQueryClient();
 
-  const deleteTasteMutation = useMutation({
-    mutationFn: asyncDeleteTaste,
-    onMutate: async (tasteId: number) => {
-      queryClient.setQueryData([QueryKeys.TASTE], (old: TTasteResponse[]) => {
-        return old.filter((taste) => taste.id !== tasteId);
+  const deleteBrandMutation = useMutation({
+    mutationFn: asyncDeleteBrand,
+    onMutate: async (brandId: number) => {
+      queryClient.setQueryData([QueryKeys.BRAND], (old: TAddBrand[]) => {
+        return old.filter((brand: TAddBrand) => brand.id !== brandId);
       });
     },
 
     onSuccess: () => {
-      toast.success("taste deleted successful");
+      toast.success("brand deleted successful");
     },
   });
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [editTaste, setEditTaste] = useState<TTasteResponse | null>(null);
+  const [editBrand, setEditBrand] = useState<TBrandResponse | null>(null);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const columns: ColumnDef<TTasteResponse>[] = [
+  const columns: ColumnDef<TBrandResponse>[] = [
     {
-      id: "image",
-      header: () => <p>Image</p>,
-      cell: ({ row }) => (
-        <img src={`${BASE_URL}/${row?.original.image}`} className="h-20 w-20" />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      accessorKey: "id",
+      header: "Id",
+      cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
     },
     {
       accessorKey: "name",
@@ -116,7 +111,7 @@ const AdminTastePage = memo(function AdminTastePage() {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const taste = row.original;
+        const brand = row.original;
 
         return (
           <DropdownMenu>
@@ -130,14 +125,14 @@ const AdminTastePage = memo(function AdminTastePage() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-red-600"
-                onClick={() => deleteTasteMutation.mutate(taste.id!)}
+                onClick={() => deleteBrandMutation.mutate(brand.id!)}
               >
                 <Trash className="mr-2 " /> Delete
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-primary"
                 onClick={() => {
-                  setEditTaste(taste);
+                  setEditBrand(brand);
                   window.scroll({
                     top: 0,
                     behavior: "smooth",
@@ -184,7 +179,7 @@ const AdminTastePage = memo(function AdminTastePage() {
 
   return (
     <div>
-      <TasteForm setEditTaste={setEditTaste} editTaste={editTaste!} />
+      <BrandForm setEditBrand={setEditBrand} editBrand={editBrand!} />
       <div className="w-full">
         <div className="flex items-center py-4">
           <Input
@@ -298,33 +293,31 @@ const AdminTastePage = memo(function AdminTastePage() {
   );
 });
 
-const tasteSchema = z.object({
-  name: z.string().min(3, "taste must be greater then 3 character"),
-  image: z.any(),
+const brandSchema = z.object({
+  name: z.string().min(3, "brand must be greater then 3 character"),
 });
 
-type FormValues = z.infer<typeof tasteSchema>;
+type FormValues = z.infer<typeof brandSchema>;
 
-type TTasteFormProps = {
-  editTaste: TTasteResponse;
-  setEditTaste: Dispatch<SetStateAction<TTasteResponse | null>>;
+type TBrandFormProps = {
+  editBrand: TBrandResponse;
+  setEditBrand: Dispatch<SetStateAction<TBrandResponse>>;
 };
-const TasteForm = memo(function Form(props: TTasteFormProps) {
+const BrandForm = memo(function Form(props: TBrandFormProps) {
   // const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const addTasteMutation = useMutation({
-    mutationFn: asyncAddTaste,
+  const addBrandMutation = useMutation({
+    mutationFn: asyncAddBrand,
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [QueryKeys.TASTE] });
+      queryClient.refetchQueries({ queryKey: [QueryKeys.BRAND] });
     },
   });
 
-  const editTasteMutation = useMutation({
-    mutationFn: asyncEditTaste,
+  const editBrandMutation = useMutation({
+    mutationFn: asyncEditBrand,
     onSuccess: () => {
-      // always make it simillar to the exact fecthing data query key
-      queryClient.refetchQueries({ queryKey: [QueryKeys.TASTE] });
+      queryClient.refetchQueries({ queryKey: [QueryKeys.BRAND] });
     },
   });
 
@@ -337,71 +330,61 @@ const TasteForm = memo(function Form(props: TTasteFormProps) {
     defaultValues: {
       name: "",
     },
-    resolver: zodResolver(tasteSchema),
+    resolver: zodResolver(brandSchema),
   });
 
   useEffect(
-    function setEditTasteDataOnMount() {
-      if (props?.editTaste) {
+    function setEditBrandDataOnMount() {
+      if (props?.editBrand) {
         reset({
-          name: props?.editTaste.name,
+          name: props?.editBrand.name,
         });
       }
     },
-    [props?.editTaste, reset]
+    [props?.editBrand, reset]
   );
   return (
-    <>
-      <h2>scents</h2>
-      <form
-        className="grid place-items-center"
-        onSubmit={handleSubmit(
-          useCallback(
-            async function submitTasteForm(taste: FormValues) {
-              const formData = new FormData();
-              formData.append("name", taste.name);
-              formData.append("image", taste.image[0]);
-
-              if (props?.editTaste) {
-                editTasteMutation.mutate({
-                  id: props.editTaste.id!,
-                  formData: formData as any,
-                });
-                props.setEditTaste(null as any);
-                reset({
-                  name: "",
-                  image: null,
-                });
-              } else {
-                addTasteMutation.mutate(formData as any);
-                reset();
-              }
-            },
-            [addTasteMutation, editTasteMutation, props, reset]
-          )
+    <form
+      className="grid place-items-center"
+      onSubmit={handleSubmit(
+        useCallback(
+          async function submitBrandForm(brand: FormValues) {
+            if (props?.editBrand) {
+              editBrandMutation.mutate({
+                id: props?.editBrand.id,
+                name: brand.name,
+              });
+              props.setEditBrand(null as any);
+              reset({
+                name: "",
+              });
+            } else {
+              addBrandMutation.mutate(brand);
+              reset();
+            }
+          },
+          [addBrandMutation.mutate, editBrandMutation.mutate, props?.editBrand]
+        )
+      )}
+    >
+      <div className="flex flex-col sm:w-1/2 w-full gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md">
+        <Input {...register("name")} placeholder="Add Brand" />
+        {errors.name && (
+          <p className="text-red-500 text-xs">{errors.name.message}</p>
         )}
-      >
-        <div className="flex flex-col sm:w-1/2 w-full gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md">
-          <Input {...register("name")} placeholder="Add taste" />
-          {errors.name && (
-            <p className="text-red-500 text-xs">{errors.name.message}</p>
+
+        <Button type="submit">
+          {addBrandMutation.isPending ? (
+            <Loader color="bg-secondary" />
+          ) : props?.editBrand ? (
+            "Edit Brand"
+          ) : (
+            "Add Brand"
           )}
-
-          <Input {...register("image")} placeholder="Add image" type="file" />
-
-          <Button type="submit">
-            {addTasteMutation.isPending ? (
-              <Loader color="bg-secondary" />
-            ) : props?.editTaste ? (
-              "Edit Taste"
-            ) : (
-              "Add Taste"
-            )}
-          </Button>
-        </div>
-      </form>
-    </>
+        </Button>
+      </div>
+    </form>
   );
 });
 
-export default AdminTastePage;
+export default AdminBrandPage;

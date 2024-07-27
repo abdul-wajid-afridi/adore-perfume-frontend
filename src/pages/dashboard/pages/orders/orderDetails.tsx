@@ -1,5 +1,5 @@
-import { memo, useCallback, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { memo } from "react";
+import { useParams } from "react-router-dom";
 import { BASE_URL } from "../../../../constants/urls";
 import Navigation from "../../../../components/Navigation";
 import { QueryKeys, useGetOrdersById } from "../../../../api/orders/queries";
@@ -20,8 +20,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const AdminOrderDetails = memo(function AdminOrderDetails() {
   const { orderId } = useParams();
   const { data } = useGetOrdersById(Number(orderId)) as any;
-  const [index, setIndex] = useState(0);
-  console.log(data);
 
   const productWithImages = data?.products?.map((it) => it.product);
   const queryClient = useQueryClient();
@@ -107,8 +105,8 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
         <div className="flex">
           <div className="flex flex-col shadow-md w-fit p-3 rounded-md text-slate-500 text-sm gap-2">
             <p>name:{data?.client?.name}</p>
-            <p>name:{data?.client?.email}</p>
-            <p>name:{data?.client?.phoneNo}</p>
+            <p>email:{data?.client?.email}</p>
+            <p>phoneNo:{data?.client?.phoneNo}</p>
             <p>address:{data?.address}</p>
           </div>
         </div>
@@ -124,7 +122,6 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
                 <div className="flex gap-2">
                   {prod.productImage?.map((it) => (
                     <img
-                      onClick={() => setIndex(ind)}
                       src={`${BASE_URL}/${it?.image}`}
                       className="h-20 w-20 rounded-md hover:shadow-md hover:scale-105"
                     />

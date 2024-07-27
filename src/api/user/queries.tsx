@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllUsers, getUserById } from "./fetchers";
 
-enum QueryKeys {
+export enum QueryKeys {
   USERS = "users",
 }
 
-export const useUsers = () =>
+export const useGetAllUsers = () =>
   useQuery({
-    queryKey: [QueryKeys.USERS, "getAllUsers"],
+    queryKey: [QueryKeys.USERS],
     queryFn: getAllUsers,
   });
 
@@ -18,7 +18,7 @@ export const useUsers = () =>
 //     queryFn: getAllUsers,
 //   });
 
-export const useSingleUser = (userId: string) =>
+export const useGetSingleUser = (userId: string) =>
   useQuery({
     queryKey: [QueryKeys.USERS, userId],
     queryFn: () => getUserById(userId),

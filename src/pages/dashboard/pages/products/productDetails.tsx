@@ -8,6 +8,7 @@ const AdminProductDetails = memo(function AdminProductDetails() {
   const { productId } = useParams();
   const { data } = useGetProductById(Number(productId));
   const [index, setIndex] = useState(0);
+
   return (
     <section className="flex flex-col px-5 py-10 relative">
       <Navigation url="/dashboard/products" />
@@ -45,6 +46,14 @@ const AdminProductDetails = memo(function AdminProductDetails() {
           <p>
             <span className="text-slate-500">category: </span>
             {data?.category?.name}
+          </p>
+          <p>
+            <span className="text-slate-500">Brand: </span>
+            {data?.Brand?.name}
+          </p>
+          <p>
+            <span className="text-slate-500">Taste: </span>
+            {data?.taste?.name}
           </p>
           <p>
             <span className="text-slate-500">Description: </span>

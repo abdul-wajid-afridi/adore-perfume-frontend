@@ -66,7 +66,7 @@ const Products = memo(function Products() {
     },
 
     onError: (error) => {
-      console.log("what", error);
+      console.log("something went wrong", error);
     },
     onSuccess: () => {
       toast.success("product deleted successful");

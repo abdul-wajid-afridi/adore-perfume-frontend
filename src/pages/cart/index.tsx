@@ -173,7 +173,6 @@ const CartTableCard = memo(function CartTableCard(props: {
   quantity: boolean;
 }) {
   const dispatch = useDispatch();
-  console.log(props);
 
   const { item, quantity } = props;
   const [sign, currencyValue] = useCurrency(Number(item.price));

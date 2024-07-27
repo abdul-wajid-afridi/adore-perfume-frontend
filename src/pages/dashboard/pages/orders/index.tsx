@@ -16,7 +16,6 @@ import {
   ChevronDown,
   ListOrdered,
   MoreHorizontal,
-  Trash,
 } from "lucide-react";
 
 import { Button } from "../../../../components/ui/button";
@@ -51,7 +50,6 @@ import { useNavigate } from "react-router-dom";
 
 const AdminOrderPage = memo(function AdminOrderPage() {
   const { isLoading, data } = useGetAllOrders();
-  console.log(data);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();

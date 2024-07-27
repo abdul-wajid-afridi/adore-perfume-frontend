@@ -10,6 +10,7 @@ import {
   Stars,
   Flower,
   ListCollapse,
+  Tv,
 } from "lucide-react";
 
 export const ROOT_ROUTES = [
@@ -25,6 +26,7 @@ export const DASHBOARD_ROUTES = [
   { icon: LayoutDashboardIcon, label: "Dashboard", path: "/dashboard" },
   { icon: ListIcon, label: "Products", path: "/dashboard/products" },
   { icon: ListCollapse, label: "Category", path: "/dashboard/category" },
+  { icon: Tv, label: "Brand", path: "/dashboard/brand" },
   { icon: Flower, label: "Scents", path: "/dashboard/taste" },
   { icon: Contact, label: "Contact", path: "/dashboard/contact-us" },
   { icon: Stars, label: "Reviews", path: "/dashboard/reviews" },

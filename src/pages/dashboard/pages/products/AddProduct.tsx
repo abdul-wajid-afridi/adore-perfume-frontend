@@ -22,6 +22,7 @@ import { useGetAllCategory } from "../../../../api/categories/queries";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../../../../components/Navigation";
 import { useGetAllTaste } from "../../../../api/taste/queries";
+import { useGetAllBrand } from "../../../../api/brand/queries";
 
 const addProductSchema = z.object({
   name: z.string().min(3, "Name must contain at least 3 character(s)").max(20),
@@ -39,6 +40,7 @@ const addProductSchema = z.object({
     .min(1, "Stock must be greater than or equal to 1"),
   categoryId: z.coerce.number(),
   tasteId: z.coerce.number(),
+  brandId: z.coerce.number(),
   ml: z.string().min(1, "Ml must be greater than or equal to 1"),
   image: z.any(),
 });
@@ -48,10 +50,12 @@ type TAddProductProps = { data?: TProductResponse };
 const AddProduct = memo(function AddProduct(props: TAddProductProps) {
   const { data } = useGetAllCategory();
   const { data: tasteData } = useGetAllTaste();
+  const { data: brandData } = useGetAllBrand();
 
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("Category");
   const [selectedTaste, setSelectedTaste] = useState<string>("Taste");
+  const [selectedBrand, setSelectedBrand] = useState<string>("Brand");
 
   const {
     register,
@@ -67,6 +71,7 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
       ml: "",
       price: 0,
       stock: 0,
+      brandId: 1,
     },
     resolver: zodResolver(addProductSchema),
   });
@@ -81,6 +86,8 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
           price: props.data?.price,
           ml: props.data?.ml,
           categoryId: props.data.category?.id,
+          tasteId: props.data.tasteId,
+          brandId: props.data.brandId,
           image: [],
         });
       }
@@ -118,6 +125,7 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
             formData.append("ml", product.ml);
             formData.append("price", product.price.toString());
             formData.append("tasteId", product.tasteId.toString());
+            formData.append("brandId", product.brandId.toString());
             formData.append("stock", product.stock.toString());
             Array.from(product.image).forEach((file: any) => {
               formData.append("image", file);
@@ -215,7 +223,34 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
             <div className="text-red-500">{errors.tasteId.message}</div>
           )}
         </div>
+        {/* brand selector */}
+        <Select
+          // defaultValue={props.data ? props.data?.categoryId : undefined}
+          onValueChange={(value: string) => {
+            setSelectedBrand(
+              brandData?.find((brand) => brand.id === Number(value))
+                ?.name as string
+            );
+            setValue("brandId", Number(value));
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <p className="text-xs text-slate-500 font-semibold">
+              {selectedBrand}
+            </p>
+          </SelectTrigger>
+          <SelectContent>
+            {brandData?.map((brand) => (
+              <div key={brand.id}>
+                <SelectItem value={brand.id! as any}>{brand.name}</SelectItem>
+              </div>
+            ))}
+          </SelectContent>
+        </Select>
 
+        {errors.brandId && (
+          <div className="text-red-500">{errors.brandId.message}</div>
+        )}
         <Input {...register("ml")} placeholder="Ml" />
         {errors.ml && (
           <p className="text-red-500 text-xs">{errors.ml.message}</p>
