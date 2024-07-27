@@ -71,7 +71,7 @@ export const asyncUpdatePacking = async (data: {
       "/api/v1/packing/" + data.packingId,
       data.data
     );
-    toast.success("Packing updated successful");
+    // toast.success("Packing updated successful");
     return Packing.data;
   } catch (error) {
     throw toast.error(axiosError(error));

@@ -7,7 +7,7 @@ import {
   TCartItem,
 } from "../../redux/feature/cartSlice";
 import { CheckCircleIcon, ShoppingCart } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { BASE_URL } from "../../constants/urls";
 import {
@@ -96,9 +96,10 @@ export const CartProducts = memo(function CartProducts(
 
   const [sign, convertedTotal] = useCurrency(total);
   // s and r i am not using due to its the sign only of currency and i have already taken in sign value so no need for extra values
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [s, convertedShippingPrice] = useCurrency(SHIPPING_PRICE);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [r, convertedRange] = useCurrency(RANGE);
-  console.log(s, r);
 
   const dispatch = useAppDispatch();
 
@@ -124,6 +125,7 @@ export const CartProducts = memo(function CartProducts(
             <TableHead>Product</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Price</TableHead>
+            <TableHead>Packing</TableHead>
             <TableHead>Total</TableHead>
             {props.quantity && <TableHead>Quantity</TableHead>}
           </TableRow>
@@ -173,9 +175,15 @@ const CartTableCard = memo(function CartTableCard(props: {
   quantity: boolean;
 }) {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const isCartPage = location.pathname == "/cart";
 
-  const { item, quantity } = props;
+  const { item } = props;
+
   const [sign, currencyValue] = useCurrency(Number(item.price));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [s, packingValue] = useCurrency(Number(item.packing?.price));
+
   return (
     <TableRow key={item.id}>
       <TableCell>
@@ -193,9 +201,13 @@ const CartTableCard = memo(function CartTableCard(props: {
       </TableCell>
       <TableCell>
         <span className="text-xs">{sign}</span>
-        {Number(currencyValue) * item.quantity}
+        {Number(packingValue)}
       </TableCell>
-      {quantity && (
+      <TableCell>
+        <span className="text-xs">{sign}</span>
+        {(Number(currencyValue) + Number(packingValue)) * item.quantity}
+      </TableCell>
+      {isCartPage && (
         <TableCell className="flex items-center gap-1">
           <Button
             onClick={() => {

@@ -20,8 +20,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const AdminOrderDetails = memo(function AdminOrderDetails() {
   const { orderId } = useParams();
   const { data } = useGetOrdersById(Number(orderId)) as any;
+  console.log(data);
 
-  const productWithImages = data?.products?.map((it) => it.product);
+  // const productWithImages = data?.products?.map((it) => it.product);
   const queryClient = useQueryClient();
 
   const updateOrderReviewsMutation = useMutation({
@@ -113,19 +114,43 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
 
         <h2 className="my-4">product details</h2>
         <div className="flex flex-col gap-5 divide-y-2 divide-primary">
-          {productWithImages?.map((prod, ind) => {
+          {data?.products?.map((prod, ind) => {
+            console.log("prod", prod);
+
             return (
               <div className="flex flex-col shadow-md w-fit p-3 rounded-md text-slate-500 text-sm">
-                <p>name:{prod.name}</p>
-                <p>price:${prod.price}</p>
-                <p>{prod.description}</p>
+                <p>name:{prod?.product.name}</p>
+                <p>price:${prod?.product.price}</p>
+                <p>{prod?.product.description}</p>
                 <div className="flex gap-2">
-                  {prod.productImage?.map((it) => (
+                  {prod?.product.productImage?.map((it) => (
                     <img
                       src={`${BASE_URL}/${it?.image}`}
                       className="h-20 w-20 rounded-md hover:shadow-md hover:scale-105"
                     />
                   ))}
+                </div>
+                <div className="border-t-2 my-2">
+                  {prod?.packing && (
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-center text-primary">
+                          customization
+                        </p>
+                        <p>{prod?.packing?.name}</p>
+                        <p>price : {prod?.packing?.price}</p>
+                        <p
+                          style={{ background: prod?.packing?.color }}
+                          className="h-10 w-20 rounded-md"
+                        />
+                      </div>
+                      <img
+                        src={`${BASE_URL}/${prod?.packing?.image}`}
+                        className="h-20 w-20 rounded-md"
+                        alt=""
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             );

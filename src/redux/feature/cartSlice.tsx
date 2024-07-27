@@ -65,10 +65,17 @@ const cartSlice = createSlice({
         state.cartItems = JSON.parse(storedCart);
       }
     },
+
     calculateTotal: (state) => {
       let total = 0;
+
       state.cartItems.forEach((item) => {
-        total += Number(item.price) * item.quantity;
+        // doing item?.packing?.price ? item?.packing?.price : 0 this to remove bug of null or undefined item.packing?.price
+
+        total +=
+          (Number(item.price) +
+            Number(item?.packing?.price ? item?.packing?.price : 0)) *
+          item.quantity;
       });
       state.total = total;
       localStorage.setItem("total", JSON.stringify(state.total));
