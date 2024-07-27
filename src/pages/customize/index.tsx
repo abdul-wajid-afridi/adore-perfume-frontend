@@ -32,6 +32,7 @@ import useCurrency from "../../hooks/useCurrency";
 import { addToCart } from "../../redux/feature/cartSlice";
 import { useAppDispatch } from "../../hooks/hook";
 import { TProductResponse } from "../../api/products/fetchers";
+import { useNavigate } from "react-router-dom";
 
 const CustomizePage = memo(function CustomizePage() {
   return (
@@ -103,10 +104,11 @@ const CustomizePageForm = memo(function Form() {
   const [selectedBrand, setSelectedBrand] = useState<string>("Brand");
   const [selectedProduct, setSelectedProduct] = useState<TProductResponse>();
   const { data, isLoading } = useSearchProducts("", "", "", selectedBrand);
-  const { data: packingData } = useGetAllPacking();
+  const { data: packingData, isLoading: packingLoading } = useGetAllPacking();
 
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { data: brandData } = useGetAllBrand();
   const customizeProductPackingMutation = useMutation({
@@ -137,15 +139,23 @@ const CustomizePageForm = memo(function Form() {
       onSubmit={handleSubmit(
         useCallback(
           async function submitCustomizePageForm(data: FormValues) {
-            dispatch(addToCart(selectedProduct!));
+            dispatch(
+              addToCart({
+                ...selectedProduct!,
+                packing: packingData?.find((p) => p.id == packingId),
+                // ?.price,
+              })
+            );
             customizeProductPackingMutation.mutate({
               productId: data.productId,
               packingId: packingId!,
             });
+            navigate("/cart");
           },
           [
             customizeProductPackingMutation,
             dispatch,
+            packingData,
             packingId,
             selectedProduct,
           ]
@@ -154,34 +164,38 @@ const CustomizePageForm = memo(function Form() {
     >
       <div className="flex flex-col gap-3">
         <div className="flex gap-3">
-          {packingData?.map((packing) => {
-            return (
-              <div
-                onClick={() => {
-                  setPackingId(packing.id);
-                  setIsOpen(true);
-                  setValue("packingId", packingId!);
-                }}
-                style={{ background: packing.id == packingId ? color : "" }}
-                className={`flex justify-center items-center flex-col gap-3 rounded-md shadow-sm p-2 border-b border-b-primary overflow-hidden cursor-pointer hover:shadow-md`}
-              >
-                <img
-                  src={`${BASE_URL}/${packing.image}`}
-                  alt="packing image"
-                  className="h-[120px] w-[150px] hover:scale-110"
-                />
-                <p>{packing.name}</p>
-                <CustomizePackingPrice price={packing.price} />
-                <Modal
-                  mutation={updatePackingMutation as any}
-                  id={packingId!}
-                  isOpen={isOpen}
-                  setIsOpen={setIsOpen}
-                  setColor={setColor}
-                />
-              </div>
-            );
-          })}
+          {packingLoading ? (
+            <Loader size="default" />
+          ) : (
+            packingData?.map((packing) => {
+              return (
+                <div
+                  onClick={() => {
+                    setPackingId(packing.id);
+                    setValue("packingId", packing.id!);
+                    setIsOpen(true);
+                  }}
+                  style={{ background: packing.id == packingId ? color : "" }}
+                  className={`flex justify-center items-center flex-col gap-3 rounded-md shadow-sm p-2 border-b border-b-primary overflow-hidden cursor-pointer hover:shadow-md`}
+                >
+                  <img
+                    src={`${BASE_URL}/${packing.image}`}
+                    alt="packing image"
+                    className="h-[120px] w-[150px] hover:scale-110"
+                  />
+                  <p>{packing.name}</p>
+                  <CustomizePackingPrice price={packing.price} />
+                  <Modal
+                    mutation={updatePackingMutation as any}
+                    id={packingId!}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    setColor={setColor}
+                  />
+                </div>
+              );
+            })
+          )}
         </div>
         {errors.packingId && (
           <div className="text-red-500">{errors.packingId.message}</div>

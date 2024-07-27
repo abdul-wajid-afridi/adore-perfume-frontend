@@ -1,6 +1,7 @@
 import { axiosError } from "../../lib/axios-error";
 import { API_FORM_URL, API_URL } from "../../redux/urlConfig";
 import toast from "react-hot-toast";
+import { TPackingResponse } from "../packing/fetchers";
 
 export type TBasicResponse<T> = {
   data: T;
@@ -13,6 +14,7 @@ export type TProductResponse = {
   description?: string;
   price?: number;
   stock?: number;
+  packing?: TPackingResponse;
   isShippingFree?: boolean;
   ml?: string;
   category?: {
@@ -23,12 +25,12 @@ export type TProductResponse = {
     id?: number;
     name: string;
   };
-  packing?: {
-    id?: number;
-    price: number;
-    image: string;
-    color: string;
-  };
+  // packing?: {
+  //   id?: number;
+  //   price: number;
+  //   image: string;
+  //   color: string;
+  // };
   taste?: {
     id?: number;
     name: string;

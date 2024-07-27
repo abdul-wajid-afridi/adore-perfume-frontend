@@ -60,7 +60,6 @@ export const asyncUpdateOrdersStatus = async (data: any) => {
     const Orders = await API_URL.patch(`/api/v1/orders/${data.id}/status`, {
       status: data.status,
     });
-    toast.success("Orders added successful");
     return Orders.data;
   } catch (error: any) {
     throw toast.error(

@@ -125,7 +125,7 @@ const CheckoutForm = memo(function CheckoutPage() {
         navigate("/");
       }
     },
-    [navigate]
+    [amount, navigate]
   );
 
   const createOrderMutation = useMutation({
