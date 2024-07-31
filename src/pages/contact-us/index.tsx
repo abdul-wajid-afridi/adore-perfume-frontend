@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { asyncAddContactUs } from "../../api/contact-us/fetchers";
 import { SocialMediaIcons } from "../../components/footer";
 import Loader from "../../components/loader";
+import { companyData } from "../../constants/data";
 
 const contactFormSchema = z.object({
   name: z.string().min(3, "name is required"),
@@ -51,12 +52,12 @@ const ContactUs = memo(function Form() {
             <div className="flex flex-col gap-5">
               <p className="flex gap-10">
                 ADDRESS
-                <span className="text-slate-500">United Arab Emirates</span>
+                <span className="text-slate-500">{companyData.address}</span>
               </p>
 
               <p className="flex gap-10">
                 PHONE
-                <span className="text-slate-500">+978 8938923 3223</span>
+                <span className="text-slate-500">{companyData.phone}</span>
               </p>
             </div>
           </div>

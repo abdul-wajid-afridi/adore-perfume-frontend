@@ -109,6 +109,7 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
             <p>email:{data?.client?.email}</p>
             <p>phoneNo:{data?.client?.phoneNo}</p>
             <p>address:{data?.address}</p>
+            <p className="text-primary">Total Amount:{data?.netAmount}</p>
           </div>
         </div>
 

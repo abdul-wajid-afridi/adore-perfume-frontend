@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { companyData } from "../../constants/data";
 
 const AboutPage = memo(function AboutPage() {
   return (
@@ -41,9 +42,9 @@ const AboutPage = memo(function AboutPage() {
       {/* given random */}
       <div className="ml-5 sm:ml-10 mb-10 sm:mb-14">
         <h3 className="text-center border-b text-primary">Our Stores</h3>
-        <li>Our store is located in Dubai </li>
-        <li>118 Sikkat Al Khail Rd, Deira - Dubai</li>
-        <li>+971 787834 , +971 874384</li>
+        <li>Our store is located </li>
+        <li>{companyData.address}</li>
+        <li>{companyData.phone}</li>
       </div>
     </div>
   );

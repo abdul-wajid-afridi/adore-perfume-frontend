@@ -1,5 +1,5 @@
-import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { memo } from "react";
+import { companyData } from "../../constants/data";
 
 const Footer = memo(function Footer() {
   return (
@@ -7,26 +7,23 @@ const Footer = memo(function Footer() {
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-2 md:gap-3">
         <div className="flex flex-col px-3 gap-3">
           <h4 className="hover:text-indigo-500 cursor-pointer border-b-2 border-indigo-500 w-fit">
-            Adore Perfume
+            {companyData.name}
           </h4>
-          <p>
-            Elegance in every drop. Luxury scents, timeless allure. Crafted for
-            lasting impressions.
-          </p>
+          <p>{companyData.description}</p>
         </div>
         <div className="flex flex-col px-3 gap-3">
           <h4 className="hover:text-indigo-500 cursor-pointer border-b-2 border-indigo-500 w-fit">
             Customer Services
           </h4>
           <div>
-            <p>Phone: 123456789</p>
-            <p>Email: abc"gmail.com</p>
-            <p>Address: UAE</p>
+            <p>Phone: {companyData.phone}</p>
+            <p>Email: {companyData.email}</p>
+            <p>Address: {companyData.address}</p>
           </div>
         </div>
         <div className="flex flex-col px-3 gap-3">
           <h4 className="hover:text-indigo-500 cursor-pointer border-b-2 border-indigo-500 w-fit">
-            Adore Perfume
+            {companyData.name}
           </h4>
           <p>Follow us on</p>
           <SocialMediaIcons />
@@ -43,25 +40,25 @@ export const SocialMediaIcons = memo(function SocialMediaIcons() {
   return (
     <div className="flex gap-2">
       <a
-        href="https://www.facebook.com"
+        href={companyData.facebook.link}
         target="_blank"
         className="hover:text-blue-400"
       >
-        <Facebook />
+        {companyData.facebook.icon}
       </a>
       <a
-        href="https://www.instagram.com"
+        href={companyData.instagram.link}
         target="_blank"
         className="hover:text-pink-400"
       >
-        <Instagram />
+        {companyData.instagram.icon}
       </a>
       <a
-        href="https://www.linkedin.com"
+        href={companyData.tiktok.link}
         target="_blank"
         className="hover:text-blue-300"
       >
-        <Linkedin />
+        {companyData.tiktok.icon}
       </a>
       {/* <Pintrist /> */}
       {/* <Google /> */}

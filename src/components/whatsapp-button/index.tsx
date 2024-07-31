@@ -1,13 +1,17 @@
 import { memo } from "react";
+import { companyData } from "../../constants/data";
 
 const WhatsAppButton = memo(function WhatsApp() {
   //   add random number for now
-  const number = "03122435456";
-  const phoneNumber = number?.slice(1, 20);
+  // const number = "03122435456";
+  const number = companyData.phone;
+  const phoneNumber = number?.slice(0, 20);
   const redirectToWhatsApp = () => {
-    const message = "Added random number for now!";
+    const message = "Assalamo alykom!";
 
-    const whatsappUrl = `https://wa.me/+92${phoneNumber}?text=${encodeURIComponent(
+    // for pakistan numbers
+    // const whatsappUrl = `https://wa.me/+92${phoneNumber}?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
     window.location.href = whatsappUrl;
@@ -17,7 +21,7 @@ const WhatsAppButton = memo(function WhatsApp() {
       className="fixed bottom-20 z-[99] cursor-pointer right-5 animate-pulse"
       onClick={redirectToWhatsApp}
     >
-      <img src="/svgs/whatsap.svg" className="h-8 w-8 rounded-full ml-2" />
+      <img src="/svgs/whatsap.svg" className="h-16 w-16 rounded-full ml-2" />
     </div>
   );
 });

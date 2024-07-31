@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useMemo } from "react";
 import {
   Select,
   SelectContent,
@@ -10,39 +10,63 @@ import {
 import TranslateText from "../text/translate-text";
 
 const Header = memo(function Header() {
-  const data = [
-    {
-      id: 1,
-      name: "AED",
-      country: "UAE 🇦🇪",
-      flag: "🇦🇪",
-    },
-    {
-      id: 2,
-      name: "SAR",
-      country: "saudi 🇸🇦",
-      flag: "🇸🇦",
-    },
-    {
-      id: 3,
-      name: "KWD",
-      country: "kuwait 🇦🇪",
-      flag: "🇦🇪",
-    },
-    {
-      id: 4,
-      name: "USD",
-      country: "Dollar 🇺🇸",
-      flag: "🇺🇸",
-    },
-    {
-      id: 5,
-      name: "GBP",
-      country: "UK 🇬🇧",
-      flag: "🇬🇧",
-    },
-  ];
+  const data = useMemo(
+    () => [
+      {
+        id: 1,
+        name: "AED",
+        country: "UAE 🇦🇪",
+        flag: "🇦🇪",
+      },
+      {
+        id: 2,
+        name: "SAR",
+        country: "saudi 🇸🇦",
+        flag: "🇸🇦",
+      },
+      {
+        id: 3,
+        name: "KWD",
+        country: "kuwait 🇦🇪",
+        flag: "🇦🇪",
+      },
+      {
+        id: 4,
+        name: "USD",
+        country: "Dollar 🇺🇸",
+        flag: "🇺🇸",
+      },
+      {
+        id: 5,
+        name: "GBP",
+        country: "UK 🇬🇧",
+        flag: "🇬🇧",
+      },
+    ],
+    []
+  );
+  useEffect(() => {
+    const setDefaultCurrency = () => {
+      const storedCurrency = localStorage.getItem("currency");
+      const storedCountry = localStorage.getItem("country");
 
+      if (!storedCurrency) {
+        localStorage.setItem("currency", data[0].name);
+      } else {
+        localStorage.setItem("currency", storedCurrency);
+      }
+
+      if (!storedCountry) {
+        localStorage.setItem("country", data[0].country);
+      } else {
+        localStorage.setItem("country", storedCountry);
+      }
+    };
+
+    if (data && data.length > 0) {
+      setDefaultCurrency();
+    }
+  }, [data]);
   return (
     <div className="flex justify-between items-center bg-slate-50 h-[60px] px-5">
       <div>
