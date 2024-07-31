@@ -74,7 +74,7 @@ const CustomizePage = memo(function CustomizePage() {
           <SheetTrigger className="border-2 rounded-md py-2 px-2 my-3 capitalize text-white hover:bg-white/40 hover:text-black transition-all ease-linear">
             customize perfume
           </SheetTrigger>
-          <SheetContent className="h-screen" side="bottom">
+          <SheetContent className="h-[90vh]" side="bottom">
             <SheetHeader className="h-full">
               <CustomizePageForm />
             </SheetHeader>

@@ -30,7 +30,7 @@ const TextTransition = memo(function TextTransition() {
       <AnimatePresence mode="wait">
         <motion.span
           key={count}
-          initial={{ x: 50 }}
+          initial={{ y: 0 }}
           animate={{ x: 0 }}
           exit={{ y: -50 }}
         >
