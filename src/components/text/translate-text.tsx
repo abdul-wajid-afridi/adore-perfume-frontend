@@ -3,6 +3,7 @@ import { memo, useEffect, useState } from "react";
 
 const TextTransition = memo(function TextTransition() {
   const textItems = [
+    // please always keep upto 4 words in each index because we kept initial={{ x: 50 }} so that  it does not jerk the view on mobile screen of customization screen
     "hi fellows ",
     "we are Adore parfum",
     "we provide",
@@ -29,9 +30,9 @@ const TextTransition = memo(function TextTransition() {
       <AnimatePresence mode="wait">
         <motion.span
           key={count}
-          initial={{ x: 100 }}
+          initial={{ x: 50 }}
           animate={{ x: 0 }}
-          exit={{ y: -100 }}
+          exit={{ y: -50 }}
         >
           <span className="text-xs bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">
             {textItems[count % 4]}

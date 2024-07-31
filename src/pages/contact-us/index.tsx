@@ -38,11 +38,11 @@ const ContactUs = memo(function Form() {
   return (
     <>
       <h2>Contact Us</h2>
-      <p className="text-center my-5 text-xs">
+      <p className="text-center my-5 text-xs px-5">
         For More information, details, about our products, collections and
         offers please contact:
       </p>
-      <div className="flex justify-center text-sm">
+      <div className="flex justify-center text-sm px-5">
         <div className="flex flex-col my-10 gap-10 divide-primary divide-y-[1px] space-y-4">
           {/* address */}
           <div className="flex">
