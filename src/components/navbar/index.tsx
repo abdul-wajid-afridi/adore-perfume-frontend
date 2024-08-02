@@ -84,7 +84,7 @@ const Navbar = memo(function Navbar() {
   }, []);
   const logo = (
     <img
-      src="/adore-logo.png"
+      src="/adore-logo.jpeg"
       alt="adore-logo"
       className="h-10 w-[120px] cursor-pointer"
     />

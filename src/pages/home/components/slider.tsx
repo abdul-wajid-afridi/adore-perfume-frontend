@@ -66,7 +66,7 @@ const Slider = memo(function Slider() {
   );
 
   return (
-    <div className="relative overflow-hidden bg-neutral-950 py-8">
+    <div className="relative  overflow-hidden bg-neutral-950 py-8">
       <motion.div
         drag="x"
         dragConstraints={{
@@ -110,7 +110,7 @@ const LoopImages = memo(function LoopImages(props: TLoopImages) {
               scale: props.imgIndex === idx ? 0.95 : 0.85,
             }}
             transition={SPRING_OPTIONS}
-            className="aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
+            className="aspect-video h-[60vh] w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
           />
         );
       })}

@@ -68,7 +68,7 @@ const Header = memo(function Header() {
     }
   }, [data]);
   return (
-    <div className="flex justify-between items-center bg-slate-50 h-[60px] px-5">
+    <div className="flex gap-5 sm:gap-20 items-center bg-black h-[50px] px-5">
       <div>
         <Select
           // it accepts string so i enforced object into it thats why using any

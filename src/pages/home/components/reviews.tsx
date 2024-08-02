@@ -4,6 +4,44 @@ import Loader from "../../../components/loader";
 import { Star } from "../../reviews";
 import { BASE_URL } from "../../../constants/urls";
 import { UserCircle } from "lucide-react";
+import Slider from "react-slick";
+
+const settings = {
+  dots: true,
+  infinite: true,
+  slidesToShow: 3,
+  slidesToScroll: 3,
+  autoplay: true,
+  speed: 10000,
+  autoplaySpeed: 200,
+  cssEase: "linear",
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        dots: true,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        initialSlide: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
 
 const HomeReview = memo(function HomeReview() {
   const { data, isLoading } = useGetVisibleReviews();
@@ -20,10 +58,11 @@ const HomeReview = memo(function HomeReview() {
       <p className="text-xs text-center mb-5">
         our clients are our first priority to provide them quality products
       </p>
-      <div className="flex flex-col gap-10">
+
+      <Slider className="flex sm:space-x-11 gap-10" {...settings}>
         {data?.slice(0, 5).map((review) => {
           return (
-            <div className="flex flex-col gap-4 shadow-md p-5 w-full md:w-1/3 rounded-lg">
+            <div className="flex flex-col gap-4 h-44 shadow-md p-5 rounded-lg">
               <div className="flex items-center gap-2">
                 {review.image ? (
                   <img
@@ -45,7 +84,7 @@ const HomeReview = memo(function HomeReview() {
             </div>
           );
         })}
-      </div>
+      </Slider>
     </div>
   );
 });

@@ -41,6 +41,7 @@ import AdminBrandPage from "./pages/dashboard/pages/brand";
 import AdminSettingsPage from "./pages/dashboard/pages/admin-settings";
 import PageNotFound from "./pages/not-found";
 import CustomizePage from "./pages/customize";
+import FooterSection from "./pages/home/components/footer-section";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -167,6 +168,11 @@ const FooterDisplay = memo(function FooterDisplay() {
     matchPath(path, pathname)
   );
 
-  return shouldShowFooter ? <Footer /> : null;
+  return shouldShowFooter ? (
+    <div>
+      <FooterSection />
+      <Footer />
+    </div>
+  ) : null;
 });
 export default App;
