@@ -4,10 +4,10 @@ import { memo, useEffect, useState } from "react";
 const TextTransition = memo(function TextTransition() {
   const textItems = [
     // please always keep upto 4 words in each index because we kept initial={{ x: 50 }} so that  it does not jerk the view on mobile screen of customization screen
-    "hi fellows ",
-    "we are Adore parfum",
-    "we provide",
-    "Free shipping",
+    "Hi fellows ",
+    "We provide",
+    "Free Shipping UAE orders over 200 AED. Other GCC 400 AED",
+    "What are you waiting for!",
   ];
 
   // keep a counter of the number of cycles

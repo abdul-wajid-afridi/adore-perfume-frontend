@@ -42,6 +42,8 @@ import AdminSettingsPage from "./pages/dashboard/pages/admin-settings";
 import PageNotFound from "./pages/not-found";
 import CustomizePage from "./pages/customize";
 import FooterSection from "./pages/home/components/footer-section";
+import CareersPage from "./pages/careers";
+import BestSelling from "./pages/best-sellings";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -64,6 +66,7 @@ const App = memo(function App() {
           <Route path="/scent" element={<ScentPage />} />
           <Route path="/customize" element={<CustomizePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/reviews" element={<ReviewsPage />} />
           {/* <Route path="/login" element={<SignInForm />} /> */}
@@ -72,6 +75,7 @@ const App = memo(function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/best-selling" element={<BestSelling />} />
           <Route
             path="/product-details/:productId"
             element={<ProductDetailsPage />}
@@ -135,6 +139,8 @@ const NavbarDisplay = memo(function NavbarDisplay() {
     "/contact-us",
     "/reviews",
     "/search",
+    "/careers",
+    "/best-selling",
   ];
 
   const shouldShowNavbar = pathsToShowNavbar.some((path) =>
@@ -162,6 +168,8 @@ const FooterDisplay = memo(function FooterDisplay() {
     "/contact-us",
     "/reviews",
     "/search",
+    "/careers",
+    "/best-selling",
   ];
 
   const shouldShowFooter = pathsToShowFooter.some((path) =>

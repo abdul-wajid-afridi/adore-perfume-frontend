@@ -42,21 +42,21 @@ export const SocialMediaIcons = memo(function SocialMediaIcons() {
       <a
         href={companyData.facebook.link}
         target="_blank"
-        className="hover:text-blue-400"
+        className="bg-black text-white p-1 rounded-full hover:text-blue-400"
       >
         {companyData.facebook.icon}
       </a>
       <a
         href={companyData.instagram.link}
         target="_blank"
-        className="hover:text-pink-400"
+        className="bg-black text-white p-1 rounded-full hover:text-pink-400"
       >
         {companyData.instagram.icon}
       </a>
       <a
         href={companyData.tiktok.link}
         target="_blank"
-        className="hover:text-blue-300"
+        className="bg-black p-[2px] rounded-full"
       >
         {companyData.tiktok.icon}
       </a>

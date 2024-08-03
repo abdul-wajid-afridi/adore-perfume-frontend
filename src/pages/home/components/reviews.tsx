@@ -59,7 +59,7 @@ const HomeReview = memo(function HomeReview() {
         our clients are our first priority to provide them quality products
       </p>
 
-      <Slider className="flex sm:space-x-11 gap-10" {...settings}>
+      <Slider className="flex sm:space-x-4 gap-10" {...settings}>
         {data?.slice(0, 5).map((review) => {
           return (
             <div className="flex flex-col gap-4 h-44 shadow-md p-5 rounded-lg">

@@ -137,7 +137,7 @@ const Navbar = memo(function Navbar() {
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
-          style={{ originY: "top", translateY: isMobileScreen ? "28%" : "0%" }}
+          style={{ originY: "top", translateY: isMobileScreen ? "25%" : "0%" }}
           className="flex sm:flex-row flex-col p-2 rounded-lg shadow-xl z-50 bg-white absolute sm:relative top-0 right-0 w-full"
         >
           {ROOT_ROUTES.map((it) => (
@@ -175,10 +175,16 @@ const Navbar = memo(function Navbar() {
                             About us
                           </Link>
                           <Link
+                            to="/careers"
+                            className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                          >
+                            Careers
+                          </Link>
+                          <Link
                             to="/contact-us"
                             className="border-b z-[999] overflow-hidden text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
-                            contact us
+                            Contact us
                           </Link>
 
                           <Link
@@ -202,7 +208,7 @@ const Navbar = memo(function Navbar() {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>
-                      <Store className="mr-3" /> online Store
+                      <Store className="mr-3" /> Online Store
                     </NavigationMenuTrigger>
 
                     <NavigationMenuContent>
@@ -211,18 +217,19 @@ const Navbar = memo(function Navbar() {
                           <Loader />
                         </div>
                       ) : (
-                        data?.map((category) => (
-                          <NavigationMenuLink
-                            onClick={function toggleMenu() {
-                              isMobileScreen && setActive(false);
-                              navigate(`/search?category=${category.name}`);
-                            }}
-                          >
-                            <div className="w-[170px] flex flex-col border rounded-md text-center">
-                              <p className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2">
-                                {category.name}
-                              </p>
-                              {/* <Link
+                        <>
+                          {data?.map((category) => (
+                            <NavigationMenuLink
+                              onClick={function toggleMenu() {
+                                isMobileScreen && setActive(false);
+                                navigate(`/search?category=${category.name}`);
+                              }}
+                            >
+                              <div className="w-[170px] flex flex-col border rounded-md text-center">
+                                <p className="border-b text-sm cursor-pointer capitalize hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2">
+                                  {category.name}
+                                </p>
+                                {/* <Link
                             to="/about"
                             className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
@@ -234,9 +241,18 @@ const Navbar = memo(function Navbar() {
                           >
                             Reviews
                           </Link> */}
-                            </div>
-                          </NavigationMenuLink>
-                        ))
+                              </div>
+                            </NavigationMenuLink>
+                          ))}
+                          <div className="w-[170px] flex flex-col border rounded-md text-center">
+                            <p
+                              onClick={() => navigate(`/best-selling`)}
+                              className="border-b text-sm cursor-pointer capitalize hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                            >
+                              Best Selling
+                            </p>
+                          </div>
+                        </>
                       )}
                     </NavigationMenuContent>
                   </NavigationMenuItem>

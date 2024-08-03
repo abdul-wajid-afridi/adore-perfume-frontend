@@ -14,7 +14,6 @@ const HomePage = memo(function HomePage() {
       <CategoryListHome />
       <ScentsHomeCards />
       {/* <HorizontalScrollCarousel /> */}
-
       <OurCollections />
       <CustomizePage />
       {/* new arrivals is best selling products */}

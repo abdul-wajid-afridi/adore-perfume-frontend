@@ -29,7 +29,7 @@ const FooterSection = memo(function FooterSection() {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row justify-evenly lg:items-center gap-10 p-5 lg:p-0 lg:gap-2 lg:h-[140px]">
+    <div className="flex flex-col lg:flex-row justify-evenly lg:items-center mb-10 gap-10 p-5 lg:p-0 lg:gap-2 lg:h-[140px]">
       {footerSectionData.map((it) => {
         return (
           <div className="flex ">

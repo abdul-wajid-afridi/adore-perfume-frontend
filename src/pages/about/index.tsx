@@ -23,7 +23,7 @@ const AboutPage = memo(function AboutPage() {
         <div className="flex">
           <img src="/home-slider/spray3.jpg" alt="about pic" />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 shadow-lg p-[40px] border rounded-md">
           <h3 className="text-primary ">About us</h3>
           <p>
             Adore Perfume, we maintain exceptional quality by sourcing raw
