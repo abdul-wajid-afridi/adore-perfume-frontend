@@ -1,11 +1,13 @@
 import { memo } from "react";
 import { companyData } from "../../constants/data";
+import PageBanner from "../../components/banner";
 
 const AboutPage = memo(function AboutPage() {
   return (
     <div className="flex flex-col gap-10 sm:gap-20">
-      <div className="bg-[url('/images/bg-about.jpg')] bg-cover bg-center aspect-video flex items-center bg-black/50 bg-blend-overlay">
-        {/* for black overlay color */}
+      <PageBanner bannerImages="/banner/car.jpg" title="About us" />
+      {/* <div className="bg-[url('/images/bg-about.jpg')] bg-cover bg-center aspect-video flex items-center bg-black/50 bg-blend-overlay">
+  
         <div className="ml-4 sm:ml-10 w-[90%] lg:w-[50%] text-white">
           <h3 className="text-secondary border-b w-fit mb-5">our story</h3>
           <p>
@@ -15,7 +17,7 @@ const AboutPage = memo(function AboutPage() {
             category.
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex flex-wrap md:flex-nowrap gap-10 px-5 sm:px-10 mb-10 sm:mb-14">
         <div className="flex">

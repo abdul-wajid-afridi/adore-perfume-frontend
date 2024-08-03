@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import TranslateText from "../text/translate-text";
+import { SocialMediaIcons } from "../footer";
 
 const Header = memo(function Header() {
   const data = useMemo(
@@ -68,8 +69,8 @@ const Header = memo(function Header() {
     }
   }, [data]);
   return (
-    <div className="flex gap-5 sm:gap-20 items-center bg-black h-[50px] px-5">
-      <div>
+    <div className="flex gap-2 justify-between items-center bg-black h-[60px] px-5">
+      <div className="w-[33%]">
         <Select
           // it accepts string so i enforced object into it thats why using any
           onValueChange={(value: any) => {
@@ -104,10 +105,12 @@ const Header = memo(function Header() {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex">
+      <div className="w-[33%] hidden md:flex justify-center">
         <TranslateText />
       </div>
-      <div></div>
+      <div className="w-[33%] flex text-white justify-end">
+        <SocialMediaIcons />
+      </div>
     </div>
   );
 });

@@ -34,7 +34,8 @@ const TextTransition = memo(function TextTransition() {
           animate={{ x: 0 }}
           exit={{ y: -50 }}
         >
-          <span className="text-xs bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">
+          <span className="text-xs text-white">
+            {/* <span className="text-xs bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text"> */}
             {textItems[count % 4]}
           </span>
         </motion.span>

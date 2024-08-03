@@ -9,6 +9,7 @@ import { asyncAddContactUs } from "../../api/contact-us/fetchers";
 import { SocialMediaIcons } from "../../components/footer";
 import Loader from "../../components/loader";
 import { companyData } from "../../constants/data";
+import PageBanner from "../../components/banner";
 
 const contactFormSchema = z.object({
   name: z.string().min(3, "name is required"),
@@ -36,8 +37,9 @@ const ContactUs = memo(function Form() {
   });
 
   return (
-    <>
-      <h2>Contact Us</h2>
+    <div className="flex flex-col">
+      {/* <h2>Contact Us</h2> */}
+      <PageBanner bannerImages="/banner/men.jpg" title="contact us" />
       <p className="text-center my-5 text-xs px-5">
         For More information, details, about our products, collections and
         offers please contact:
@@ -119,7 +121,7 @@ const ContactUs = memo(function Form() {
           </Button>
         </div>
       </form>
-    </>
+    </div>
   );
 });
 

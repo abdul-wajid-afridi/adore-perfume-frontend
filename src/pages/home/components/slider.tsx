@@ -9,11 +9,26 @@ import {
 import { motion, useMotionValue } from "framer-motion";
 
 const SLIDER_IMAGES = [
-  "/home-slider/spray1.jpg",
-  "/home-slider/spray2.jpg",
-  "/home-slider/spray3.jpg",
-  "/home-slider/spray4.jpg",
-  "/home-slider/spray5.jpg",
+  {
+    text: "Dive into the world of scent composition with our Mixology Collection",
+    img: "/home-slider/spray1.jpg",
+  },
+  {
+    text: "Every perfume set is a wish, each fragrance is noted",
+    img: "/home-slider/spray2.jpg",
+  },
+  {
+    text: "The Scent of alcohol free perfume oil is far cleaner than one with alcohol",
+    img: "/home-slider/spray3.jpg",
+  },
+  {
+    text: "pure perfume oils",
+    img: "/home-slider/spray4.jpg",
+  },
+  {
+    text: "Indulge your senses in the gentle glow of Perfume Candles",
+    img: "/home-slider/spray5.jpg",
+  },
 ];
 
 const ONE_SECOND = 1000;
@@ -66,7 +81,7 @@ const Slider = memo(function Slider() {
   );
 
   return (
-    <div className="relative  overflow-hidden bg-neutral-950 py-8">
+    <div className="relative  overflow-hidden">
       <motion.div
         drag="x"
         dragConstraints={{
@@ -86,8 +101,8 @@ const Slider = memo(function Slider() {
         <LoopImages imgIndex={imgIndex} />
       </motion.div>
 
-      <Dots imgIndex={imgIndex} setImgIndex={setImgIndex} />
-      <GradientEdges />
+      {/* <Dots imgIndex={imgIndex} setImgIndex={setImgIndex} /> */}
+      {/* <GradientEdges /> */}
     </div>
   );
 });
@@ -97,21 +112,25 @@ type TLoopImages = { imgIndex: number };
 const LoopImages = memo(function LoopImages(props: TLoopImages) {
   return (
     <>
-      {SLIDER_IMAGES.map((imgSrc, idx) => {
+      {SLIDER_IMAGES.map((slider, idx) => {
         return (
           <motion.div
             key={idx}
             style={{
-              backgroundImage: `url(${imgSrc})`,
+              backgroundImage: `url(${slider.img})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-            animate={{
-              scale: props.imgIndex === idx ? 0.95 : 0.85,
-            }}
+            // animate={
+            //   {
+            //     // scale: props.imgIndex === idx ? 0.95 : 0.85,
+            //   }
+            // }
             transition={SPRING_OPTIONS}
-            className="aspect-video h-[60vh] w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
-          />
+            className="aspect-video h-[60vh] w-screen shrink-0 object-cover flex justify-end items-center px-10 sm:px-20 bg-black/50 bg-blend-overlay"
+          >
+            <h2 className="sm:w-[50vw]  text-white">{slider.text}</h2>
+          </motion.div>
         );
       })}
     </>

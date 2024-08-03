@@ -53,7 +53,7 @@ const HomeReview = memo(function HomeReview() {
     );
   }
   return (
-    <div className="mx-5 sm:mx-10 my-10">
+    <div className="mx-[30px] sm:mx-10 my-10 sm:my-20">
       <h2 className="my-10">what our clients says</h2>
       <p className="text-xs text-center mb-5">
         our clients are our first priority to provide them quality products

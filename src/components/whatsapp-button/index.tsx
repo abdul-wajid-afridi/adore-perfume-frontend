@@ -21,7 +21,10 @@ const WhatsAppButton = memo(function WhatsApp() {
       className="fixed bottom-20 z-[99] cursor-pointer right-5 animate-pulse"
       onClick={redirectToWhatsApp}
     >
-      <img src="/svgs/whatsap.svg" className="h-16 w-16 rounded-full ml-2" />
+      <img
+        src="/svgs/whatsap.svg"
+        className="sm:h-16 h-12 w-12 sm:w-16 rounded-full ml-2"
+      />
     </div>
   );
 });

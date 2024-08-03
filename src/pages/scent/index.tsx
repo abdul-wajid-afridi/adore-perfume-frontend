@@ -51,6 +51,7 @@ import Loader from "../../components/loader";
 import { BASE_URL } from "../../constants/urls";
 import { useGetAllTaste } from "../../api/taste/queries";
 import { useNavigate } from "react-router-dom";
+import PageBanner from "../../components/banner";
 
 // NOTE: CENTS PAGE IS ACTUALLY TASTES
 
@@ -59,8 +60,13 @@ const ScentPage = memo(function ScentPage() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <h2 className="my-10">Find your best signature scents</h2>
+    <div className="flex flex-col">
+      <PageBanner
+        bannerImages="/banner/private.jpg"
+        title="Find your best signature scents"
+      />
+
+      {/* <h2 className="my-10">Find your best signature scents</h2> */}
       <div className="grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 sm:px-10 my-10">
         {isLoading ? (
           <div className="flex justify-center w-screen">
@@ -88,7 +94,7 @@ const ScentPage = memo(function ScentPage() {
           })
         )}
       </div>
-    </>
+    </div>
   );
 });
 

@@ -84,7 +84,7 @@ const Navbar = memo(function Navbar() {
   }, []);
   const logo = (
     <img
-      src="/adore-logo.jpeg"
+      src="/adore-logo.png"
       alt="adore-logo"
       className="h-10 w-[120px] cursor-pointer"
     />
@@ -98,7 +98,7 @@ const Navbar = memo(function Navbar() {
     >
       <motion.div
         animate={active ? "open" : "closed"}
-        className="relative py-1 mx-1 sm:mx-3 flex justify-between items-center"
+        className="relative py-1 px-[20px] flex justify-between items-center"
       >
         <motion.button
           initial={false}
@@ -109,7 +109,7 @@ const Navbar = memo(function Navbar() {
             },
             [setActive]
           )}
-          className="relative sm:hidden h-16 w-16 rounded-full transition-colors hover:bg-gradient-to-br hover:from-violet-600 hover:to-indigo-700 bg-gradient-to-br from-violet-500 to-indigo-500"
+          className="relative sm:hidden h-[3.5rem] w-[3.5rem] rounded-full transition-colors hover:bg-gradient-to-br hover:from-violet-600 hover:to-indigo-700 bg-gradient-to-br from-violet-500 to-indigo-500"
         >
           <motion.span
             variants={VARIANTS.top}
@@ -167,19 +167,20 @@ const Navbar = memo(function Navbar() {
                           [isMobileScreen, setActive]
                         )}
                       >
-                        <div className="w-[150px] z-50 flex flex-col border rounded-md text-center">
-                          <Link
-                            to="/contact-us"
-                            className="border-b z-[999] overflow-hidden text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
-                          >
-                            contact us
-                          </Link>
+                        <div className="w-[120px] z-50 flex flex-col border rounded-md text-center">
                           <Link
                             to="/about"
                             className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                           >
                             About us
                           </Link>
+                          <Link
+                            to="/contact-us"
+                            className="border-b z-[999] overflow-hidden text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                          >
+                            contact us
+                          </Link>
+
                           <Link
                             to="/reviews"
                             className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
@@ -217,7 +218,7 @@ const Navbar = memo(function Navbar() {
                               navigate(`/search?category=${category.name}`);
                             }}
                           >
-                            <div className="w-[180px] flex flex-col border rounded-md text-center">
+                            <div className="w-[170px] flex flex-col border rounded-md text-center">
                               <p className="border-b text-sm cursor-pointer  hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2">
                                 {category.name}
                               </p>

@@ -18,7 +18,7 @@ const ProductCard = memo(function ProductCard(props: TProductCardProps) {
       onClick={useCallback(() => {
         navigate("/product-details/" + props.id);
       }, [navigate, props.id])}
-      className="relative group overflow-hidden h-[400px]"
+      className="relative overflow-hidden h-[300px] group rounded-lg"
     >
       <img
         className="group-hover:scale-105 duration-300 rounded-sm w-full h-full"
@@ -26,16 +26,16 @@ const ProductCard = memo(function ProductCard(props: TProductCardProps) {
         alt={props.name}
       />
 
-      <p className="absolute bottom-3 left-3 text-white z-50 group-hover:border-b border-slate-700 w-fit opacity-0 group-hover:opacity-100 duration-300">
+      <p className="absolute bottom-3 left-3 text-white z-50 border-b border-slate-700 w-fit opacity-100 duration-300">
         {props.name}
       </p>
-      <p className="absolute bottom-3 right-3 text-white z-50 group-hover:border-b border-slate-700 w-fit opacity-0 group-hover:opacity-100 duration-300">
+      <p className="absolute bottom-3 right-3 text-white z-50 border-b border-slate-700 w-fit opacity-100 duration-300">
         <span className="text-xs">{currency}</span>:{currencyRate}
       </p>
-      <p className="text-xs text-secondary z-50 absolute top-0 right-0 hidden group-hover:flex bg-primary p-1 rounded-full rounded-bl-none animate-pulse">
+      <p className="text-xs text-secondary z-50 absolute top-2 right-2  flex bg-primary p-1 rounded-full rounded-bl-none animate-pulse">
         Adore Perfume
       </p>
-      <span className="absolute inset-0 bg-black/50 hidden group-hover:flex" />
+      <span className="absolute inset-0 bg-black/50 group-hover:bg-black/0 flex" />
     </div>
   );
 });

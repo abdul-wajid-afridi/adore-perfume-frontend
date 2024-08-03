@@ -8,9 +8,9 @@ const NewArrivals = memo(function NewArrivals() {
   const { data, isLoading } = useGetNewArrivalProduct();
 
   return (
-    <>
-      <h2 className="my-10">Top Selling products</h2>
-      <div className="grid justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 my-10">
+    <div className="my-10 sm:my-20">
+      <h2>Top Selling products</h2>
+      <div className="grid justify-center gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 sm:px-10 my-10">
         {isLoading ? (
           <div className="flex justify-center w-screen">
             <Loader size="big" />
@@ -29,7 +29,7 @@ const NewArrivals = memo(function NewArrivals() {
           ))
         )}
       </div>
-    </>
+    </div>
   );
 });
 
