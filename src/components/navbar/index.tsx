@@ -133,7 +133,7 @@ const Navbar = memo(function Navbar() {
           />
         </motion.button>
         {/* show logo on mobile on right */}
-        <div>{isMobileScreen && logo}</div>
+        <Link to="/">{isMobileScreen && logo}</Link>
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
@@ -246,7 +246,10 @@ const Navbar = memo(function Navbar() {
                           ))}
                           <div className="w-[170px] flex flex-col border rounded-md text-center">
                             <p
-                              onClick={() => navigate(`/best-selling`)}
+                              onClick={function toggleMenu() {
+                                isMobileScreen && setActive(false);
+                                navigate(`/best-selling`);
+                              }}
                               className="border-b text-sm cursor-pointer capitalize hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
                             >
                               Best Selling
@@ -271,7 +274,7 @@ const Navbar = memo(function Navbar() {
           </Link>
           {/* show logo on desktop on right */}
           <div className="flex w-full justify-end self-end">
-            {!isMobileScreen && logo}
+            <Link to="/"> {!isMobileScreen && logo}</Link>
           </div>
         </motion.ul>
       </motion.div>

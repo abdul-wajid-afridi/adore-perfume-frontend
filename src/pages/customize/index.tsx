@@ -37,7 +37,7 @@ import { useNavigate } from "react-router-dom";
 const CustomizePage = memo(function CustomizePage() {
   return (
     <div>
-      <div className="mb-10 sm:mb-20 flex items-center flex-col justify-center bg-[url('/images/create-2.jpg')] bg-cover bg-center aspect-video bg-black/50 bg-blend-overlay">
+      <div className="h-[70vh] w-screen mb-10 sm:mb-20 flex items-center flex-col justify-center bg-[url('/images/create-2.jpg')] bg-cover bg-center aspect-video bg-black/50 bg-blend-overlay">
         <div className="flex justify-center items-center gap-3 sm:gap-5 md:gap-10 h-[50vh] w-screen bg-white/80">
           <div className="flex flex-col justify-center items-center gap-4 h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]">
             <img

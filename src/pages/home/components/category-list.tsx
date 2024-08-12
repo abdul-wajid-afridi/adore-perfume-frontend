@@ -25,7 +25,7 @@ const CategoryListHome = memo(function CategoryListHome() {
   ];
   return (
     <div className="flex justify-center">
-      <div className="mx-[30px] sm:mx-10 my-10 overflow-x-scroll h-44 sm:w-[70vw] flex gap-10 ">
+      <div className="mx-[30px] sm:mx-10 my-10 overflow-x-scroll no-scrollbar h-44 sm:w-[70vw] flex gap-10 ">
         {data?.slice(0, 5).map((category, ind) => {
           return (
             <div

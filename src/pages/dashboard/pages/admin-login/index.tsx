@@ -43,8 +43,8 @@ const AdminSignInForm = memo(function Form() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      email: "admin@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
       role: "ADMIN",
     },
     resolver: zodResolver(formSchema),

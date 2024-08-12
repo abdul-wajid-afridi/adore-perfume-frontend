@@ -139,9 +139,9 @@ const OurCollections = memo(function OurCollections() {
   ];
 
   return (
-    <div className="mb-10 sm:mb-20 bg-black flex flex-col justify-center items-center">
+    <div className="mb-10 sm:mb-20 bg-black flex flex-col justify-center items-center pb-10">
       <h2 className="mt-10 sm:mt-20">Naturally Luxurious Fragrances</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-5 sm:p-10 items-center lg:w-[70vw] md:h-screen ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 p-5 sm:p-10 items-center lg:w-[70vw]">
         {collectionData.map((col) => {
           return (
             <div className="flex flex-col justify-center items-center h-[500px] text-white border border-slate-200/20 group">

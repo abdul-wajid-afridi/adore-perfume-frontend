@@ -54,7 +54,7 @@ const ScentsHomeCards = memo(function ScentsHomeCards() {
       <p className="text-center text-sm text-slate-500 mt-5">
         A scent that matches your personality.
       </p>
-      <div className="gallery sm:w-[90vw] m-auto pt-20">
+      <div className="gallery sm:w-[90vw] m-auto pt-10">
         <figure className="gallery__item gallery__item--1 relative">
           <img src="/images/floral.jpg" alt="img" className="gallery__img" />
           <h1 className="absolute top-[40%] right-[20%] sm:right-[28%]  sm:text-5xl md:text-7xl z-50 text-white">
@@ -80,7 +80,7 @@ const ScentsHomeCards = memo(function ScentsHomeCards() {
           </h1>
         </figure>
       </div>
-      <div className="flex justify-center items-center sm:w-[90vw] m-auto mb-10">
+      <div className="flex justify-center items-center sm:w-[90vw] m-auto mt-10 md:mt-[-40px] mb-10 md:mb-0">
         <Button
           onClick={() => navigate("/scent")}
           className=" w-[300px] h-[45px] rounded-full text-xs uppercase tracking-widest"
