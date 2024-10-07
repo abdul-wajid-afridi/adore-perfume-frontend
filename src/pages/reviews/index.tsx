@@ -7,6 +7,7 @@ import { Button } from "../../components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../../components/loader";
 import { asyncAddReviews } from "../../api/reviews/fetchers";
+import ClientReviews from "../home/components/reviews";
 
 const ReviewsFormSchema = z.object({
   name: z.string().min(3, "name is required"),
@@ -93,6 +94,9 @@ const ReviewsPage = memo(function ReviewsPage() {
           </Button>
         </div>
       </form>
+      <div>
+        <ClientReviews />
+      </div>
     </>
   );
 });

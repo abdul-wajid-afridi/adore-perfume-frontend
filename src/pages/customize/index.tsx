@@ -89,8 +89,8 @@ const CustomizePage = memo(function CustomizePage() {
 const brandSchema = z.object({
   // lets make it required
   packingId: z.number(),
-  brandId: z.number(),
   productId: z.number(),
+  name: z.string().min(1, "name is required"),
 });
 
 type FormValues = z.infer<typeof brandSchema>;
@@ -101,16 +101,16 @@ const CustomizePageForm = memo(function Form() {
   const [color, setColor] = useState("");
 
   const queryClient = useQueryClient();
-  const [selectedBrand, setSelectedBrand] = useState<string>("Brand");
+  // const [selectedBrand, setSelectedBrand] = useState<string>("Brand");
   const [selectedProduct, setSelectedProduct] = useState<TProductResponse>();
-  const { data, isLoading } = useSearchProducts("", "", "", selectedBrand);
+  const { data, isLoading } = useSearchProducts("", "Fragrances", "", "");
   const { data: packingData, isLoading: packingLoading } = useGetAllPacking();
 
   const [search, setSearch] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { data: brandData } = useGetAllBrand();
+  // const { data: brandData } = useGetAllBrand();
   const customizeProductPackingMutation = useMutation({
     mutationFn: asyncCustomizeProductPacking,
     onSuccess: () => {
@@ -126,12 +126,14 @@ const CustomizePageForm = memo(function Form() {
   });
 
   const {
+    register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(brandSchema),
   });
+  console.log(errors);
 
   return (
     <form
@@ -149,12 +151,14 @@ const CustomizePageForm = memo(function Form() {
             customizeProductPackingMutation.mutate({
               productId: data.productId,
               packingId: packingId!,
+              name: data.name,
             });
             navigate("/cart");
           },
           [
             customizeProductPackingMutation,
             dispatch,
+            navigate,
             packingData,
             packingId,
             selectedProduct,
@@ -184,7 +188,7 @@ const CustomizePageForm = memo(function Form() {
                     className="h-[120px] w-[150px] hover:scale-110"
                   />
                   <p>{packing.name}</p>
-                  <CustomizePackingPrice price={packing.price} />
+                  {/* <CustomizePackingPrice price={packing.price} /> */}
                   <Modal
                     mutation={updatePackingMutation as any}
                     id={packingId!}
@@ -202,7 +206,7 @@ const CustomizePageForm = memo(function Form() {
         )}
       </div>
       <div className="flex flex-col sm:w-1/2 w-full gap-4 border p-5 md:p-10 my-10 rounded-md shadow-md">
-        <Select
+        {/* <Select
           // defaultValue={props.data ? props.data?.categoryId : undefined}
           onValueChange={(value: string) => {
             setSelectedBrand(
@@ -228,8 +232,17 @@ const CustomizePageForm = memo(function Form() {
 
         {errors.brandId && (
           <div className="text-red-500">{errors.brandId.message}</div>
-        )}
-
+        )} */}
+        <div>
+          <Input
+            {...register("name")}
+            placeholder="Personalize your desire"
+            className="border"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-xs">{errors.name.message}</p>
+          )}
+        </div>
         <Select
           // defaultValue={props.data ? props.data?.categoryId : undefined}
           onValueChange={(value: string) => {

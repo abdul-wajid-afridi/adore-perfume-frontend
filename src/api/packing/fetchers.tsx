@@ -18,6 +18,7 @@ export type TAddPacking = TPackingResponse;
 export type TCustomizeProductPacking = {
   productId: number;
   packingId: number;
+  name: string;
 };
 
 export const asyncGetAllPacking = async () => {

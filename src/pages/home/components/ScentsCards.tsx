@@ -56,7 +56,7 @@ const ScentsHomeCards = memo(function ScentsHomeCards() {
       </p>
       <div className="gallery sm:w-[90vw] m-auto pt-10">
         <figure className="gallery__item gallery__item--1 relative">
-          <img src="/images/floral.jpg" alt="img" className="gallery__img" />
+          <img src="/images/Floral.jpg" alt="img" className="gallery__img" />
           <h1 className="absolute top-[40%] right-[20%] sm:right-[28%]  sm:text-5xl md:text-7xl z-50 text-white">
             Floral
           </h1>
@@ -71,7 +71,7 @@ const ScentsHomeCards = memo(function ScentsHomeCards() {
           <h1 className="absolute top-[40%] right-[20%] sm:right-[28%]  sm:text-5xl md:text-7xl z-50 text-white">
             amber
           </h1>
-          <img src="/images/amber.jpg" alt="img" className="gallery__img" />
+          <img src="/images/Amber.jpg" alt="img" className="gallery__img" />
         </figure>
         <figure className="gallery__item gallery__item--6 relative">
           <img src="/images/citrust.jpg" alt="img" className="gallery__img" />

@@ -100,6 +100,9 @@ const Navbar = memo(function Navbar() {
         animate={active ? "open" : "closed"}
         className="relative py-1 px-[20px] flex justify-between items-center"
       >
+        {/* show logo on mobile on left */}
+        <Link to="/">{isMobileScreen && logo}</Link>
+
         <motion.button
           initial={false}
           animate={active ? "open" : "closed"}
@@ -132,14 +135,17 @@ const Navbar = memo(function Navbar() {
             }}
           />
         </motion.button>
-        {/* show logo on mobile on right */}
-        <Link to="/">{isMobileScreen && logo}</Link>
+
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
           style={{ originY: "top", translateY: isMobileScreen ? "25%" : "0%" }}
           className="flex sm:flex-row flex-col p-2 rounded-lg shadow-xl z-50 bg-white absolute sm:relative top-0 right-0 w-full"
         >
+          {/* show logo on desktop on left */}
+          <div className="flex w-full justify-start self-start">
+            <Link to="/"> {!isMobileScreen && logo}</Link>
+          </div>
           {ROOT_ROUTES.map((it) => (
             <Link to={it.path} key={it.path}>
               <MenuBarItem
@@ -255,6 +261,18 @@ const Navbar = memo(function Navbar() {
                               Best Selling
                             </p>
                           </div>
+
+                          <div className="w-[170px] flex flex-col border rounded-md text-center">
+                            <p
+                              onClick={function toggleMenu() {
+                                isMobileScreen && setActive(false);
+                                navigate(`/gift-box`);
+                              }}
+                              className="border-b text-sm cursor-pointer capitalize hover:bg-secondary text-slate-700 hover:text-primary transition-colors p-2"
+                            >
+                              Gift Box
+                            </p>
+                          </div>
                         </>
                       )}
                     </NavigationMenuContent>
@@ -272,10 +290,6 @@ const Navbar = memo(function Navbar() {
               text={"Cart"}
             />
           </Link>
-          {/* show logo on desktop on right */}
-          <div className="flex w-full justify-end self-end">
-            <Link to="/"> {!isMobileScreen && logo}</Link>
-          </div>
         </motion.ul>
       </motion.div>
     </MotionConfig>

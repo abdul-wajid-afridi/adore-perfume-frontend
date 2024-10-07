@@ -76,7 +76,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
         )}
         <Navigation url="/" />
         <div className="flex justify-between w-full flex-wrap">
-          <div className="w-full sm:w-1/2 sm:h-[300px] flex flex-col gap-5">
+          <div className="w-full sm:w-1/2 h-[60vh] sm:h-[70vh] flex flex-col gap-5">
             <img
               src={`${BASE_URL}/${
                 data?.productImage && data?.productImage[index]?.image
@@ -100,7 +100,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center w-full sm:w-1/3 h-[300px] mt-5 sm:mt-0 text-slate-800 capitalize gap-3">
+          <div className="flex flex-col justify-center w-full sm:w-1/3 mt-10 text-slate-800 capitalize gap-3">
             <h2 className="text-start border-b-2">{data?.name}</h2>
             <Button className="w-fit" disabled>
               {data?.ml}

@@ -29,11 +29,8 @@ const addProductSchema = z.object({
   description: z
     .string()
     .min(3, "Description must contain at least 3 character(s)")
-    .max(250),
-  price: z.coerce
-    .number()
-    .int()
-    .min(1, "Price must be greater than or equal to 1"),
+    .max(600),
+  price: z.coerce.number().min(1, "Price must be greater than or equal to 1"),
   stock: z.coerce
     .number()
     .int()

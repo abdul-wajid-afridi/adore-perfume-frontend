@@ -2,6 +2,7 @@ import { memo, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { clearCart } from "../../redux/feature/cartSlice";
 import { useDispatch } from "react-redux";
+import { clearGiftBoxCart } from "../../redux/feature/giftBoxCartSlice";
 
 const PaymentSuccess = memo(function PaymentSuccess() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const PaymentSuccess = memo(function PaymentSuccess() {
         navigate("/");
       }
       dispatch(clearCart());
+      dispatch(clearGiftBoxCart());
     },
     [navigate]
   );

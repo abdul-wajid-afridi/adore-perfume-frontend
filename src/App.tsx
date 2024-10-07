@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   matchPath,
   Route,
@@ -44,6 +44,17 @@ import CustomizePage from "./pages/customize";
 import FooterSection from "./pages/home/components/footer-section";
 import CareersPage from "./pages/careers";
 import BestSelling from "./pages/best-sellings";
+import MainLoader from "./components/main-loader";
+import AddGiftBox from "./pages/dashboard/pages/gift-box/AddGiftBox";
+import EditGiftBox from "./pages/dashboard/pages/gift-box/EditGiftBox";
+import AdminGiftBoxDetails from "./pages/dashboard/pages/gift-box/GiftBoxDetails";
+import AdminGiftBoxPage from "./pages/dashboard/pages/gift-box";
+import GiftBoxPage from "./pages/gift-box";
+import GiftBoxDetailPage from "./pages/gift-box/gift-box-details";
+import { giftBoxCartData } from "./redux/feature/giftBoxCartSlice";
+import GiftBoxCheckoutPage from "./pages/gift-box-checkout";
+import TermsAndConditions from "./pages/terms-and-conditions";
+import PrivacyPolicy from "./pages/privacy-policy";
 
 const App = memo(function App() {
   const dispatch = useAppDispatch();
@@ -51,9 +62,26 @@ const App = memo(function App() {
   useEffect(
     function fetchCartDataOnMount() {
       dispatch(cartData());
+      dispatch(giftBoxCartData());
     },
-    [dispatch, cartData]
+    [dispatch]
   );
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(function showLogoOnMount() {
+    const loadData = async () => {
+      // give a delaye so that we can show the logo
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setLoading(false);
+    };
+
+    loadData();
+  }, []); // Empty dependency array means this runs once on mount
+
+  if (loading) {
+    return <MainLoader />;
+  }
   return (
     <div>
       <Router>
@@ -66,9 +94,20 @@ const App = memo(function App() {
           <Route path="/scent" element={<ScentPage />} />
           <Route path="/customize" element={<CustomizePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="/terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/gift-box" element={<GiftBoxPage />} />
+          <Route path="/gift-box-checkout" element={<GiftBoxCheckoutPage />} />
+          <Route
+            path="/gift-box-details/:giftBoxId"
+            element={<GiftBoxDetailPage />}
+          />
           {/* <Route path="/login" element={<SignInForm />} /> */}
           <Route path="/cart" element={<CartPage />} />
           <Route path="/admin-login" element={<AdminSignInForm />} />
@@ -108,6 +147,14 @@ const App = memo(function App() {
               element={<ProductDetails />}
             />
 
+            <Route path="gift-box" element={<AdminGiftBoxPage />} />
+            <Route path="add-gift-box" element={<AddGiftBox />} />
+            <Route path="edit-gift-box/:giftBoxId" element={<EditGiftBox />} />
+            <Route
+              path="gift-box-details/:giftBoxId/:giftBoxId"
+              element={<AdminGiftBoxDetails />}
+            />
+
             <Route path="brand" element={<AdminBrandPage />} />
             <Route path="taste" element={<AdminTastePage />} />
           </Route>
@@ -141,6 +188,11 @@ const NavbarDisplay = memo(function NavbarDisplay() {
     "/search",
     "/careers",
     "/best-selling",
+    "/gift-box",
+    "/gift-box-details/:giftBoxId",
+    "/gift-box-checkout",
+    "/terms-and-conditions",
+    "/privacy-policy",
   ];
 
   const shouldShowNavbar = pathsToShowNavbar.some((path) =>
@@ -170,6 +222,8 @@ const FooterDisplay = memo(function FooterDisplay() {
     "/search",
     "/careers",
     "/best-selling",
+    "/terms-and-conditions",
+    "/privacy-policy",
   ];
 
   const shouldShowFooter = pathsToShowFooter.some((path) =>

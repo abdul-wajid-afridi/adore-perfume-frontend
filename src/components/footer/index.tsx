@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { companyData } from "../../constants/data";
+import { Link } from "react-router-dom";
 
 const Footer = memo(function Footer() {
   return (
@@ -10,6 +11,19 @@ const Footer = memo(function Footer() {
             {companyData.name}
           </h4>
           <p>{companyData.description}</p>
+
+          <Link
+            className="border-b-2 w-fit hover:text-primary"
+            to="/privacy-policy"
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            className="border-b-2 w-fit hover:text-primary"
+            to="/terms-and-conditions"
+          >
+            Terms And Conditions
+          </Link>
         </div>
         <div className="flex flex-col px-3 gap-3">
           <h4 className="hover:text-indigo-500 cursor-pointer border-b-2 border-indigo-500 w-fit">
@@ -30,7 +44,7 @@ const Footer = memo(function Footer() {
         </div>
       </section>
       <p className="border-b-2 border-indigo-500">
-        All right reserved © Adore Perfume. Dubai – London
+        Copyright @ 2024 Adore Perfum - All Rights Reserved
       </p>
     </footer>
   );

@@ -120,11 +120,12 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
 
             return (
               <div className="flex flex-col shadow-md w-fit p-3 rounded-md text-slate-500 text-sm">
-                <p>name:{prod?.product.name}</p>
-                <p>price:${prod?.product.price}</p>
-                <p>{prod?.product.description}</p>
+                <p>name:{prod?.product?.name}</p>
+                <p>price:${prod?.product?.price}</p>
+                <p>Quantity:{prod?.quantity}</p>
+                <p>{prod?.product?.description}</p>
                 <div className="flex gap-2">
-                  {prod?.product.productImage?.map((it) => (
+                  {prod?.product?.productImage?.map((it) => (
                     <img
                       src={`${BASE_URL}/${it?.image}`}
                       className="h-20 w-20 rounded-md hover:shadow-md hover:scale-105"
@@ -133,50 +134,61 @@ const AdminOrderDetails = memo(function AdminOrderDetails() {
                 </div>
                 <div className="border-t-2 my-2">
                   {prod?.packing && (
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-center text-primary">
-                          customization
-                        </p>
-                        <p>{prod?.packing?.name}</p>
-                        <p>price : {prod?.packing?.price}</p>
-                        <p
-                          style={{ background: prod?.packing?.color }}
-                          className="h-10 w-20 rounded-md"
+                    <>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-center text-primary">
+                            customization
+                          </p>
+                          <p>{prod?.packing?.name}</p>
+                          <p>price : {prod?.packing?.price}</p>
+                          <p
+                            style={{ background: prod?.packing?.color }}
+                            className="h-10 w-20 rounded-md"
+                          />
+                        </div>
+                        <img
+                          src={`${BASE_URL}/${prod?.packing?.image}`}
+                          className="h-20 w-20 rounded-md"
+                          alt=""
                         />
                       </div>
-                      <img
-                        src={`${BASE_URL}/${prod?.packing?.image}`}
-                        className="h-20 w-20 rounded-md"
-                        alt=""
-                      />
-                    </div>
+                      <div className="my-5 flex flex-col">
+                        <p className="text-gray-400">
+                          customization Names for products
+                        </p>
+                        {prod?.packing?.productPacking?.map((pack) => (
+                          <p className="p-2 bg-slate-50 rounded-lg m-2">
+                            {pack?.name}
+                          </p>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
             );
           })}
         </div>
-
-        {/* <div className="flex flex-col w-full sm:w-1/3 h-[300px] mt-5 sm:mt-0 text-slate-800 capitalize gap-3">
-          <p className="font-bold">
-            <span className="text-slate-500">Name: </span>
-            {data?.name}
-          </p>
-          <p>${data?.price}</p>
-          <p>
-            <span className="text-slate-500">stock: </span>
-            {data?.stock}
-          </p>
-          <p>
-            <span className="text-slate-500">category: </span>
-            {data?.category?.name}
-          </p>
-          <p>
-            <span className="text-slate-500">Description: </span>
-            {data?.description}
-          </p>
-        </div> */}
+        <h2 className="my-4">Gift Box details</h2>
+        <div className="flex flex-col w-full sm:w-1/3 h-[300px] mt-5 sm:mt-0 text-slate-800 capitalize gap-3">
+          {data?.products?.map((item, ind) => {
+            return (
+              <div className="flex flex-col shadow-md w-fit p-3 rounded-md text-slate-500 text-sm">
+                <p>name:{item?.giftBox?.name}</p>
+                <p>price:${item?.giftBox?.price}</p>
+                <p>stock:{item?.giftBox?.stock}</p>
+                <p>{item?.giftBox?.description}</p>
+                <div className="flex gap-2">
+                  <img
+                    src={`${BASE_URL}/${item?.giftBox?.image}`}
+                    className="h-20 w-20 rounded-md hover:shadow-md hover:scale-105"
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

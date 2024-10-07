@@ -5,7 +5,6 @@ import { z } from "zod";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { CartProducts } from "../cart";
 
 import {
   useStripe,
@@ -16,21 +15,21 @@ import {
 import convertToSubCurrency from "../../lib/convertToSubcurrency";
 import { API_URL } from "../../redux/urlConfig";
 import { useAppSelector } from "../../hooks/hook";
-import { calculateTotal } from "../../redux/feature/cartSlice";
 import { useDispatch } from "react-redux";
 import Loader from "../../components/loader";
 import { HOSTING_URL } from "../../constants/urls";
 import { loadStripe } from "@stripe/stripe-js";
-import { asyncCreateOrders } from "../../api/orders/fetchers";
+import { asyncCreateGiftBoxOrders } from "../../api/orders/fetchers";
 import { useNavigate } from "react-router-dom";
 import useCurrency from "../../hooks/useCurrency";
+import { calculateGiftBoxTotal } from "../../redux/feature/giftBoxCartSlice";
 
-const cartItemSchema = z.object({
+const giftBoxCartItemSchema = z.object({
   quantity: z.number(),
   id: z.number(),
 });
 
-const clientOrderSchema = z.object({
+const giftBoxClientOrderSchema = z.object({
   email: z.string().email(),
   name: z.string().min(3, "name must be at least 3 characters"),
   address: z.string().min(5, "Address must be at least 5 characters"),
@@ -38,12 +37,15 @@ const clientOrderSchema = z.object({
   country: z.string().min(1, "city is required"),
   phoneNo: z.string().optional(),
   amount: z.number(),
-  cartItems: z.array(cartItemSchema),
+  giftBoxCartItems: z.array(giftBoxCartItemSchema),
 });
 
-type FormValues = z.infer<typeof clientOrderSchema>;
-const CheckoutForm = memo(function CheckoutPage() {
-  const { total: amount, cartItems } = useAppSelector((state) => state.cart);
+type FormValues = z.infer<typeof giftBoxClientOrderSchema>;
+const CheckoutForm = memo(function GiftBoxCheckoutPage() {
+  const { total: amount, giftBoxCartItems } = useAppSelector(
+    (state) => state.giftBoxCart
+  );
+
   const dispatch = useDispatch();
 
   const stripe = useStripe();
@@ -64,7 +66,7 @@ const CheckoutForm = memo(function CheckoutPage() {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(clientOrderSchema),
+    resolver: zodResolver(giftBoxClientOrderSchema),
   });
 
   const handleStripePayment = async () => {
@@ -78,6 +80,7 @@ const CheckoutForm = memo(function CheckoutPage() {
     }
 
     const { error: submitError } = await elements.submit();
+    console.log("submit error", submitError);
 
     if (submitError) {
       setErrorMessage(submitError.message);
@@ -88,6 +91,7 @@ const CheckoutForm = memo(function CheckoutPage() {
     const response = await API_URL.post("/api/v1/create-payment-intent", {
       amount: convertToSubCurrency(TOTAL_AMOUNT),
     });
+    console.log(response);
 
     const clientSecret = response.data.clientSecret;
 
@@ -98,6 +102,7 @@ const CheckoutForm = memo(function CheckoutPage() {
         return_url: `${HOSTING_URL}/payment-success?amount=${TOTAL_AMOUNT}`,
       },
     });
+    console.log("show me error", error);
 
     setLoading(false);
     if (error) {
@@ -105,6 +110,7 @@ const CheckoutForm = memo(function CheckoutPage() {
       // confirming the payment. Show the error to your customer (for example, payment details incomplete)
       setErrorMessage(error.message);
     } else {
+      localStorage.removeItem("description");
       // The payment UI automatically closes with a success animation.
       // Your customer is redirected to your `return_url`.
     }
@@ -112,7 +118,7 @@ const CheckoutForm = memo(function CheckoutPage() {
 
   useEffect(
     function calculateTotalCartAmountOnMount() {
-      dispatch(calculateTotal());
+      dispatch(calculateGiftBoxTotal());
     },
     [dispatch]
   );
@@ -128,8 +134,8 @@ const CheckoutForm = memo(function CheckoutPage() {
     [amount, navigate]
   );
 
-  const createOrderMutation = useMutation({
-    mutationFn: asyncCreateOrders,
+  const createGiftBoxOrderMutation = useMutation({
+    mutationFn: asyncCreateGiftBoxOrders,
     onSuccess: () => {
       reset();
     },
@@ -157,16 +163,16 @@ const CheckoutForm = memo(function CheckoutPage() {
           const country = getValues("country");
           const address = getValues("address");
 
-          createOrderMutation.mutate({
+          createGiftBoxOrderMutation.mutate({
             name,
             email,
             phoneNo: phoneNo!,
             city,
             country,
             address,
+            description: localStorage.getItem("description")!,
             amount: TOTAL_AMOUNT,
-            cartItems: cartItems as any,
-            description: "",
+            cartItems: giftBoxCartItems as any,
           });
 
           handleStripePayment();
@@ -220,7 +226,7 @@ const CheckoutForm = memo(function CheckoutPage() {
           )}
         </Button>
       </form>
-      <CartProducts />
+      {/* <CartProducts /> */}
       {errorMessage && <div>{errorMessage}</div>}
     </section>
   );
@@ -230,8 +236,8 @@ const STRIPE_PROMISE = loadStripe(
   "pk_test_51PzfkjLKCATua0ARig8Kc0c7vM6EkRtIMstFWjLXmJ9raqIqMNYV8uO4vUjRhkKO28acI4ZpMftwRPn67FXnVZXG00IIclWOWJ"
 );
 
-const CheckoutPage = () => {
-  const { total: amount } = useAppSelector((state) => state.cart);
+const GiftBoxCheckoutPage = () => {
+  const { total: amount } = useAppSelector((state) => state.giftBoxCart);
 
   const RANGE: number = 4000;
 
@@ -252,4 +258,4 @@ const CheckoutPage = () => {
   );
 };
 
-export default CheckoutPage;
+export default GiftBoxCheckoutPage;

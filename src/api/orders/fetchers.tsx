@@ -13,6 +13,7 @@ export type TOrdersResponse = {
   address: string;
   country: string;
   phoneNo: string;
+  description?: string;
   city: string;
   amount: number;
   cartItems: {
@@ -46,6 +47,18 @@ export const asyncGetOrderById = async (orderId: number) => {
 export const asyncCreateOrders = async (data: TCreateOrders) => {
   try {
     const Orders = await API_URL.post("/api/v1/orders", data);
+    toast.success("Orders added successful");
+    return Orders.data;
+  } catch (error: any) {
+    throw toast.error(
+      error.response?.data.error?.meta?.target || "An unknown error occurred."
+    );
+  }
+};
+
+export const asyncCreateGiftBoxOrders = async (data: TCreateOrders) => {
+  try {
+    const Orders = await API_URL.post("/api/v1/gift-box-orders", data);
     toast.success("Orders added successful");
     return Orders.data;
   } catch (error: any) {
