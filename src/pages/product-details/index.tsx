@@ -65,7 +65,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
 
   return (
     <>
-      <section className="flex flex-col px-5 py-10 relative">
+      <section className="flex flex-col px-5 sm:px-40 py-20 relative">
         {close && (
           <ViewImage
             data={data!}
@@ -75,8 +75,8 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
           />
         )}
         <Navigation url="/" />
-        <div className="flex justify-between w-full flex-wrap">
-          <div className="w-full sm:w-1/2 h-[60vh] sm:h-[70vh] flex flex-col gap-5">
+        <div className="flex justify-evenly w-full flex-wrap ">
+          <div className="w-full sm:w-1/2  sm:h-[70vh] flex flex-col gap-5">
             <img
               src={`${BASE_URL}/${
                 data?.productImage && data?.productImage[index]?.image
@@ -84,9 +84,9 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
               onClick={() => {
                 setClose(true);
               }}
-              className="w-full h-full rounded-md"
+              className="w-full h-[70vh] sm:h-full rounded-md"
             />
-            <div className="flex gap-5 ">
+            <div className="flex gap-5  ">
               {data?.productImage?.map((img, ind) => {
                 return (
                   <img
@@ -100,7 +100,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center w-full sm:w-1/3 mt-10 text-slate-800 capitalize gap-3">
+          <div className="flex  flex-col justify-center w-full sm:w-1/3 mt-10 text-slate-800 capitalize gap-3">
             <h2 className="text-start border-b-2">{data?.name}</h2>
             <Button className="w-fit" disabled>
               {data?.ml}
@@ -135,7 +135,7 @@ const ProductDetailsPage = memo(function ProductDetailsPage() {
       </section>
 
       <h2 className="my-10">Similar products</h2>
-      <div className="grid justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 my-10">
+      <div className="grid justify-center gap-5 sm:grid-cols-2 lg:grid-cols-3 px-5 sm:px-40 my-10">
         {isLoading ? (
           <div className="flex justify-center w-screen">
             <Loader size="big" />

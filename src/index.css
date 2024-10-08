@@ -56,15 +56,9 @@ p{
 .slick-next:before {
   color: #6366f1!important;
 }
-
+/* 
 .gallery {
-    /* display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: repeat(8, 5vw);
-  grid-gap: 1.5rem;  */
-
   @apply grid gap-4 grid-rows-1 grid-cols-1 md:grid-rows-10 md:grid-cols-8;
-  /* @apply grid gap-4 grid-rows-1 grid-cols-1 md:grid-rows-8 md:grid-cols-8 */
 }
 
 .gallery__img {
@@ -78,24 +72,63 @@ p{
 
 .gallery__item--1 {
   @apply overflow-hidden md:col-start-1 md:col-end-5 md:row-start-1 md:row-end-6 ;
-  /* @apply md:col-start-1 md:col-end-5 md:row-start-1 md:row-end-3 */
 }
 
 .gallery__item--3 {
   @apply overflow-hidden md:col-start-5 md:col-end-10 md:row-start-1 md:row-end-5;
-  /* @apply md:col-start-5 md:col-end-9 md:row-start-1 md:row-end-4 */
 }
 
 .gallery__item--4 {
   @apply overflow-hidden md:col-start-1 md:col-end-5 md:row-start-6 md:row-end-10;
-  /* @apply md:col-start-1 md:col-end-5 md:row-start-3 md:row-end-6 */
 }
 
 .gallery__item--6 {
   @apply overflow-hidden md:col-start-5 md:col-end-10 md:row-start-5 md:row-end-10;
-  /* @apply md:col-start-5 md:col-end-9 md:row-start-4 md:row-end-6 */
+} */
+
+
+.gallery {
+  /* display: grid;
+grid-template-columns: repeat(8, 1fr);
+grid-template-rows: repeat(8, 5vw);
+grid-gap: 1.5rem;  */
+
+@apply grid gap-4 grid-rows-1 grid-cols-1 md:grid-rows-10 md:grid-cols-8;
+/* @apply grid gap-4 grid-rows-1 grid-cols-1 md:grid-rows-8 md:grid-cols-8 */
 }
 
+.gallery__img {
+width: 100%;
+height: 100%;
+
+object-fit: cover;
+display: block; 
+@apply hover:scale-105 transition-all duration-700 max-h-[300px] sm:max-h-[500px]
+}
+
+/* floral */
+.gallery__item--1 {
+@apply overflow-hidden md:col-start-2 md:col-end-5 md:row-start-2 md:row-end-6 ;
+/* @apply md:col-start-1 md:col-end-5 md:row-start-1 md:row-end-3 */
+}
+
+/* woody */
+.gallery__item--3 {
+@apply overflow-hidden md:col-start-5 md:col-end-8 md:row-start-2 md:row-end-5;
+/* @apply md:col-start-5 md:col-end-9 md:row-start-1 md:row-end-4 */
+}
+
+/* amber */
+.gallery__item--4 {
+@apply overflow-hidden md:col-start-2 md:col-end-5 md:row-start-6 md:row-end-9;
+/* @apply md:col-start-1 md:col-end-5 md:row-start-3 md:row-end-6 */
+}
+
+/* citrus */
+.gallery__item--6 {
+@apply overflow-hidden md:col-start-5 md:col-end-8 md:row-start-5 md:row-end-9;
+/* @apply md:col-start-5 md:col-end-9 md:row-start-4 md:row-end-6 */
+}
   @layer base {
     :root {
       --background: 0 0% 100%;

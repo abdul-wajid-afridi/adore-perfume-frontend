@@ -148,7 +148,7 @@ const OurCollections = memo(function OurCollections() {
               <img
                 src={col.img}
                 alt={col.title}
-                className="w-full h-[300px] group-hover:opacity-60  transition-all duration-300"
+                className="w-full h-[300px] opacity-60 group-hover:opacity-100  transition-all duration-300"
               />
               <div className="flex flex-col gap-3 sm:gap-6">
                 <h2>{col.title}</h2>
