@@ -11,14 +11,18 @@ const Search = memo(() => {
   const name = useSearchParams()[0].get("name");
   const taste = useSearchParams()[0].get("taste");
   const brand = useSearchParams()[0].get("brand");
+  const gender = useSearchParams()[0].get("gender");
   const { data, isLoading } = useSearchProducts(
     name || "",
     category || "",
     taste || "",
-    brand || ""
+    brand || "",
+    gender || ""
   );
 
-  const displayValues = [name, taste, category].filter(Boolean).join(" ");
+  const displayValues = [name, taste, category, brand, gender]
+    .filter(Boolean)
+    .join(" ");
 
   if (isLoading) {
     return (

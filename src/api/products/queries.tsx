@@ -39,11 +39,12 @@ export const useSearchProducts = (
   name: string,
   category: string,
   taste: string,
-  brand: string
+  brand: string,
+  gender: string
 ) =>
   useQuery({
-    queryKey: [QueryKeys.PRODUCTS, name, category, taste, brand],
-    queryFn: () => asyncSearchProducts(name, category, taste, brand),
+    queryKey: [QueryKeys.PRODUCTS, name, category, taste, brand, gender],
+    queryFn: () => asyncSearchProducts(name, category, taste, brand, gender),
   });
 
 export const useAddProduct = (data: TAddProduct) =>

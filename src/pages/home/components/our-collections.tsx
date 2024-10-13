@@ -127,14 +127,14 @@ const OurCollections = memo(function OurCollections() {
       title: "Women's Collection",
       description: "A Sensitive Touch JUST FOR HER",
       img: "/images/men.jpg",
-      link: "/search?category=men",
+      link: "/search?gender=MEN",
     },
 
     {
       title: "Citrus Fragrances",
       description: "Wear It With Style JUST FOR HIM",
       img: "/images/women.jpg",
-      link: "/search?category=women",
+      link: "/search?gender=WOMEN",
     },
   ];
 

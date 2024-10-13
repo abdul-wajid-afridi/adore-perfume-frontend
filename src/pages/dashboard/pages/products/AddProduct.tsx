@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { memo, useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
@@ -40,6 +40,7 @@ const addProductSchema = z.object({
   brandId: z.coerce.number(),
   ml: z.string().min(1, "Ml must be greater than or equal to 1"),
   image: z.any(),
+  gender: z.enum(["MEN", "WOMEN"]),
 });
 
 type FormValues = z.infer<typeof addProductSchema>;
@@ -48,6 +49,10 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
   const { data } = useGetAllCategory();
   const { data: tasteData } = useGetAllTaste();
   const { data: brandData } = useGetAllBrand();
+  const genderData = [
+    { id: 1, label: "MEN", value: "MEN" },
+    { id: 2, label: "WOMEN", value: "WOMEN" },
+  ];
 
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("Category");
@@ -58,6 +63,7 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormValues>({
@@ -69,9 +75,11 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
       price: 0,
       stock: 0,
       brandId: 1,
+      gender: "MEN",
     },
     resolver: zodResolver(addProductSchema),
   });
+  const selectedGender = useWatch({ control: control, name: "gender" });
 
   useEffect(
     function fillProductFormWithEditDataOnMount() {
@@ -124,6 +132,7 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
             formData.append("tasteId", product.tasteId.toString());
             formData.append("brandId", product.brandId.toString());
             formData.append("stock", product.stock.toString());
+            formData.append("gender", product.gender.toString());
             Array.from(product.image).forEach((file: any) => {
               formData.append("image", file);
             });
@@ -190,6 +199,37 @@ const AddProduct = memo(function AddProduct(props: TAddProductProps) {
           {errors.categoryId && (
             <div className="text-red-500">{errors.categoryId.message}</div>
           )}
+
+          {/* gender selector  */}
+          <Select
+            // defaultValue={props.data ? props.data?.categoryId : undefined}
+            onValueChange={(value: "MEN" | "WOMEN") => {
+              // setSelectedCategory(
+              //   genderData?.find((gender) => gender.id === Number(value))
+              //     ?.value as string
+              // );
+              setValue("gender", value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <p className="text-xs text-slate-500 font-semibold">
+                {selectedGender}
+              </p>
+              {/* <SelectValue placeholder={"selectedGender"} /> */}
+            </SelectTrigger>
+            <SelectContent>
+              {genderData?.map((it) => (
+                <div key={it.id}>
+                  <SelectItem value={it.value}>{it.value}</SelectItem>
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {errors.gender && (
+            <div className="text-red-500">{errors.gender.message}</div>
+          )}
+
           {/* taste selector */}
           <Select
             // defaultValue={props.data ? props.data?.categoryId : undefined}

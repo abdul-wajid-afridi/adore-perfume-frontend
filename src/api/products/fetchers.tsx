@@ -93,11 +93,12 @@ export const asyncSearchProducts = async (
   name: string,
   category: string,
   taste: string,
-  brand: string
+  brand: string,
+  gender: string
 ) => {
   try {
     const response = await API_URL.get(
-      `/api/v1/products/search?name=${name}&category=${category}&taste=${taste}&brand=${brand}`
+      `/api/v1/products/search?name=${name}&category=${category}&taste=${taste}&brand=${brand}&gender=${gender}`
     );
     const data: TBasicResponse<TProductResponse[]> = await response.data;
     return data.data;
