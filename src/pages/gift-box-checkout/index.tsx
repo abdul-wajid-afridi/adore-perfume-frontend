@@ -233,7 +233,7 @@ const CheckoutForm = memo(function GiftBoxCheckoutPage() {
 });
 
 const STRIPE_PROMISE = loadStripe(
-  "pk_test_51PzfkjLKCATua0ARig8Kc0c7vM6EkRtIMstFWjLXmJ9raqIqMNYV8uO4vUjRhkKO28acI4ZpMftwRPn67FXnVZXG00IIclWOWJ"
+  "pk_live_51PzfkjLKCATua0ARTpsl4fBxjkhyCzGmE6nq3GtPeZ6fJJ4Tj5lP7PHZaXjilctknips7KKAeH6oydYrcVpIG1tF00fBpR3NND"
 );
 
 const GiftBoxCheckoutPage = () => {
