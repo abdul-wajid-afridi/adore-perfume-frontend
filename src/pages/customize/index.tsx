@@ -103,7 +103,7 @@ const CustomizePageForm = memo(function Form() {
   const queryClient = useQueryClient();
   // const [selectedBrand, setSelectedBrand] = useState<string>("Brand");
   const [selectedProduct, setSelectedProduct] = useState<TProductResponse>();
-  const { data, isLoading } = useSearchProducts("", "Fragrances", "", "");
+  const { data, isLoading } = useSearchProducts("", "Fragrances", "", "", "");
   const { data: packingData, isLoading: packingLoading } = useGetAllPacking();
 
   const [search, setSearch] = useState("");
